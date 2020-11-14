@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "550328388068",
+    "firebase_url": "https://athleet-782ae.firebaseio.com",
+    "project_id": "athleet-782ae",
+    "storage_bucket": "athleet-782ae.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:550328388068:android:f35098ac052d2fb1bc5ff1",
+        "android_client_info": {
+          "package_name": "net.azurewebsites.athleet"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "550328388068-ldsm1tgs3vqud397o7eo3ho2b1e9p80b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCByaD7PCm8QjXp2i1yEcYK9bGOdvrLb3o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "550328388068-ldsm1tgs3vqud397o7eo3ho2b1e9p80b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
