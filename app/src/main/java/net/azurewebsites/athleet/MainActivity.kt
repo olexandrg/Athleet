@@ -54,8 +54,8 @@ interface ApiService {
 }
 data class SearchResultModel(
     val UserId: Int?,
-    val FirebaseUID: String?,
     val UserName: String?,
-    val UserHeadline: String?
+    val UserHeadline: String?,
+    val FirebaseUID: String?
 ) {}
 
