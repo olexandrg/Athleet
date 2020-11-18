@@ -7,8 +7,4 @@
         android:id="@+id/mainFragment"
         android:name="net.azurewebsites.athleet.MainFragment"
         android:label="MainFragment" />
-    <fragment
-        android:id="@+id/loginFragment"
-        android:name="net.azurewebsites.athleet.LoginFragment"
-        android:label="LoginFragment" />
 </navigation>

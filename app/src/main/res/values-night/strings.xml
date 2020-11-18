@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="login_button_text">Login</string>
-    <string name="login_prompt">Log in to see your stats</string>
     <string name="login_btn">Login</string>
 </resources>

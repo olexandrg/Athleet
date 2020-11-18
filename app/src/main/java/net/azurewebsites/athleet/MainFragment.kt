@@ -14,6 +14,7 @@ import androidx.lifecycle.Observer
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.IdpResponse
 import com.google.firebase.auth.FirebaseAuth
+import net.azurewebsites.athleet.UserAuth.LoginViewModel
 import net.azurewebsites.athleet.databinding.FragmentMainBinding
 
 
@@ -32,10 +33,6 @@ class MainFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_main, container, false)
-
-        // TODO Remove the two lines below once observeAuthenticationState is implemented.
-        binding.welcomeText.text = viewModel.getFactToDisplay(requireContext())
-        binding.authButton.text = getString(R.string.login_btn)
 
         return binding.root
     }
@@ -71,8 +68,6 @@ class MainFragment : Fragment() {
      * If there is no logged in user: show a login button
      */
     private fun observeAuthenticationState() {
-        val factToDisplay = viewModel.getFactToDisplay(requireContext())
-
         viewModel.authenticationState.observe(viewLifecycleOwner, Observer { authenticationState ->
             when (authenticationState) {
                 LoginViewModel.AuthenticationState.AUTHENTICATED -> {
@@ -81,27 +76,19 @@ class MainFragment : Fragment() {
                         AuthUI.getInstance().signOut(requireContext())
                     }
 
-                    binding.welcomeText.text = getFactWithPersonalization(factToDisplay)
+                   // binding.welcomeText.text = getFactWithPersonalization(factToDisplay)
+                    binding.welcomeText.text = "You are signed in"
 
                 }
                 else -> {
                     binding.authButton.text = getString(R.string.login_button_text)
                     binding.authButton.setOnClickListener { launchSignInFlow() }
-                    binding.welcomeText.text = factToDisplay
+
+                    //binding.welcomeText.text = factToDisplay
+                    binding.welcomeText.text = "Not signed in"
                 }
             }
         })
-    }
-
-
-    private fun getFactWithPersonalization(fact: String): String {
-        return String.format(
-            resources.getString(
-                R.string.welcome_message_authed,
-                FirebaseAuth.getInstance().currentUser?.displayName,
-                Character.toLowerCase(fact[0]) + fact.substring(1)
-            )
-        )
     }
 
     private fun launchSignInFlow() {
