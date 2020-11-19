@@ -8,6 +8,9 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.coroutines.*
 import org.w3c.dom.Text
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.io.BufferedInputStream
 import java.io.InputStream
 import java.security.KeyStore
@@ -30,13 +33,16 @@ class MainActivity : AppCompatActivity() {
 
         button.setOnClickListener {
             //if out side of button it will crash because it was already executed
-            val response = apiProvider.getAllUsers()
-            coroutineJob = CoroutineScope(Dispatchers.IO).launch {
-                val rsp1 = response.execute()
-                runOnUiThread {
-                    apiText.text = rsp1.body()?.get(0)?.userName.toString()
+            val call = apiProvider.getAllUsers()
+            call.enqueue(object : Callback<List<UserItem>> {
+                override fun onFailure(call: Call<List<UserItem>>, t: Throwable) {
+                    apiText.text = "failure"
                 }
-            }
+
+                override fun onResponse(call: Call<List<UserItem>>, response: Response<List<UserItem>>) {
+                    apiText.text = response.body()?.get(0)?.userName.toString()
+                }
+            })
         }
     }
 }
