@@ -1,17 +1,19 @@
 package net.azurewebsites.athleet
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.*
+import android.widget.Toast
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.Navigation
 import com.firebase.ui.auth.AuthUI
+import com.firebase.ui.auth.AuthUI.getApplicationContext
 import com.firebase.ui.auth.IdpResponse
 import com.google.firebase.auth.FirebaseAuth
 import net.azurewebsites.athleet.UserAuth.LoginViewModel
@@ -33,6 +35,7 @@ class MainFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_main, container, false)
+        setHasOptionsMenu(true)
 
         return binding.root
     }
@@ -59,6 +62,26 @@ class MainFragment : Fragment() {
                 // the error code and handle the error.
                 Log.i(TAG, "Sign in unsuccessful ${response?.error?.errorCode}")
             }
+        }
+    }
+
+
+    /**
+     * Menu Created
+     */
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.main_menu, menu)
+    }
+
+    @SuppressLint("RestrictedApi")
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        // Handle item selection
+        return when (item.itemId) {
+            R.id.action_login -> {
+                Toast.makeText(getApplicationContext(),"clicked",Toast.LENGTH_SHORT).show();
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
         }
     }
 

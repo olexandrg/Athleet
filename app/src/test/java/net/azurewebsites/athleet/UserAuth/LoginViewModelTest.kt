@@ -8,17 +8,16 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 
-@RunWith(AndroidJUnit4::class)
+//@RunWith(AndroidJUnit4::class)
 class LoginViewModelTest {
 
-    @get:Rule
-    var instantExecutorRule = InstantTaskExecutorRule()
+//    @get:Rule
+//    var instantExecutorRule = InstantTaskExecutorRule()
 
 
     @Test fun sample() {
 
         // Given a fresh ViewModel
-        val loginViewModel = LoginViewModel()
 
         // When
 
