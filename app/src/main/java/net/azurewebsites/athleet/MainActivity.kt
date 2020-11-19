@@ -1,6 +1,7 @@
 package net.azurewebsites.athleet
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
@@ -27,12 +28,14 @@ class MainActivity : AppCompatActivity() {
         var userData = ""
         val apiProvider = Api.createSafe("https://jpathleetapi.azurewebsites.net/api/")
 
-        coroutineJob = CoroutineScope(Dispatchers.IO).launch {
-            // change this to specific user before deployment
+        button.setOnClickListener {
+            //if out side of button it will crash because it was already executed
             val response = apiProvider.getAllUsers()
-
-            button.setOnClickListener {
-                apiText.text = response.toString()
+            coroutineJob = CoroutineScope(Dispatchers.IO).launch {
+                val rsp1 = response.execute()
+                runOnUiThread {
+                    apiText.text = rsp1.body()?.get(0)?.userName.toString()
+                }
             }
         }
     }
