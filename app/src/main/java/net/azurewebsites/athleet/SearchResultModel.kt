@@ -6,3 +6,4 @@ data class SearchResultModel(
     val UserHeadline: String?,
     val FirebaseUID: String?
 ) {}
+

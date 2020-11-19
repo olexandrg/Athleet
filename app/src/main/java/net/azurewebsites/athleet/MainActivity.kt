@@ -25,17 +25,15 @@ class MainActivity : AppCompatActivity() {
         var button = findViewById<Button>(R.id.button)
         var apiText = findViewById<TextView>(R.id.textView)
         var userData = ""
-        val apiProvider = ApiProvider.createService(AthleetService::class.java)
+        val apiProvider = Api.createSafe("https://jpathleetapi.azurewebsites.net/api/")
 
         coroutineJob = CoroutineScope(Dispatchers.IO).launch {
-            val response = apiProvider.getUsers(1)
+            val response = apiProvider.getUsers()
 
             button.setOnClickListener {
-                apiText.text = response.body().toString()
+                apiText.text = response.toString()
             }
         }
-
-
     }
 }
 
