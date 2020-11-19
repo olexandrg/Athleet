@@ -19,8 +19,10 @@ import javax.net.ssl.*
 interface Api {
     // call methods
     @GET("Users")
-    //fun getUsers(@Query("UserID") UserID: Int): Call<List<Users>>
-    fun getUsers(): Call<List<Users>>
+    fun getAllUsers(): Call<List<DataItem>>
+
+    @GET("Users")
+    fun getUserByName(@Query("q") q: String): Call<Data>
 
     // factory method
     companion object {

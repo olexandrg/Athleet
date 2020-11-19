@@ -14,15 +14,15 @@ class ExampleUnitTest {
     @Test
     fun displayMessage(){
         val api = Api.createSafe("https://jpathleetapi.azurewebsites.net/api/")
-        val response = api.getUsers().execute()
+        val response = api.getAllUsers().execute()
         assertEquals(response.code(), 200)
     }
 
     @Test
     fun displayUser(){
-        val api = Api.createSafe("https://localhost:44394/api/")
-        val response = api.getUsers().execute()
-        val user = api.getUsers().execute().body()?.get(0)?.toString()
+        val api = Api.createSafe("https://jpathleetapi.azurewebsites.net/api/")
+        //val user = api.getUsers().execute().body()?.get(0)?.toString()
+        val user = api.getUserByName("SimiF").execute().body().toString()
         assertEquals("SimiF", user)
     }
 }

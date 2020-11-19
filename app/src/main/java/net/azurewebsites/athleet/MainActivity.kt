@@ -28,7 +28,8 @@ class MainActivity : AppCompatActivity() {
         val apiProvider = Api.createSafe("https://jpathleetapi.azurewebsites.net/api/")
 
         coroutineJob = CoroutineScope(Dispatchers.IO).launch {
-            val response = apiProvider.getUsers()
+            // change this to specific user before deployment
+            val response = apiProvider.getAllUsers()
 
             button.setOnClickListener {
                 apiText.text = response.toString()
