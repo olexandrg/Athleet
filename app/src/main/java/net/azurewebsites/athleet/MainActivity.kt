@@ -1,61 +1,41 @@
 package net.azurewebsites.athleet
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.GET
-import retrofit2.http.Query
+import android.widget.Button
+import android.widget.TextView
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import kotlinx.coroutines.*
+import org.w3c.dom.Text
+import java.io.BufferedInputStream
+import java.io.InputStream
+import java.security.KeyStore
+import java.security.cert.CertificateFactory
+import javax.net.ssl.HttpsURLConnection
+import javax.net.ssl.SSLContext
+import javax.net.ssl.TrustManagerFactory
 
 class MainActivity : AppCompatActivity() {
+    private var coroutineJob: Job? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        var button = findViewById<Button>(R.id.button)
+        var apiText = findViewById<TextView>(R.id.textView)
+        var userData = ""
+        val apiProvider = ApiProvider.createService(AthleetService::class.java)
+
+        coroutineJob = CoroutineScope(Dispatchers.IO).launch {
+            val response = apiProvider.getUsers(1)
+
+            button.setOnClickListener {
+                apiText.text = response.body().toString()
+            }
+        }
+
 
     }
 }
-
-object ApiProvider {
-
-    private fun getHttpClient() : OkHttpClient {
-        val logging = HttpLoggingInterceptor()
-        logging.level = HttpLoggingInterceptor.Level.BODY
-
-        val httpClient = OkHttpClient.Builder()
-        httpClient.addInterceptor(logging)
-        return httpClient.build()
-    }
-
-    private val retrofit = Retrofit.Builder()
-        .baseUrl(ApiService.BASE_URL)
-        .client(getHttpClient())
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
-
-    fun <S> createService(serviceClass: Class<S>?) : S {
-        return retrofit.create(serviceClass)
-    }
-}
-
-interface ApiService {
-
-    companion object {
-        val BASE_URL: String = "https://localhost:44394/api/"
-    }
-
-    @GET("Users")
-    suspend fun getResult(
-        @Query("q") query: String?): Response<SearchResultModel?>
-
-}
-data class SearchResultModel(
-    val UserId: Int?,
-    val UserName: String?,
-    val UserHeadline: String?,
-    val FirebaseUID: String?
-) {}
 
