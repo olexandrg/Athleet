@@ -9,6 +9,7 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
+import retrofit2.http.Header
 import retrofit2.http.Query
 import java.security.SecureRandom
 import java.security.cert.CertificateException
@@ -19,7 +20,7 @@ import javax.net.ssl.*
 interface Api {
     // call methods
     @GET("Users")
-    fun getAllUsers(): Call<List<UserItem>>
+    fun getAllUsers(@Header("Authorization") token: String): Call<List<UserItem>>
 
     @GET("Users")
     fun getUserByName(@Query("q") q: String): Call<User>
