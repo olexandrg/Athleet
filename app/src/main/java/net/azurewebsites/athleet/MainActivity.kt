@@ -17,10 +17,15 @@ class MainActivity : AppCompatActivity() {
         var apiText = findViewById<TextView>(R.id.textView)
         var userData = ""
         val apiProvider = Api.createSafe("https://jpathleetapi.azurewebsites.net/api/")
+        //auth variables
+        //below is a bogus token
+        val firebaseToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+        //bearer used because of: https://stackoverflow.com/a/47157391
+        val token = "Bearer $firebaseToken"
 
         button.setOnClickListener {
             //if out side of button it will crash because it was already executed
-            val call = apiProvider.getAllUsers()
+            val call = apiProvider.getAllUsers(token)
             call.enqueue(object : Callback<List<UserItem>> {
                 override fun onFailure(call: Call<List<UserItem>>, t: Throwable) {
                     apiText.text = "failure"
