@@ -65,26 +65,6 @@ class MainFragment : Fragment() {
         }
     }
 
-
-    /**
-     * Menu Created
-     */
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.main_menu, menu)
-    }
-
-    @SuppressLint("RestrictedApi")
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle item selection
-        return when (item.itemId) {
-            R.id.action_login -> {
-                Toast.makeText(getApplicationContext(),"clicked",Toast.LENGTH_SHORT).show();
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
-    }
-
     /**
      * Observes the authentication state and changes the UI accordingly.
      * If there is a logged in user: (1) show a logout button and (2) display their name.
