@@ -4,8 +4,14 @@
     <string name="login_button_text">Login</string>
     <string name="login_btn">Login</string>
     <string name="welcome_message_authed">Hi %1$s! Did you know that %2$s.</string>
+    <string name="welcome_back_user">"You are now signed in. Welcome back ${FirebaseAuth.getInstance().currentUser?.displayName}!"</string>
+    <string name="not_signed_in">"Not yet signed in."</string>
+    <string name="log_msg_succ">"Successfully signed in user ${FirebaseAuth.getInstance().currentUser?.displayName}!"</string>
+    <string name="log_msg_err">""Sign in unsuccessful ${response?.error?.errorCode}"</string>
+
 
     <!--Shared Preference Keys -->
+
     <string name="preference_fact_type_key">fact_type_pref</string>
     <string name="logout_button_text">Logout</string>
 </resources>
