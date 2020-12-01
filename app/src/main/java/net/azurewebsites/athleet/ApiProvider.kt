@@ -23,7 +23,7 @@ interface Api {
     fun getAllUsers(@Header("Authorization") token: String): Call<List<UserItem>>
 
     @GET("Users")
-    fun getUserByName(@Query("q") q: String): Call<User>
+    fun getUserByName(@Header("Authorization") token: String, @Query("q") q: String): Call<User>
 
     // factory method
     companion object {
