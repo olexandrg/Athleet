@@ -3,42 +3,61 @@ package net.azurewebsites.athleet.fragments
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.transition.Scene
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.persistableBundleOf
+import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.findFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.navGraphViewModels
 import com.firebase.ui.auth.AuthUI
+import com.firebase.ui.auth.AuthUI.getInstance
+import com.firebase.ui.auth.AuthUI.setApplicationContext
 import com.firebase.ui.auth.IdpResponse
 import com.google.firebase.auth.FirebaseAuth
+import net.azurewebsites.athleet.FirebaseUserLiveData
 import net.azurewebsites.athleet.R
+import net.azurewebsites.athleet.R.layout.fragment_dashboard
+import net.azurewebsites.athleet.UserAuth.DashboardViewModel
 import net.azurewebsites.athleet.UserAuth.LoginViewModel
 import net.azurewebsites.athleet.databinding.FragmentMainBinding
+import kotlin.math.absoluteValue
 
 
-
-class MainFragment : Fragment() {
+open class MainFragment : Fragment() {
 
     companion object
     {
         const val TAG = "MainFragment"
         const val SIGN_IN_REQUEST_CODE = 1001
+        const val DASHBOARD_REQUEST_CODE = 2002
+        /*public fun getUserAuth(): FirebaseAuth {
+            return FirebaseAuth.getInstance();
+        }*/
     }
 
     // Get a reference to the ViewModel scoped to this Fragment
     private val viewModel by viewModels<LoginViewModel>()
+    private val dashboardViewModel by viewModels<DashboardViewModel>()
     private lateinit var binding: FragmentMainBinding
-    private var userAuthenticated = false;
-
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_main, container, false)
-
         return binding.root
     }
 
@@ -49,6 +68,7 @@ class MainFragment : Fragment() {
         binding.authButton.setOnClickListener{
             binding.authButton.setOnClickListener { launchSignInFlow()}
         }
+        binding.btnDashboard.setOnClickListener { activity?.setContentView(fragment_dashboard);}
     }
 
 
@@ -60,12 +80,11 @@ class MainFragment : Fragment() {
 
             if (resultCode == Activity.RESULT_OK)
             { /*login succeeded->*/
-                Log.i(TAG, "Successfully signed in user ${FirebaseAuth.getInstance().currentUser?.displayName}! tokenID: "); userAuthenticated = true;
-
+                Log.i(TAG, "Successfully signed in user ${FirebaseAuth.getInstance().currentUser?.displayName} with uid: ${FirebaseAuth.getInstance().uid}");
             }
             else
             {/*login failed->*/
-                Log.i(TAG, getString(R.string.log_msg_err)); userAuthenticated=false;
+                Log.i(TAG, getString(R.string.log_msg_err));
                 /*  If response is null, the user canceled the
                   sign-in flow using the back button. Otherwise, check
                   the error code and handle the error.*/}
@@ -83,12 +102,14 @@ class MainFragment : Fragment() {
                 LoginViewModel.AuthenticationState.AUTHENTICATED -> {
                     binding.authButton.text = getString(R.string.logout_button_text)
                     binding.authButton.setOnClickListener {
-                        AuthUI.getInstance().signOut(requireContext())
+                        getInstance().signOut(requireContext())
                     }
                     // binding.welcomeText.text = getFactWithPersonalization(factToDisplay)
                     binding.welcomeText.text =
                         "You are now signed in. Welcome back ${FirebaseAuth.getInstance().currentUser?.displayName}!"
                     binding.btnDashboard.isVisible = true;
+
+
 
                 }
                 else -> {
@@ -115,7 +136,7 @@ class MainFragment : Fragment() {
         // We listen to the response of this activity with the
         // SIGN_IN_REQUEST_CODE.
         startActivityForResult(
-            AuthUI.getInstance()
+            getInstance()
                 .createSignInIntentBuilder()
                 .setAvailableProviders(providers)
                 .build(),
