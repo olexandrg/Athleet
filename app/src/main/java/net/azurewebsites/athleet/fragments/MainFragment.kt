@@ -9,7 +9,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.cardview.widget.CardView
 import androidx.core.os.persistableBundleOf
+import androidx.core.view.children
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
@@ -25,26 +27,29 @@ import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
 import com.firebase.ui.auth.AuthUI
-import com.firebase.ui.auth.AuthUI.getInstance
-import com.firebase.ui.auth.AuthUI.setApplicationContext
+import com.firebase.ui.auth.AuthUI.*
 import com.firebase.ui.auth.IdpResponse
 import com.google.firebase.auth.FirebaseAuth
 import net.azurewebsites.athleet.FirebaseUserLiveData
 import net.azurewebsites.athleet.R
 import net.azurewebsites.athleet.R.layout.fragment_dashboard
+import net.azurewebsites.athleet.R.layout.sample_workout_view
 import net.azurewebsites.athleet.UserAuth.DashboardViewModel
 import net.azurewebsites.athleet.UserAuth.LoginViewModel
+import net.azurewebsites.athleet.WorkoutView
 import net.azurewebsites.athleet.databinding.FragmentMainBinding
 import kotlin.math.absoluteValue
 
 
 open class MainFragment : Fragment() {
 
-    companion object
+    public companion object
     {
         const val TAG = "MainFragment"
         const val SIGN_IN_REQUEST_CODE = 1001
         const val DASHBOARD_REQUEST_CODE = 2002
+        lateinit var tokenString:String;
+
         /*public fun getUserAuth(): FirebaseAuth {
             return FirebaseAuth.getInstance();
         }*/
@@ -68,9 +73,23 @@ open class MainFragment : Fragment() {
         binding.authButton.setOnClickListener{
             binding.authButton.setOnClickListener { launchSignInFlow()}
         }
-        binding.btnDashboard.setOnClickListener { activity?.setContentView(fragment_dashboard);}
+        binding.btnDashboard.setOnClickListener {
+
+            GoToDashboard();}
     }
 
+    private fun GoToDashboard() {
+        binding.loginLayout.isVisible = false;
+        binding.dashboardLayout.isVisible = true;
+        binding.btnAddButton.setOnClickListener { AddButtonOnClick(); }
+        tokenString = FirebaseAuth.getInstance().uid.toString()
+        binding.textViewUserDisplayName.text = FirebaseAuth.getInstance().currentUser?.toString();
+    }
+
+    private fun AddButtonOnClick() {
+        //still working on this
+        binding.recViewDashboardList.addView(activity?.findViewById(sample_workout_view))
+    }
 
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

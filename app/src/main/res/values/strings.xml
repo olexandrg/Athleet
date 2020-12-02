@@ -15,4 +15,8 @@
     <string name="preference_fact_type_key">fact_type_pref</string>
     <string name="logout_button_text">Logout</string>
     <string name="go_to_my_dashboard">Go to My Dashboard</string>
+    <string name="personal">Personal</string>
+    <string name="teams">Teams</string>
+    <string name="plus_sign">+</string>
+    <string name="the_user_s_profile_picture">the user\'s profile picture</string>
 </resources>
