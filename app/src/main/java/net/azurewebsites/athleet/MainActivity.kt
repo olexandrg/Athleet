@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import net.azurewebsites.athleet.ApiLib.Api
+import net.azurewebsites.athleet.ApiLib.UserItem
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
