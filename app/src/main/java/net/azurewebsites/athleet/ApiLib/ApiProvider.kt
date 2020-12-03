@@ -1,26 +1,30 @@
 package net.azurewebsites.athleet
 
-import okhttp3.ConnectionSpec
 import okhttp3.OkHttpClient
-import okhttp3.TlsVersion
-import okhttp3.logging.HttpLoggingInterceptor
+import okhttp3.ResponseBody
 import retrofit2.Call
-import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.GET
+import retrofit2.http.*
 import retrofit2.http.Header
-import retrofit2.http.Query
-import java.security.SecureRandom
 import java.security.cert.CertificateException
-import java.security.cert.X509Certificate
-import java.util.*
 import javax.net.ssl.*
 
 interface Api {
     // call methods
     @GET("Users")
     fun getAllUsers(@Header("Authorization") token: String): Call<List<UserItem>>
+
+    @DELETE("Users/{userID}")
+    fun deleteUserByName(@Header("Authorization") token: String, @Path("userID") userID: String): Call<ResponseBody>
+
+    // post methods
+    @POST("Users")
+    fun addNewUser(@Header("Authorization")  token: String, @Body user:UserItem): Call <UserItem>
+
+
+    // delete methods
+    //@DELETE ("Users/")
 
     // factory method
     companion object {
@@ -37,6 +41,7 @@ interface Api {
             // and get back a concrete instance
             return retrofit.create(Api::class.java)
         }
+
 
         fun createUnsafe(baseUrl: String): Api {
             val client = UnsafeOkHttpClient.getUnsafeOkHttpClient()
