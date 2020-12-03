@@ -7,7 +7,7 @@ class ApiUnitTests {
     //var client = UnsafeOkHttpClient.getUnsafeOkHttpClient()
     fun apiFactory(): Api {return Api.createSafe("https://jpathleetapi.azurewebsites.net/api/")}
     fun tokenFactory(): String {
-        val firebaseToken = "eyJhbGciOiJSUzI1NiIsImtpZCI6ImI5ODI2ZDA5Mzc3N2NlMDA1ZTQzYTMyN2ZmMjAyNjUyMTQ1ZTk2MDQiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vYXRobGVldC03ODJhZSIsImF1ZCI6ImF0aGxlZXQtNzgyYWUiLCJhdXRoX3RpbWUiOjE2MDY5NTYzMjgsInVzZXJfaWQiOiJQTmRiZXNRV3F3T3RXTkxiaVBSam9xOEdLdnoyIiwic3ViIjoiUE5kYmVzUVdxd090V05MYmlQUmpvcThHS3Z6MiIsImlhdCI6MTYwNjk1NjMyOCwiZXhwIjoxNjA2OTU5OTI4LCJlbWFpbCI6ImdldC50b2tlbkB0ZXN0LmNvbSIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwiZmlyZWJhc2UiOnsiaWRlbnRpdGllcyI6eyJlbWFpbCI6WyJnZXQudG9rZW5AdGVzdC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.iKlaJPCVfj5AgOSlPExWE2FwT19OPDl9qkqd3nGkRoC3yy6PqvYGeZOEQGGmW6iHXJFbzwR8TJzmHqG6BuMBQl4phy4-SqQ-S-mqSexS7XQMY2EioB6NWLYsqjJOSCk_xHaixoc_WkEEeft5nv5ECc_Fm7GJhu4L5X5ORa9dnFxf949x1WIxxmtgHAq2IXZUaiTArsOiaDtVLyXH8EgymrmpEq-LA6m_uHpAp6UagojhFqibzoe7Q6gt90jyQgJoQg8LRELNoi8J2LJ9vSxA9nuy1U3auBA8kK1lk7WwkF5UwtNBNBrIVh5wWtibKOTTSsEUuAb1fNsx21LoUusSdA"
+        val firebaseToken = "eyJhbGciOiJSUzI1NiIsImtpZCI6ImI5ODI2ZDA5Mzc3N2NlMDA1ZTQzYTMyN2ZmMjAyNjUyMTQ1ZTk2MDQiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vYXRobGVldC03ODJhZSIsImF1ZCI6ImF0aGxlZXQtNzgyYWUiLCJhdXRoX3RpbWUiOjE2MDY5NjA1MzgsInVzZXJfaWQiOiJQTmRiZXNRV3F3T3RXTkxiaVBSam9xOEdLdnoyIiwic3ViIjoiUE5kYmVzUVdxd090V05MYmlQUmpvcThHS3Z6MiIsImlhdCI6MTYwNjk2MDUzOCwiZXhwIjoxNjA2OTY0MTM4LCJlbWFpbCI6ImdldC50b2tlbkB0ZXN0LmNvbSIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwiZmlyZWJhc2UiOnsiaWRlbnRpdGllcyI6eyJlbWFpbCI6WyJnZXQudG9rZW5AdGVzdC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.4FZlx49r98QUD1X-MnM-HptHjbNhNX0KH6MDEeR72C0DSPwHzR6d2HgGz2ZW7thurjUAxIkdyiik0u9cjt-pHiSQq519OIvXSbyzp1T2LWwZKqwSu5t67zlExg1ZqC-9O3y-TXTGKI7bVBunUeev3QTHUCHRuc1G2ycCldJUn1Qfb-kcXo890rBjicyY9WFHznwSkFNMo36WS5x1xRmGeXmErMwJ-HlBv1boe50xEk7MTtnq_hkcXVFeIfDcmOgLYvMFXCrsYh7fsxTuFOSxfwa8ffqpJXQ6aBbDop_jY4P1q6hmNCTSXqq3811UZ5-nY53xxOlzQrUU2HPvyfSqAg"
         return "Bearer $firebaseToken"
     }
 
@@ -26,7 +26,7 @@ class ApiUnitTests {
     fun displayUserName(){
         val api = apiFactory()
         val list = api.getAllUsers(tokenFactory()).execute().body()
-        val user = "TestUser"
+        val user = "SimiF"
         val response = userHander.returnUserName(list, user)
         assertEquals(user, response)
     }
@@ -61,14 +61,50 @@ class ApiUnitTests {
 
     }
     @Test
+    // adds new user and verifies response went through
     fun addNewUser() {
         val api = apiFactory()
-        val user = UserItem(firebaseUID = "dummy_id", userName = "TestPOSTUser", userHeadline = "Test POST headline", userId = 555)
-        val apiResponse = api.addNewUser(tokenFactory(), user).execute()
-        val apiTextResponse = apiResponse.body().toString()
-        val list = api.getAllUsers(tokenFactory()).execute().body()
-        val response = userHander.returnUserName(list, "TestPOSTUser")
-        assertEquals("TestPOSTUser", apiTextResponse)
+        val user = UserItem(
+                firebaseUID = "dummyid",
+                userName = "TestAddUser",
+                userHeadline = "Test Add headline",
+                userId = null
+                )
+        val response = api.addNewUser(tokenFactory(), user).execute()
+        val responseCode = response.code()
+        assertEquals(201, responseCode)
+    }
+    @Test
+    // get all workouts
+    fun viewAllWorkouts() {
+        val api = apiFactory()
+        val response = api.getAllWorkouts(tokenFactory()).execute()
+        val responseCode = response.code()
+        assertEquals(200, responseCode )
+    }
+    @Test
+    // adds new workout
+    fun addNewWorkout() {
+        val api = apiFactory()
+        val workout = WorkoutItem(
+                workoutId = null,
+                workoutName = "Chest",
+                description = "Chest day workout"
+        )
+        val response = api.addNewWorkout(tokenFactory(), workout).execute()
+        val responseCode = response.code()
+        assertEquals(201, responseCode)
+    }
 
+    @Test
+    // deletes workout by name
+    fun deleteWorkoutByName() {
+        val api = apiFactory()
+        val list = api.getAllWorkouts(tokenFactory()).execute().body()
+        val workout = "Chest"
+        val workoutID = workoutHandler.returnWorkoutID(list, workout)
+        val response = api.deleteWorkoutByName(tokenFactory(), workoutID).execute()
+        val responseCode = response.code()
+        assertEquals(200, responseCode)
     }
 }

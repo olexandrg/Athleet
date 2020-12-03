@@ -11,20 +11,29 @@ import java.security.cert.CertificateException
 import javax.net.ssl.*
 
 interface Api {
-    // call methods
+    // fetch a list of all users
     @GET("Users")
     fun getAllUsers(@Header("Authorization") token: String): Call<List<UserItem>>
 
+    // delete user by name
     @DELETE("Users/{userID}")
     fun deleteUserByName(@Header("Authorization") token: String, @Path("userID") userID: String): Call<ResponseBody>
 
-    // post methods
+    // add new user
     @POST("Users")
-    fun addNewUser(@Header("Authorization")  token: String, @Body user:UserItem): Call <UserItem>
+    fun addNewUser(@Header("Authorization") token: String, @Body user: UserItem): Call <UserItem>
 
+    // get all workouts
+    @GET("Workouts")
+    fun getAllWorkouts(@Header("Authorization") token: String): Call<List<WorkoutItem>>
 
-    // delete methods
-    //@DELETE ("Users/")
+    // add new workout
+    @POST("Workouts")
+    fun addNewWorkout(@Header("Authorization") token: String, @Body workout: WorkoutItem): Call<ResponseBody>
+
+    // delete workout by name
+    @DELETE("Workouts/{workoutID}")
+    fun deleteWorkoutByName(@Header("Authorization") token: String, @Path("workoutID") workoutID: String): Call<ResponseBody>
 
     // factory method
     companion object {

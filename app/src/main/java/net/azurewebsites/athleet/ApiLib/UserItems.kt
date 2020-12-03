@@ -7,11 +7,9 @@ import kotlin.IndexOutOfBoundsException
 data class UserItem(
     val firebaseUID: String,
     val userHeadline: String?,
-    val userId: Int,
+    val userId: String?,
     val userName: String
 )
-
-
 
 interface userHander {
     companion object {
@@ -27,7 +25,7 @@ interface userHander {
             }
         }
 
-        // adds new user
+        // returns user ID
         fun returnUserID(list: List<UserItem>?, userName: String): String {
             return try {
                 list?.filter {it.userName == userName}?.get(0)?.userId.toString()
