@@ -22,9 +22,6 @@ interface Api {
     @GET("Users")
     fun getAllUsers(@Header("Authorization") token: String): Call<List<UserItem>>
 
-    @GET("Users")
-    fun getUserByName(@Header("Authorization") token: String, @Query("q") q: String): Call<User>
-
     // factory method
     companion object {
         fun createSafe(baseUrl: String): Api {
