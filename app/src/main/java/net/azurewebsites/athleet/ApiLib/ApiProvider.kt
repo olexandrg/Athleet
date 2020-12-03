@@ -15,7 +15,7 @@ interface Api {
     @GET("Users")
     fun getAllUsers(@Header("Authorization") token: String): Call<List<UserItem>>
 
-    // delete user by name
+    // delete user by user id NOT firebaseID
     @DELETE("Users/{userID}")
     fun deleteUserByName(@Header("Authorization") token: String, @Path("userID") userID: String): Call<ResponseBody>
 
