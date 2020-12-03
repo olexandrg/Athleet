@@ -1,4 +1,4 @@
-package net.azurewebsites.athleet
+package net.azurewebsites.athleet.ApiLib
 
 import okhttp3.OkHttpClient
 import okhttp3.ResponseBody
