@@ -40,7 +40,7 @@ class ApiUnitTests {
             val cResponse = api.addNewUser(tokenFactory(), user).execute()
             val responseCode = cResponse.code()
             userId = cResponse.body()?.userId.toString()
-            assertEquals(201, responseCode)
+            assertEquals("User creation", 201, responseCode)
         }
 
 
@@ -48,21 +48,21 @@ class ApiUnitTests {
         run {
             val list = api.getAllUsers(tokenFactory()).execute().body()
             val unResponse = userHander.returnUserName(list, userName)
-            assertEquals(userName, unResponse)
+            assertEquals("Username check", userName, unResponse)
         }
 
         //check userId
         run {
             val list = api.getAllUsers(tokenFactory()).execute().body()
             val response = userHander.returnUserID(list, userName)
-            assertEquals(userId, response)
+            assertEquals("User id check", userId, response)
         }
 
         //delete user
         val dList = api.getAllUsers(tokenFactory()).execute().body()
         val userID = userHander.returnUserID(dList, userName)
         val dResponse = api.deleteUserByName(tokenFactory(), userID).execute().code()
-        assertEquals(200, dResponse)
+        assertEquals("User deletion", 200, dResponse)
     }
 
     @Test
