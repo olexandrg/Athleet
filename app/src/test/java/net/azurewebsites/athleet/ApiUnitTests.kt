@@ -107,6 +107,6 @@ class ApiUnitTests {
         val workoutID = workoutHandler.returnWorkoutID(list, workout)
         val response = api.deleteWorkoutByName(tokenFactory(), workoutID).execute()
         val responseCode = response.code()
-        assertEquals(200, responseCode)
+        assertEquals(200, response)
     }
 }
