@@ -3,7 +3,7 @@ package net.azurewebsites.athleet.ApiLib
 import kotlin.IndexOutOfBoundsException
 
 data class WorkoutItem (
-        val workoutId: String?,
+        val workoutId: Int?,
         val workoutName: String,
         val description: String
 )
@@ -23,12 +23,12 @@ interface workoutHandler {
         }
 
         // returns workout ID
-        fun returnWorkoutID(list: List<WorkoutItem>?, workoutName: String): String {
+        fun returnWorkoutID(list: List<WorkoutItem>?, workoutName: String): Int? {
             return try {
-                list?.filter {it.workoutName == workoutName}?.get(0)?.workoutId.toString()
+                list?.filter {it.workoutName == workoutName}?.get(0)?.workoutId
 
             } catch(e: IndexOutOfBoundsException) {
-                "Workout $workoutName not found."
+                0
             }
         }
     }

@@ -6,11 +6,11 @@ import kotlin.IndexOutOfBoundsException
 data class UserItem(
     val firebaseUID: String,
     val userHeadline: String?,
-    val userId: String?,
+    val userId: Int?,
     val userName: String
 )
 
-interface userHander {
+interface userHandler {
     companion object {
         @Throws (IndexOutOfBoundsException::class)
         // returns username, if found
@@ -25,12 +25,12 @@ interface userHander {
         }
 
         // returns user ID
-        fun returnUserID(list: List<UserItem>?, userName: String): String {
+        fun returnUserID(list: List<UserItem>?, userName: String): Int? {
             return try {
-                list?.filter {it.userName == userName}?.get(0)?.userId.toString()
+                list?.filter {it.userName == userName}?.get(0)?.userId
 
             } catch(e: IndexOutOfBoundsException) {
-                "User $userName not found."
+                0
             }
         }
     }
