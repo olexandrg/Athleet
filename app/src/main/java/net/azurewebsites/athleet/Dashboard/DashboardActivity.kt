@@ -11,8 +11,6 @@ import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_dashboard.*
-import net.azurewebsites.athleet.UserAuth.WorkoutsListViewModel
-import net.azurewebsites.athleet.UserAuth.WorkoutsListViewModelFactory
 import net.azurewebsites.athleet.R
 import net.azurewebsites.athleet.Workouts.Workout
 import net.azurewebsites.athleet.Workouts.WorkoutDetailActivity

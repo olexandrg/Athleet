@@ -1,5 +1,5 @@
 
-package net.azurewebsites.athleet
+package net.azurewebsites.athleet.UserAuth
 
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.FirebaseAuth

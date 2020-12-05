@@ -1,4 +1,4 @@
-package net.azurewebsites.athleet
+package net.azurewebsites.athleet.Dashboard
 
 
 import android.view.LayoutInflater

@@ -2,8 +2,7 @@ package net.azurewebsites.athleet.UserAuth
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
-import com.google.firebase.auth.FirebaseUser
-import net.azurewebsites.athleet.FirebaseUserLiveData
+
 //import androidx.preference.PreferenceManager
 
 class LoginViewModel : ViewModel() {

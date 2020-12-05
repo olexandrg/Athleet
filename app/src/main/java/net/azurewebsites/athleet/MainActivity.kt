@@ -3,7 +3,7 @@ package net.azurewebsites.athleet
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
-import net.azurewebsites.athleet.UserAuth.WorkoutsListViewModel
+import net.azurewebsites.athleet.Dashboard.WorkoutsListViewModel
 //import com.example.recyclersample.flowerDetail.FlowerDetailActivity
 
 class MainActivity : AppCompatActivity() {
