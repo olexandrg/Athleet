@@ -1,28 +1,50 @@
 package net.azurewebsites.athleet.UserAuth
 
-import androidx.databinding.DataBindingUtil
+import android.content.Context
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.map
-import androidx.lifecycle.viewModelScope
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
-import kotlinx.coroutines.withContext
-import net.azurewebsites.athleet.FirebaseUserLiveData
-import net.azurewebsites.athleet.databinding.FragmentMainBinding
-import net.azurewebsites.athleet.fragments.MainFragment
-
+import androidx.lifecycle.ViewModelProvider
+import net.azurewebsites.athleet.Dashboard.DataSource
+import net.azurewebsites.athleet.Workouts.Workout
+import java.util.*
+import kotlin.random.Random
 //import androidx.preference.PreferenceManager
 
-class DashboardViewModel : ViewModel(){
-    companion object{
-        lateinit var userAccountData:FirebaseAuth;
+
+    class WorkoutsListViewModel(val dataSource: DataSource) : ViewModel() {
+
+        @RequiresApi(Build.VERSION_CODES.O)
+        val workoutsLiveData = dataSource.getWorkoutList()
+
+        /* If the name and description are present, create new Workout and add it to the datasource */
+        @RequiresApi(Build.VERSION_CODES.O)
+        fun insertWorkout(WorkoutName: String?, WorkoutDescription: String?) {
+            if (WorkoutName == null || WorkoutDescription == null) {
+                return
+            }
+
+            //val image = dataSource.getRandomWorkoutImageAsset()
+            val newWorkout = Workout(
+                WorkoutName,
+                Date(),
+                WorkoutDescription
+            )
+
+            dataSource.addWorkout(newWorkout)
+        }
     }
-    private lateinit var binding: FragmentMainBinding
 
-    fun populateUserInfo(){
+    class WorkoutsListViewModelFactory(private val context: Context) : ViewModelProvider.Factory {
 
-        //        FirebaseAuth.getInstance().currentUser.displayName
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+            if (modelClass.isAssignableFrom(WorkoutsListViewModel::class.java)) {
+                @Suppress("UNCHECKED_CAST")
+                return WorkoutsListViewModel(
+                    dataSource = DataSource.getDataSource(context.resources)
+                ) as T
+            }
+            throw IllegalArgumentException("Unknown ViewModel class")
+        }
     }
 
-
-}

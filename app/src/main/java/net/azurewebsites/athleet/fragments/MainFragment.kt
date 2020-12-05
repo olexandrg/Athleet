@@ -3,42 +3,23 @@ package net.azurewebsites.athleet.fragments
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.transition.Scene
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.cardview.widget.CardView
-import androidx.core.os.persistableBundleOf
-import androidx.core.view.children
-import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
-import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.findFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import androidx.navigation.NavController
-import androidx.navigation.Navigation
-import androidx.navigation.fragment.findNavController
-import androidx.navigation.navGraphViewModels
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.AuthUI.*
 import com.firebase.ui.auth.IdpResponse
 import com.google.firebase.auth.FirebaseAuth
-import net.azurewebsites.athleet.FirebaseUserLiveData
-import net.azurewebsites.athleet.R
-import net.azurewebsites.athleet.R.layout.fragment_dashboard
-import net.azurewebsites.athleet.R.layout.sample_workout_view
-import net.azurewebsites.athleet.UserAuth.DashboardViewModel
+import net.azurewebsites.athleet.*
+import net.azurewebsites.athleet.Dashboard.DashboardActivity
 import net.azurewebsites.athleet.UserAuth.LoginViewModel
-import net.azurewebsites.athleet.WorkoutView
 import net.azurewebsites.athleet.databinding.FragmentMainBinding
-import kotlin.math.absoluteValue
 
 
 open class MainFragment : Fragment() {
@@ -48,6 +29,7 @@ open class MainFragment : Fragment() {
         const val TAG = "MainFragment"
         const val SIGN_IN_REQUEST_CODE = 1001
         const val DASHBOARD_REQUEST_CODE = 2002
+        const val ADD_WORKOUT_REQUEST_CODE = 3003
         lateinit var tokenString:String;
 
         /*public fun getUserAuth(): FirebaseAuth {
@@ -57,7 +39,6 @@ open class MainFragment : Fragment() {
 
     // Get a reference to the ViewModel scoped to this Fragment
     private val viewModel by viewModels<LoginViewModel>()
-    private val dashboardViewModel by viewModels<DashboardViewModel>()
     private lateinit var binding: FragmentMainBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
@@ -73,22 +54,14 @@ open class MainFragment : Fragment() {
         binding.authButton.setOnClickListener{
             binding.authButton.setOnClickListener { launchSignInFlow()}
         }
-        binding.btnDashboard.setOnClickListener {
-
-            GoToDashboard();}
+        binding.btnDashboard.setOnClickListener {GoToDashboard()}
     }
-
+    override fun onResume() {
+        super.onResume()
+    }
     private fun GoToDashboard() {
-        binding.loginLayout.isVisible = false;
-        binding.dashboardLayout.isVisible = true;
-        binding.btnAddButton.setOnClickListener { AddButtonOnClick(); }
-        tokenString = FirebaseAuth.getInstance().uid.toString()
-        binding.textViewUserDisplayName.text = FirebaseAuth.getInstance().currentUser?.toString();
-    }
-
-    private fun AddButtonOnClick() {
-        //still working on this
-        binding.recViewDashboardList.addView(activity?.findViewById(sample_workout_view))
+        val intent = Intent(this.requireContext(), DashboardActivity::class.java)
+        startActivityForResult(intent, DASHBOARD_REQUEST_CODE)
     }
 
 

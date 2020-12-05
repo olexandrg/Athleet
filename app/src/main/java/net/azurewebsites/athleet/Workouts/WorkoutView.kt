@@ -1,4 +1,4 @@
-package net.azurewebsites.athleet
+package net.azurewebsites.athleet.Workouts
 
 import android.content.Context
 import android.graphics.Canvas
@@ -8,16 +8,16 @@ import android.graphics.drawable.Drawable
 import android.text.TextPaint
 import android.util.AttributeSet
 import android.view.View
+import net.azurewebsites.athleet.R
 
 /**
  * TODO: document your custom view class.
  */
 class WorkoutView : View {
 
-    private var _exampleString: String? = null // TODO: use a default from R.string...
-    private var _exampleColor: Int = Color.RED // TODO: use a default from R.color...
-    private var _exampleDimension: Float = 0f // TODO: use a default from R.dimen...
-
+    private var _exampleDimension: Float = 0.0f
+    private var _exampleColor: Int = Color.BLACK
+    private var workout: Workout? = null
     private lateinit var textPaint: TextPaint
     private var textWidth: Float = 0f
     private var textHeight: Float = 0f
@@ -25,10 +25,10 @@ class WorkoutView : View {
     /**
      * The text to draw
      */
-    var exampleString: String?
-        get() = _exampleString
+    private var WorkoutName: String?
+        get() = workout?.name
         set(value) {
-            _exampleString = value
+            workout?.name = value.toString()
             invalidateTextPaintAndMeasurements()
         }
 
@@ -79,7 +79,7 @@ class WorkoutView : View {
             attrs, R.styleable.WorkoutView, defStyle, 0
         )
 
-        _exampleString = a.getString(
+        WorkoutName = a.getString(
             R.styleable.WorkoutView_exampleString
         )
         _exampleColor = a.getColor(
@@ -116,7 +116,7 @@ class WorkoutView : View {
         textPaint.let {
             it.textSize = exampleDimension
             it.color = exampleColor
-            textWidth = it.measureText(exampleString)
+            textWidth = it.measureText(WorkoutName)
             textHeight = it.fontMetrics.bottom
         }
     }
@@ -134,7 +134,7 @@ class WorkoutView : View {
         val contentWidth = width - paddingLeft - paddingRight
         val contentHeight = height - paddingTop - paddingBottom
 
-        exampleString?.let {
+        WorkoutName?.let {
             // Draw the text.
             canvas.drawText(
                 it,
