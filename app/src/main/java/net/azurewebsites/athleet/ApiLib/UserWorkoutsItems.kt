@@ -1,16 +1,5 @@
 package net.azurewebsites.athleet.ApiLib
 
-import java.text.SimpleDateFormat
-
-//data class UserWorkoutsItem(
-//        val userWorkoutId: String?,
-//        val userId: String,
-//        val workoutId: String
-//        //val workoutDate: SimpleDateFormat?
-//)
-
-//data class UserWorkoutsItem : ArrayList<UserWorkoutsItemItem>()
-
 data class UserWorkoutsItem(
     val userId: Int?,
     val userWorkoutId: Int?,

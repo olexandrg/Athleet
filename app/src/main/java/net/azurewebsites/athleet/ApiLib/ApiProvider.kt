@@ -4,6 +4,7 @@ import okhttp3.OkHttpClient
 import okhttp3.ResponseBody
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
@@ -56,6 +57,32 @@ interface Api {
         @Path("workoutId") workoutId: Int?
     ): Call<ResponseBody>
 
+    // view all exercises
+    @GET("Exercises")
+    fun getAllExercises(
+        @Header("Authorization") token: String
+    ) : Call<Exercises>
+
+    // add new exercise
+    @POST("Exercises")
+    fun addNewExercise(
+        @Header("Authorization") token: String,
+        @Body exercise: ExercisesItem
+    ): Call<ResponseBody>
+
+    // delete exercise
+    @DELETE("Exercises/{exerciseId}")
+    fun deleteExercise(
+        @Header("Authorization") token: String,
+        @Path("exerciseId") exerciseId: Int?
+    ): Call<ResponseBody>
+
+    // get all workout exercises
+    @GET("WorkoutExercises")
+    fun getAllWorkoutExercises(
+        @Header("Authorization") token: String
+    ): Call<WorkoutExercises>
+
     // factory method
     companion object {
         fun createSafe(baseUrl: String): Api {
@@ -71,7 +98,7 @@ interface Api {
                     // make OkHttpClient instance
                     .client(OkHttpClient().newBuilder()
                     // add raw response interceptor
-                    //      .addInterceptor(interceptor)
+                          .addInterceptor(interceptor)
                         .build())
                     // add the JSON dependency so we can handle json APIs
                     .addConverterFactory(GsonConverterFactory.create())

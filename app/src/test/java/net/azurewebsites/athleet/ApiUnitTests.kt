@@ -5,10 +5,9 @@ import org.junit.Assert.*
 
 
 class ApiUnitTests {
-    //var client = UnsafeOkHttpClient.getUnsafeOkHttpClient()
     fun apiFactory(): Api {return Api.createSafe("https://jpathleetapi.azurewebsites.net/api/")}
     fun tokenFactory(): String {
-        val firebaseToken = "eyJhbGciOiJSUzI1NiIsImtpZCI6ImI5ODI2ZDA5Mzc3N2NlMDA1ZTQzYTMyN2ZmMjAyNjUyMTQ1ZTk2MDQiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vYXRobGVldC03ODJhZSIsImF1ZCI6ImF0aGxlZXQtNzgyYWUiLCJhdXRoX3RpbWUiOjE2MDcxMTQ3NjMsInVzZXJfaWQiOiJQTmRiZXNRV3F3T3RXTkxiaVBSam9xOEdLdnoyIiwic3ViIjoiUE5kYmVzUVdxd090V05MYmlQUmpvcThHS3Z6MiIsImlhdCI6MTYwNzExNDc2MywiZXhwIjoxNjA3MTE4MzYzLCJlbWFpbCI6ImdldC50b2tlbkB0ZXN0LmNvbSIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwiZmlyZWJhc2UiOnsiaWRlbnRpdGllcyI6eyJlbWFpbCI6WyJnZXQudG9rZW5AdGVzdC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.U5xLzhTONCwPkhAaEr1o1qAjjLDmtFMB3a0M4Oq6EVepARXHE01mR36qU_3Ns_iF3hi4NiUGRfm3zzk49rgoYVE1c9SxXXnvos7XGJzqbl8gPNUAVay65aMIapT7o0W7jV8qEWnVpfc-tP3lHLP0MtQFGSXhM3gTyt-KzalT0AHscJ9uprc4Fk6yV7mW4iLDIHptjEYOKX_jwXXA54CBnrwS0FSps8T67FJLVqPPd36dvXVKTDshn65cKZWKO8lJNZD0ZF7VHu5LaSG7CWWw3Y6W7v-FicB5EPPlM12UUX89N8chC31drbg2BNOhWAu8aLHDwhrp372eYPbtK0ao1A"
+        val firebaseToken = "eyJhbGciOiJSUzI1NiIsImtpZCI6ImI5ODI2ZDA5Mzc3N2NlMDA1ZTQzYTMyN2ZmMjAyNjUyMTQ1ZTk2MDQiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vYXRobGVldC03ODJhZSIsImF1ZCI6ImF0aGxlZXQtNzgyYWUiLCJhdXRoX3RpbWUiOjE2MDcxMjMzMTgsInVzZXJfaWQiOiJQTmRiZXNRV3F3T3RXTkxiaVBSam9xOEdLdnoyIiwic3ViIjoiUE5kYmVzUVdxd090V05MYmlQUmpvcThHS3Z6MiIsImlhdCI6MTYwNzEyMzMxOCwiZXhwIjoxNjA3MTI2OTE4LCJlbWFpbCI6ImdldC50b2tlbkB0ZXN0LmNvbSIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwiZmlyZWJhc2UiOnsiaWRlbnRpdGllcyI6eyJlbWFpbCI6WyJnZXQudG9rZW5AdGVzdC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.3_AlFarFt9H__0GQNS4SAMvEKv5yt3zjAv6eUfYn3x1kXYE19AZGkgwUWQ95ibdISAqd7-f9Iv-hxGFwxMjfkk7calZal_3rU2guKpYam4CBClOEhOMJxlInb0MhvBsupkL8tQKGf1a2G-Yf5PFTTn9oNBOmNFHqsIuz44-p62EWJUKddr7y_d2e_90d5Wo5FffuHAF_ckUVXlR1PGfULji9vVWW5rdhTz4jYS5huECOxMbsJzEJtcAvnKSQD3aa668D1N6cVMip-ErKF3evDKqj60wS8SFv-FOtE4-zmUo5e2heXk-qGlsybGwgemkkqs5H7TvC1UHz3UdzD_4Y0Q"
         return "Bearer $firebaseToken"
     }
 
@@ -24,8 +23,13 @@ class ApiUnitTests {
 
     @Test
     fun testUser() {
+        //this generates a random string to append to the end of the username so that it is unique when the test is ran
+        //this will prevent issues if multiple people run the test at the same time or the test fails for someone and the user isn't deleted at the end
+        val charPool: List<Char> = ('a'..'z') + ('A'..'Z')
+        val randomString = (1..6).map { i -> kotlin.random.Random.nextInt(0, charPool.size)}
+            .map(charPool::get).joinToString("")
         //declare var's and val's used throughout the whole method
-        val userName = "TestUser"
+        val userName = "TestUser" + randomString
         var userId: Int? = 0
         val api = apiFactory()
 
@@ -99,19 +103,6 @@ class ApiUnitTests {
     }
 
     //@Test
-    // deletes workout by name
-    // does not work if workout is referenced to specific UserWorkouts
-    fun deleteWorkoutByName() {
-        val api = apiFactory()
-        val list = api.getAllWorkouts(tokenFactory()).execute().body()
-        val workout = "Test Workout"
-        val workoutID = workoutHandler.returnWorkoutID(list, workout)
-        val response = api.deleteWorkoutByName(tokenFactory(), workoutID).execute()
-        val responseCode = response.code()
-        assertEquals(200, responseCode)
-    }
-
-    //@Test
     // get user workouts list
     fun getUserWorkoutsList() {
         val api = apiFactory()
@@ -172,6 +163,49 @@ class ApiUnitTests {
                             workout.workoutName)).execute().code()
             assertEquals("Delete workout confirmation: ",200, response)
         }
-
    }
+
+    @Test
+    // get all exercises
+    fun getAllExercises() {
+        val api = apiFactory()
+        val response = api.getAllExercises(tokenFactory()).execute().code()
+        assertEquals("View all exercises confirmation:",200, response)
+    }
+
+    @Test
+    // tests add and delete of Exercise only
+    fun exerciseAddAndDelete() {
+        val api = apiFactory()
+        val exercise = ExercisesItem(
+            exerciseId = null,
+            exerciseName = "Test Exercise",
+            description = null,
+            defaultReps = null
+        )
+        // add new new exercise
+        run {
+            val addResponse = api.addNewExercise(tokenFactory(), exercise).execute().code()
+            assertEquals("Exercise add confirmation: ",201, addResponse)
+        }
+
+        // delete exercise
+        run {
+            val exerciseId = ExercisesHandler.returnExerciseID(
+                api.getAllExercises(tokenFactory()).execute().body(),
+                exercise.exerciseName)
+            val deleteResponse = api.deleteExercise(tokenFactory(), exerciseId).execute().code()
+            assertEquals("Delete exercise confirmation", 200, deleteResponse)
+        }
+    }
+
+    @Test
+    // fetches master list of Workout Exercises
+    fun getAllWorkoutExercises() {
+        val api = apiFactory()
+        val response =  api.getAllWorkoutExercises(tokenFactory()).execute().code()
+        assertEquals("Workout Exercises list confirmation: ", 200, response)
+    }
+
+
 }

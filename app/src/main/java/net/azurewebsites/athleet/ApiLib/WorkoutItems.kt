@@ -10,8 +10,12 @@ data class WorkoutItem (
 
 interface workoutHandler {
     companion object {
+        // returns workout object
+        fun returnWorkout(list: Workouts, workoutName: String): WorkoutItem {
+            return list?.filter { it.workoutName == workoutName }?.get(0)
+        }
         @Throws (IndexOutOfBoundsException::class)
-        // returns username, if found
+        // returns workout name, if found
         fun returnWorkoutName(list: List<WorkoutItem>?, workoutName: String): String {
             return try {
                 val response = list?.filter {it.workoutName == workoutName}?.get(0)?.workoutName?.toString()
