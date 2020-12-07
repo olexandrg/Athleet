@@ -98,7 +98,7 @@ interface Api {
                     // make OkHttpClient instance
                     .client(OkHttpClient().newBuilder()
                     // add raw response interceptor
-                          .addInterceptor(interceptor)
+                    //      .addInterceptor(interceptor)
                         .build())
                     // add the JSON dependency so we can handle json APIs
                     .addConverterFactory(GsonConverterFactory.create())
