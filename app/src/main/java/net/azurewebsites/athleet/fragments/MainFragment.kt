@@ -1,4 +1,4 @@
-package net.azurewebsites.athleet
+package net.azurewebsites.athleet.fragments
 
 import android.annotation.SuppressLint
 import android.app.Activity
