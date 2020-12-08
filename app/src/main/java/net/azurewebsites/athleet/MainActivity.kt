@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
         //bearer used because of: https://stackoverflow.com/a/47157391
         val token = "Bearer $firebaseToken"
 
-/*        button.setOnClickListener {
+        /*button.setOnClickListener {
             //if out side of button it will crash because it was already executed
             val call = apiProvider.getAllUsers(token)
             call.enqueue(object : Callback<List<UserItem>> {
@@ -44,9 +44,10 @@ class MainActivity : AppCompatActivity() {
                 override fun onResponse(call: Call<List<UserItem>>, response: Response<List<UserItem>>) {
                     apiText.text = response.body()?.get(0)?.userName.toString()
                 }
-            })*/
-        }
+            })
+        }*/
 
     }
 
 
+}
