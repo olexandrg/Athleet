@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_main)
 
-        var button = findViewById<Button>(R.id.button)
+        //var button = findViewById<Button>(R.id.button)
         var apiText = findViewById<TextView>(R.id.textView)
         var userData = ""
         val apiProvider = Api.createSafe("http://athleetapi-dev.us-west-2.elasticbeanstalk.com/api/")
@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
         //bearer used because of: https://stackoverflow.com/a/47157391
         val token = "Bearer $firebaseToken"
 
-        button.setOnClickListener {
+        /*button.setOnClickListener {
             //if out side of button it will crash because it was already executed
             val call = apiProvider.getAllUsers(token)
             call.enqueue(object : Callback<List<UserItem>> {
@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity() {
                     apiText.text = response.body()?.get(0)?.userName.toString()
                 }
             })
-        }
+        }*/
 
     }
 
