@@ -11,10 +11,16 @@ import net.azurewebsites.athleet.ApiLib.UserItem
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import androidx.activity.viewModels
+import net.azurewebsites.athleet.Dashboard.WorkoutsListViewModel
+//import com.example.recyclersample.flowerDetail.FlowerDetailActivity
 
 class MainActivity : AppCompatActivity() {
+    private val sharedPrefFile = "kotlinsharedpreferences"
+    private val workoutsListViewModel by viewModels<WorkoutsListViewModel>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContentView(R.layout.activity_main)
 
         var button = findViewById<Button>(R.id.button)
@@ -40,5 +46,8 @@ class MainActivity : AppCompatActivity() {
                 }
             })
         }
+
     }
+
+
 }

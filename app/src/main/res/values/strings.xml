@@ -4,9 +4,31 @@
     <string name="login_button_text">Login</string>
     <string name="login_btn">Login</string>
     <string name="welcome_message_authed">Hi %1$s! Did you know that %2$s.</string>
+    <string name="welcome_back_user">"You are now signed in. Welcome back ${FirebaseAuth.getInstance().currentUser?.displayName}!"</string>
+    <string name="user_name">"${FirebaseAuth.getInstance().currentUser?.displayName}"</string>
+    <string name="not_signed_in">"Not yet signed in."</string>
+    <string name="log_msg_succ">"Successfully signed in user ${FirebaseAuth.getInstance().currentUser?.displayName}!"</string>
+    <string name="log_msg_err">""Sign in unsuccessful ${response?.error?.errorCode}"</string>
+
 
     <!--Shared Preference Keys -->
+
     <string name="preference_fact_type_key">fact_type_pref</string>
     <string name="logout_button_text">Logout</string>
+    <string name="go_to_my_dashboard">Go to My Dashboard</string>
+    <string name="personal">Personal</string>
+    <string name="teams">Teams</string>
+    <string name="plus_sign">+</string>
+    <string name="the_user_s_profile_picture">the user\'s profile picture</string>
+    <string name="Workout1_name">Workout 1</string>
+    <string name="Workout1_description">The first workout</string>
+    <string name="Workout2_name">Workout 2</string>
+    <string name="Workout2_description">Workout 3</string>
+    <string name="done_button_text">Create</string>
+    <string name="workout_description_edit_text">Add a description of the workout here</string>
+    <string name="workout_name_edit_text">Enter name for workout</string>
+    <string name="add_workout">Add Workout</string>
+    <string name="workout_string" />
+    <string name="fab_content_description">floating action button</string>
     <string name="search">Search</string>
 </resources>

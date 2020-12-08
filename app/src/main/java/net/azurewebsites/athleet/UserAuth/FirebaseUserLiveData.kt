@@ -1,5 +1,5 @@
 
-package net.azurewebsites.athleet
+package net.azurewebsites.athleet.UserAuth
 
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.FirebaseAuth
@@ -17,8 +17,7 @@ import androidx.lifecycle.LiveData
 
 class FirebaseUserLiveData : LiveData<FirebaseUser?>() {
     private val firebaseAuth = FirebaseAuth.getInstance()
-
-    private val authStateListener = FirebaseAuth.AuthStateListener { firebaseAuth ->
+    val authStateListener = FirebaseAuth.AuthStateListener { firebaseAuth ->
         value = firebaseAuth.currentUser
     }
 
