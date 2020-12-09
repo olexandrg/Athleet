@@ -83,6 +83,12 @@ interface Api {
         @Header("Authorization") token: String
     ): Call<WorkoutExercises>
 
+    // view workouts procedure
+    @GET("ViewUserWorkouts")
+    fun viewUserWorkoutsByUser(
+        @Header("Authorization") token: String
+    ): Call<ViewUserWorkouts>
+
     // factory method
     companion object {
         fun createSafe(baseUrl: String): Api {

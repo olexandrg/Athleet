@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_main)
 
-        //var button = findViewById<Button>(R.id.button)
+        //var button = findViewById<Button>(R.id.button_continue)
         var apiText = findViewById<TextView>(R.id.textView)
         var userData = ""
         val apiProvider = Api.createSafe("https://testapi.athleetapi.club/api/")

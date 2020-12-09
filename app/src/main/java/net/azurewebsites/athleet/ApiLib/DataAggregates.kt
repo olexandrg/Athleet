@@ -5,4 +5,4 @@ class Workouts: ArrayList<WorkoutItem>()
 class UserWorkout: ArrayList<UserWorkoutsItem>()
 class Exercises : ArrayList<ExercisesItem>()
 class WorkoutExercises : ArrayList<WorkoutExerciseItem>()
-
+class ViewUserWorkouts : ArrayList<ViewUserWorkoutsItem>()
