@@ -17,11 +17,16 @@ steps:
     tasks: 'assembleDebug'
 
 # Android
-- task: PublishTestResults@2
+- task: Gradle@2
   inputs:
-    testResultsFormat: 'JUnit'
-    testResultsFiles: '**/TEST-*.xml'
-    #searchFolder: '$(app/src/test/java/net/azurewebsites/athleet/)'
+    workingDirectory: ''
+    gradleWrapperFile: 'gradlew'
+    gradleOptions: '-Xmx3072m'
+    javaHomeOption: 'JDKVersion'
+    jdkVersionOption: '1.8'
+    jdkArchitectureOption: 'x64'
+    tasks: 'testDebugUnitTest'
+  displayName: Release Unit Test
 # Build your Android project with Gradle.
 # Add steps that test, sign, and distribute the APK, save build artifacts, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/android
