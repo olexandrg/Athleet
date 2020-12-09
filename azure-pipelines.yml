@@ -16,3 +16,11 @@ steps:
     publishJUnitResults: true
     testResultsFiles: '**/TEST-*.xml'
     tasks: 'assembleDebug'
+    testResultsFormat: 'JUnit'
+    searchFolder: '$(System.DefaultWorkingDirectory)/app/src/test/java/net/azurewebsites/athleet/UserAuth' 
+    #mergeTestResults: false # Optional
+    #failTaskOnFailedTests: false # Optional
+    #testRunTitle: # Optional
+    #buildPlatform: # Optional
+    #buildConfiguration: # Optional
+    publishRunAttachments: true 
