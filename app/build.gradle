@@ -110,3 +110,8 @@ dependencies {
 
 // Google Play services Gradle plugin
 apply plugin: 'com.google.gms.google-services'
+//compileKotlin {
+//    kotlinOptions {
+//        languageVersion = "1.2"
+//    }
+//}

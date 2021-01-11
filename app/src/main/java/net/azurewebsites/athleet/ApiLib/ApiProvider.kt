@@ -13,23 +13,36 @@ import retrofit2.http.*
 interface Api {
     // fetch a list of all users
     @GET("Users")
-    fun getAllUsers(@Header("Authorization") token: String): Call<List<UserItem>>
+    fun getAllUsers(
+        @Header("Authorization") token: String
+    ): Call<List<UserItem>>
 
     // delete user by user id NOT firebaseID
     @DELETE("Users/{userID}")
-    fun deleteUserByName(@Header("Authorization") token: String, @Path("userID") userID: Int?): Call<ResponseBody>
+    fun deleteUserByName(
+        @Header("Authorization") token: String,
+        @Path("userID") userID: Int?
+    ): Call<ResponseBody>
 
     // add new user
     @POST("Users")
-    fun addNewUser(@Header("Authorization") token: String, @Body user: UserItem): Call<UserItem>
+    fun addNewUser(
+        @Header("Authorization") token: String,
+        @Body user: UserItem
+    ): Call<UserItem>
 
     // get all workouts
     @GET("Workouts")
-    fun getAllWorkouts(@Header("Authorization") token: String): Call<List<WorkoutItem>>
+    fun getAllWorkouts(
+        @Header("Authorization") token: String
+    ): Call<List<WorkoutItem>>
 
     // add new workout
     @POST("Workouts")
-    fun addNewWorkout(@Header("Authorization") token: String, @Body workout: WorkoutItem): Call<ResponseBody>
+    fun addNewWorkout(
+        @Header("Authorization") token: String,
+        @Body workout: WorkoutItem
+    ): Call<ResponseBody>
 
     // delete workout by name
     // will not work if a workout is referenced in UserWorkouts (SQL FK constraint)
@@ -41,7 +54,9 @@ interface Api {
 
     // get all user workouts
     @GET("UserWorkouts")
-    fun getAllUserWorkouts(@Header("Authorization") token: String): Call<UserWorkout>
+    fun getAllUserWorkouts(
+        @Header("Authorization") token: String
+    ): Call<UserWorkout>
 
     // add new user workout
     @POST("UserWorkouts")
@@ -88,6 +103,13 @@ interface Api {
     fun viewUserWorkoutsByUser(
         @Header("Authorization") token: String
     ): Call<ViewUserWorkouts>
+
+    // view exercises within a workout
+    @GET("ViewExerciseInWorkout")
+    fun viewExerciseInWorkoutByUser(
+        @Header("Authorization") token: String,
+        @Query("WorkoutName") WorkoutName: String?
+    ): Call<ViewExercisesInWorkout>
 
     // factory method
     companion object {
