@@ -98,6 +98,23 @@ interface Api {
         @Header("Authorization") token: String
     ): Call<WorkoutExercises>
 
+    // insert a new workout
+    // only returns a status code 201 on successful completion
+    @GET("Workouts/InsertWorkout")
+    fun insertNewWorkoutByUser(
+        @Header("Authorization") token: String,
+        @Query("Name") Name: String,
+        @Query("Description") Description: String?
+    ): Call<ResponseBody>
+
+    // delete and existing workout
+    // only returns a status code 201 on successful completion
+    @GET("Workouts/DeleteWorkout")
+    fun deleteWorkoutByUser(
+        @Header("Authorization") token: String,
+        @Query("Name") Name: String
+    ): Call<ResponseBody>
+
     // view workouts procedure
     @GET("ViewUserWorkouts")
     fun viewUserWorkoutsByUser(
@@ -126,7 +143,7 @@ interface Api {
                     // make OkHttpClient instance
                     .client(OkHttpClient().newBuilder()
                     // add raw response interceptor
-                    //      .addInterceptor(interceptor)
+                          .addInterceptor(interceptor)
                         .build())
                     // add the JSON dependency so we can handle json APIs
                     .addConverterFactory(GsonConverterFactory.create())
