@@ -17,7 +17,7 @@ interface Api {
         @Header("Authorization") token: String
     ): Call<List<UserItem>>
 
-    // delete user by user id NOT firebaseID
+   //  delete user by user id NOT firebaseID
     @DELETE("Users/{userID}")
     fun deleteUserByName(
         @Header("Authorization") token: String,
@@ -37,60 +37,17 @@ interface Api {
         @Header("Authorization") token: String
     ): Call<List<WorkoutItem>>
 
-    // add new workout
-    @POST("Workouts")
-    fun addNewWorkout(
-        @Header("Authorization") token: String,
-        @Body workout: WorkoutItem
-    ): Call<ResponseBody>
-
-    // delete workout by name
-    // will not work if a workout is referenced in UserWorkouts (SQL FK constraint)
-    @DELETE("Workouts/{workoutID}")
-    fun deleteWorkoutByName(
-        @Header("Authorization") token: String,
-        @Path("workoutID") workoutID: Int?
-    ): Call<ResponseBody>
-
     // get all user workouts
     @GET("UserWorkouts")
     fun getAllUserWorkouts(
         @Header("Authorization") token: String
     ): Call<UserWorkout>
 
-    // add new user workout
-    @POST("UserWorkouts")
-    fun addNewUserWorkout(
-        @Header("Authorization") token: String,
-        @Body userWorkout: UserWorkoutsItem
-    ): Call<ResponseBody>
-
-    // delete user workout
-    @DELETE("UserWorkouts/{workoutId}")
-    fun deleteUserWorkout(
-        @Header("Authorization") token: String,
-        @Path("workoutId") workoutId: Int?
-    ): Call<ResponseBody>
-
     // view all exercises
     @GET("Exercises")
     fun getAllExercises(
         @Header("Authorization") token: String
     ) : Call<Exercises>
-
-    // add new exercise
-    @POST("Exercises")
-    fun addNewExercise(
-        @Header("Authorization") token: String,
-        @Body exercise: ExercisesItem
-    ): Call<ResponseBody>
-
-    // delete exercise
-    @DELETE("Exercises/{exerciseId}")
-    fun deleteExercise(
-        @Header("Authorization") token: String,
-        @Path("exerciseId") exerciseId: Int?
-    ): Call<ResponseBody>
 
     // get all workout exercises
     @GET("WorkoutExercises")
