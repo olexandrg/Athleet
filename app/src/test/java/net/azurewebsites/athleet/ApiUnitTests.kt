@@ -59,4 +59,18 @@ class ApiUnitTests {
         val response =  api.getAllWorkoutExercises(tokenFactory()).execute().code()
         assertEquals("GET /api/WorkoutExercises ", 200, response)
     }
+
+    @Test // delete me
+    fun deleteMe() {
+        val api = apiFactory()
+        val user = UserItem(
+            firebaseUID = "ZG3PjQpq0pTx7IN9UB0I6X0Gmi23",
+            userName = "Test user INSERT",
+            userHeadline = "headline",
+            userId = null
+        )
+        //val temp = "ZG3PjQpq0pTx7IN9UB0I6X0Gmi23"
+        val response = api.addNewUser(tokenFactory(), user).execute().code()
+        println(response);
+    }
 }

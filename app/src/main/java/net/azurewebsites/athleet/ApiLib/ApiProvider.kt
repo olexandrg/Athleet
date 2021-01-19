@@ -24,12 +24,12 @@ interface Api {
         @Path("userID") userID: Int?
     ): Call<ResponseBody>
 
-    // add new user
-    @POST("Users")
+    // insert new user
+    @POST("Users/InsertUser")
     fun addNewUser(
         @Header("Authorization") token: String,
         @Body user: UserItem
-    ): Call<UserItem>
+    ): Call<ResponseBody>
 
     // get all workouts
     @GET("Workouts")
