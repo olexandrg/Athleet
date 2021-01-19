@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import androidx.annotation.RequiresApi
 import androidx.core.view.get
 import androidx.fragment.app.viewModels
@@ -22,20 +23,21 @@ import net.azurewebsites.athleet.Dashboard.*
 import net.azurewebsites.athleet.R
 import net.azurewebsites.athleet.Workouts.Workout
 import net.azurewebsites.athleet.Workouts.WorkoutDetailActivity
+import net.azurewebsites.athleet.Workouts.WorkoutList
 import net.azurewebsites.athleet.Workouts.WorkoutListAdapter
 
 class WorkoutsListFragment() : Fragment() {
 
-    //private val workoutListViewModel by viewModels<WorkoutsListViewModel> { WorkoutsListViewModelFactory(requireContext()) }
+    private val workoutListViewModel by viewModels<WorkoutsListViewModel> { WorkoutsListViewModelFactory(requireContext()) }
     private lateinit var linearLayoutManager: LinearLayoutManager
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-/*
-        linearLayoutManager = LinearLayoutManager(requireContext())
+        linearLayoutManager = LinearLayoutManager(activity)
         val workoutAdapter = WorkoutListAdapter { workout -> adapterOnClick(workout) }
-        val recyclerView = recyclerView_Workout
-        recyclerView.adapter = workoutAdapter
-        //workoutAdapter.submitList(requireActivity().)*/
+        recyclerView_Workout?.layoutManager = linearLayoutManager
+        recyclerView_Workout?.adapter = workoutAdapter
+        workoutAdapter.submitList(WorkoutList(resources))
         val fab: View = requireActivity().findViewById(R.id.fab)
         fab.setOnClickListener {
             fabOnClick()
@@ -47,11 +49,15 @@ class WorkoutsListFragment() : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        /*linearLayoutManager = LinearLayoutManager(requireContext())
-        recyclerView_Workouts.layoutManager = linearLayoutManager
+        linearLayoutManager = LinearLayoutManager(context)
+        //recyclerView_Workouts.layoutManager = linearLayoutManager
         val workoutAdapter = WorkoutListAdapter { workout -> adapterOnClick(workout) }
-        workoutListViewModel.workoutsLiveData.observe(this.viewLifecycleOwner , { it?.let { workoutAdapter.submitList(it as MutableList<Workout>) } })*/
-        return inflater.inflate(R.layout.fragment_workouts_list, container, false)
+        workoutListViewModel.workoutsLiveData.observe(this.viewLifecycleOwner , { it?.let { workoutAdapter.submitList(it as MutableList<Workout>) } })
+        val rootView = inflater!!.inflate(R.layout.fragment_workouts_list, container, false)
+        val recyclerView = rootView.findViewById<RecyclerView>(R.id.recyclerView_Workout) as RecyclerView
+        recyclerView.adapter = workoutAdapter
+        recyclerView.layoutManager=linearLayoutManager
+        return rootView
     }
     private fun adapterOnClick(Workout: Workout) {
         val intent = Intent(requireContext(), WorkoutDetailActivity()::class.java)
@@ -73,7 +79,7 @@ class WorkoutsListFragment() : Fragment() {
             intentData?.let { data ->
                 val WorkoutName = data.getStringExtra(WORKOUT_NAME)
                 val WorkoutDescription = data.getStringExtra(WORKOUT_DESCRIPTION)
-                //workoutListViewModel.insertWorkout(WorkoutName, WorkoutDescription)
+                workoutListViewModel.insertWorkout(WorkoutName, WorkoutDescription)
 
             }
         }
