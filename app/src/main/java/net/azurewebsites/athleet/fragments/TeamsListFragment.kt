@@ -39,26 +39,40 @@ class TeamsListFragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        val api: Api = Api.createSafe("https://testapi.athleetapi.club/api/")
-        FirebaseAuth.getInstance().currentUser?.getIdToken(false)?.addOnCompleteListener { response ->
-            if(response.isSuccessful) {
-                //ask taylor how to get the team name
-                val teamName = data?.getStringExtra(WORKOUT_NAME).toString()
-                val call = api.deleteTeam(response.result?.token.toString(), teamName)
-                call.enqueue(object: Callback<ResponseBody> {
-                    override fun onFailure(call: retrofit2.Call<ResponseBody>, t: Throwable) {
-                        Toast.makeText(activity, "Failed to delete Team", Toast.LENGTH_LONG).show()
-                    }
+        if(resultCode == 58) {
+            val api: Api = Api.createSafe("https://testapi.athleetapi.club/api/")
+            FirebaseAuth.getInstance().currentUser?.getIdToken(false)
+                ?.addOnCompleteListener { response ->
+                    if (response.isSuccessful) {
+                        //ask taylor how to get the team name
+                        val teamName = data?.getStringExtra(WORKOUT_NAME).toString()
+                        val call = api.deleteTeam(response.result?.token.toString(), teamName)
+                        call.enqueue(object : Callback<ResponseBody> {
+                            override fun onFailure(
+                                call: retrofit2.Call<ResponseBody>,
+                                t: Throwable
+                            ) {
+                                Toast.makeText(activity, "Failed to delete Team", Toast.LENGTH_LONG)
+                                    .show()
+                            }
 
-                    override fun onResponse(call: retrofit2.Call<ResponseBody>, response: retrofit2.Response<ResponseBody>) {
-                        Toast.makeText(activity, "Successfully deleted Team", Toast.LENGTH_LONG).show()
-                    }
+                            override fun onResponse(
+                                call: retrofit2.Call<ResponseBody>,
+                                response: retrofit2.Response<ResponseBody>
+                            ) {
+                                Toast.makeText(
+                                    activity,
+                                    "Successfully deleted Team",
+                                    Toast.LENGTH_LONG
+                                ).show()
+                            }
 
-                })
-            }
-            else {
-                Toast.makeText(activity, "Couldn't get user token", Toast.LENGTH_LONG).show()
-            }
+                        })
+                    } else {
+                        Toast.makeText(activity, "Couldn't get user token", Toast.LENGTH_LONG)
+                            .show()
+                    }
+                }
         }
     }
 }
