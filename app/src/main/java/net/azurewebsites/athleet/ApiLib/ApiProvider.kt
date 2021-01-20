@@ -77,6 +77,12 @@ interface Api {
         @Path("exerciseId") exerciseId: Int?
     ): Call<ResponseBody>
 
+    @DELETE("Team")
+    fun deleteTeam(
+        @Header("Authorization") token: String,
+        @Query("teamName") teamName: String
+    ): Call<ResponseBody>
+
     // get all workout exercises
     @GET("WorkoutExercises")
     fun getAllWorkoutExercises(
