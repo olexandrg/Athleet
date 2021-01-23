@@ -56,12 +56,12 @@ class TeamsListFragment : Fragment() {
         return rootView
     }
     private fun adapterOnClick(team: TeamItem) {
-        val intent = Intent(requireContext(), WorkoutDetailActivity()::class.java)
+        val intent = Intent(requireContext(), TeamDetailActivity()::class.java)  // THIS WILL BECOME TeamDetailActivity()
         intent.putExtra(WORKOUT_NAME, team.teamName)
         startActivity(intent)
     }
     private fun fabOnClick() {
-        val intent = Intent(this.requireActivity(), AddWorkoutActivity::class.java)
+        val intent = Intent(this.requireActivity(), AddWorkoutActivity::class.java) // THIS WILL BECOME CreateWorkoutActivity()
         startActivityForResult(intent, 1)
     }
 
@@ -69,7 +69,8 @@ class TeamsListFragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, intentData: Intent?) {
         super.onActivityResult(requestCode, resultCode, intentData)
 
-        //Inserts Workout into viewModel. */
+        //Inserts Team into viewModel. */
+        // THIS WILL NEED TO BE CHANGE
         if (requestCode == 1 && resultCode == Activity.RESULT_OK) {
             intentData?.let { data ->
                 val TeamName = data.getStringExtra(WORKOUT_NAME)
