@@ -2,6 +2,7 @@ package net.azurewebsites.athleet.Dashboard
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import net.azurewebsites.athleet.R
 
 class CreateTeam : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
