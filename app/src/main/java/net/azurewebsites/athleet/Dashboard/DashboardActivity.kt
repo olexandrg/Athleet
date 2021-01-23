@@ -21,7 +21,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
-import net.azurewebsites.athleet.Workouts.TeamsListAdapter
+import net.azurewebsites.athleet.Teams.TeamsListAdapter
 import java.util.ArrayList
 
 
