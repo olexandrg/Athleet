@@ -34,6 +34,8 @@ class TeamsListFragment : Fragment() {
         recyclerView_Workout?.layoutManager = linearLayoutManager
         recyclerView_Workout?.adapter = teamsAdapter
         teamsAdapter.submitList(TeamsList(resources))
+
+        // fab: floating action button. This button leads to adding the team window (activity_add_team.xml)
         val fab: View = requireActivity().findViewById(R.id.fab)
         fab.setOnClickListener {
             fabOnClick()
