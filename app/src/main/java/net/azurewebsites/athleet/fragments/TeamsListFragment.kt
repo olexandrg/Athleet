@@ -61,7 +61,7 @@ class TeamsListFragment : Fragment() {
         startActivity(intent)
     }
     private fun fabOnClick() {
-        val intent = Intent(this.requireActivity(), AddWorkoutActivity::class.java) // THIS WILL BECOME CreateWorkoutActivity()
+        val intent = Intent(this.requireActivity(), AddTeamActivity::class.java) // THIS WILL BECOME CreateWorkoutActivity()
         startActivityForResult(intent, 1)
     }
 
