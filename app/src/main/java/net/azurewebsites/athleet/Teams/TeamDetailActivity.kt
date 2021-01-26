@@ -8,8 +8,9 @@ import net.azurewebsites.athleet.R
 class TeamDetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_workout_detail)
-        findViewById<Button>(R.id.btn_complete_new).setOnClickListener { setResult(1) ; finish(); }
-        findViewById<Button>(R.id.btn_cancel).setOnClickListener { setResult(0) ; finish(); }
+
+
+        setContentView(R.layout.activity_team_detail)
+
     }
 }
