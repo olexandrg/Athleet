@@ -26,8 +26,11 @@
     <string name="Workout2_description">Workout 3</string>
     <string name="done_button_text">Create</string>
     <string name="workout_description_edit_text">Add a description of the workout here</string>
+    <string name="team_description_edit_text">Add a description of the team here</string>
     <string name="workout_name_edit_text">Enter name for workout</string>
+    <string name="team_name_edit_text">Enter name for team</string>
     <string name="add_workout">Add Workout</string>
+    <string name="add_team">Add Team</string>
     <string name="workout_string" />
     <string name="fab_content_description">floating action button</string>
     <string name="search">Search</string>

@@ -30,6 +30,7 @@ class WorkoutsListFragment() : Fragment() {
 
     private val workoutListViewModel by viewModels<WorkoutsListViewModel> { WorkoutsListViewModelFactory(requireContext()) }
     private lateinit var linearLayoutManager: LinearLayoutManager
+    private lateinit var fab:View
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,7 +39,7 @@ class WorkoutsListFragment() : Fragment() {
         recyclerView_Workout?.layoutManager = linearLayoutManager
         recyclerView_Workout?.adapter = workoutAdapter
         workoutAdapter.submitList(WorkoutList(resources))
-        val fab: View = requireActivity().findViewById(R.id.fab)
+        fab = requireActivity().findViewById(R.id.fab)
         fab.setOnClickListener {
             fabOnClick()
         }
@@ -50,14 +51,19 @@ class WorkoutsListFragment() : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         linearLayoutManager = LinearLayoutManager(context)
-        //recyclerView_Workouts.layoutManager = linearLayoutManager
         val workoutAdapter = WorkoutListAdapter { workout -> adapterOnClick(workout) }
         workoutListViewModel.workoutsLiveData.observe(this.viewLifecycleOwner , { it?.let { workoutAdapter.submitList(it as MutableList<Workout>) } })
         val rootView = inflater!!.inflate(R.layout.fragment_workouts_list, container, false)
+        fab.setOnClickListener { fabOnClick() }
         val recyclerView = rootView.findViewById<RecyclerView>(R.id.recyclerView_Workout) as RecyclerView
         recyclerView.adapter = workoutAdapter
         recyclerView.layoutManager=linearLayoutManager
         return rootView
+    }
+
+    override fun onResume() {
+        super.onResume()
+        fab.setOnClickListener { fabOnClick() }
     }
     private fun adapterOnClick(Workout: Workout) {
         val intent = Intent(requireContext(), WorkoutDetailActivity()::class.java)
