@@ -64,7 +64,8 @@ class TeamsListFragment : Fragment() {
     }
     private fun adapterOnClick(team: TeamItem) {
         val intent = Intent(requireContext(), TeamDetailActivity()::class.java)  // THIS WILL BECOME TeamDetailActivity()
-        intent.putExtra(WORKOUT_NAME, team.teamName)
+        intent.putExtra(TEAM_NAME, team.teamName)
+        intent.putExtra(TEAM_DESCRIPTION, team.teamDescription)
         startActivity(intent)
     }
     private fun fabOnClick() {

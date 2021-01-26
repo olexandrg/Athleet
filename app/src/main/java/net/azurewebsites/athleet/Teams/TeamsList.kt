@@ -9,5 +9,5 @@ import java.util.*
 
 @RequiresApi(Build.VERSION_CODES.O)
 fun TeamsList(resources: Resources): List<TeamItem> {
-    return listOf(TeamItem(1, teamName = "Team One"), TeamItem(2,"Team Two"))
+    return listOf(TeamItem(1, teamName = "Team One", teamDescription = "The first team"), TeamItem(2,"Team Two",teamDescription = "The second team"))
 }

@@ -3,7 +3,8 @@ import kotlin.IndexOutOfBoundsException
 
 data class TeamItem (
     val teamId: Int?,
-    val teamName: String
+    var teamName: String?,
+    var teamDescription: String?
 )
 
 interface teamHandler {
