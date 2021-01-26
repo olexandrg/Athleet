@@ -16,22 +16,6 @@ class ApiUnitTests {
     // returns 401 if not successful; will need to replace token or check if the api service is up
 
     @Test // tests API response
-    fun displayAllUsers(){
-        val api = apiFactory()
-        val response = api.getAllUsers(tokenFactory()).execute()
-        assertEquals("GET api/Users", response.code(), 200)
-    }
-
-    @Test // tests API response
-    fun displayUserException() {
-        val api = apiFactory()
-        val list = api.getAllUsers(tokenFactory()).execute().body()
-        val user = "safasdf3254" //garbage value on purpose
-        val response = userHandler.returnUserName(list, user)
-        assertEquals("User $user not found.", response)
-    }
-
-    @Test // tests API response
     fun displayAllWorkouts() {
         val api = apiFactory()
         val response = api.getAllWorkouts(tokenFactory()).execute()
@@ -58,18 +42,5 @@ class ApiUnitTests {
         val api = apiFactory()
         val response =  api.getAllWorkoutExercises(tokenFactory()).execute().code()
         assertEquals("GET /api/WorkoutExercises ", 200, response)
-    }
-
-    @Test // delete me
-    fun deleteMe() {
-        val api = apiFactory()
-        val user = UserItem(
-            firebaseUID = null,
-            userName = "Test user INSERT",
-            userHeadline = "headline",
-            userId = null
-        )
-        val response = api.addNewUser(tokenFactory(), user).execute().code()
-        println(response);
     }
 }
