@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
@@ -24,14 +25,10 @@ class TeamDashboardFragment : Fragment() {
         val binding = DataBindingUtil.inflate<FragmentTeamDashboardBinding>(inflater,
             R.layout.fragment_team_dashboard, container, false )
 
-
-
-        Log.i("TeamDashbaordFragment", "Called ViewModelProvider.get")
         viewModel = ViewModelProvider(this).get(TeamViewModel::class.java)
 
         binding.teamName.text = viewModel.teamName
         binding.teamDescription.text = viewModel.teamDescription
-
 
         setHasOptionsMenu(true)
         return binding.root
