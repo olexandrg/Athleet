@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="net.azurewebsites.athleet.Teams.TeamDashBoardFragment">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/teamDashboardLinear"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <TextView
+            android:id="@+id/teamName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Team Dashboard Fragment" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+</layout>
