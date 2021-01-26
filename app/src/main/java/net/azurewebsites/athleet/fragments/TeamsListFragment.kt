@@ -26,6 +26,7 @@ import net.azurewebsites.athleet.Workouts.WorkoutListAdapter
 class TeamsListFragment : Fragment() {
     private val teamsListViewModel by viewModels<TeamsListViewModel> { TeamsListViewModelFactory(requireContext()) }
     private lateinit var linearLayoutManager: LinearLayoutManager
+    private lateinit var fab: View
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,10 +37,7 @@ class TeamsListFragment : Fragment() {
         teamsAdapter.submitList(TeamsList(resources))
 
         // fab: floating action button. This button leads to adding the team window (activity_add_team.xml)
-        val fab: View = requireActivity().findViewById(R.id.fab)
-        fab.setOnClickListener {
-            fabOnClick()
-        }
+        fab = requireActivity().findViewById(R.id.fab)
     }
 
     override fun onCreateView(
@@ -48,14 +46,18 @@ class TeamsListFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         linearLayoutManager = LinearLayoutManager(context)
-        //recyclerView_Workouts.layoutManager = linearLayoutManager
         val teamsAdapter = TeamsListAdapter { team -> adapterOnClick(team) }
         teamsListViewModel.teamsLiveData.observe(this.viewLifecycleOwner , { it?.let { teamsAdapter.submitList(it as MutableList<TeamItem>) } })
         val rootView = inflater!!.inflate(R.layout.fragment_teams_list, container, false)
         val recyclerView = rootView.findViewById<RecyclerView>(R.id.recyclerView_Teams) as RecyclerView
+        fab.setOnClickListener { fabOnClick() }
         recyclerView.adapter = teamsAdapter
         recyclerView.layoutManager=linearLayoutManager
         return rootView
+    }
+    override fun onResume() {
+        super.onResume()
+        fab.setOnClickListener { fabOnClick() }
     }
     private fun adapterOnClick(team: TeamItem) {
         val intent = Intent(requireContext(), TeamDetailActivity()::class.java)  // THIS WILL BECOME TeamDetailActivity()
