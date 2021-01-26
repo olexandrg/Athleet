@@ -1,5 +1,6 @@
 package net.azurewebsites.athleet.Teams
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -35,8 +36,9 @@ class TeamAdminFragment : Fragment() {
 
 
     private fun deleteTeam() {
-        Toast.makeText(context, "You deleted the team!!!! WHY!!!",
-            Toast.LENGTH_SHORT).show()
+        var intent = Intent()
+        activity?.setResult(58, intent)
+        activity?.finish()
     }
 
 }
