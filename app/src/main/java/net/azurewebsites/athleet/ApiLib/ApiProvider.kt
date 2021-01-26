@@ -28,8 +28,9 @@ interface Api {
     @POST("Users")
     fun addNewUser(
         @Header("Authorization") token: String,
-        @Body user: UserItem
-    ): Call<UserItem>
+        @Query("userName") userName:String,
+        @Query("headline") userHeadline:String?
+    ): Call<ResponseBody>
 
     // get all workouts
     @GET("Workouts")
@@ -90,6 +91,12 @@ interface Api {
     fun deleteExercise(
         @Header("Authorization") token: String,
         @Path("exerciseId") exerciseId: Int?
+    ): Call<ResponseBody>
+
+    @DELETE("Team")
+    fun deleteTeam(
+        @Header("Authorization") token: String,
+        @Query("teamName") teamName: String
     ): Call<ResponseBody>
 
     // get all workout exercises
