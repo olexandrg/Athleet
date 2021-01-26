@@ -6,8 +6,12 @@ import android.widget.Button
 import androidx.databinding.DataBindingUtil
 import net.azurewebsites.athleet.R
 import net.azurewebsites.athleet.databinding.ActivityTeamDetailBinding
+import android.util.Log
 
 class TeamDetailActivity : AppCompatActivity() {
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         @Suppress("UNUSED_VARIABLE")

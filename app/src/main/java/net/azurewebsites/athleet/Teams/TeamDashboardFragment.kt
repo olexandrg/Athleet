@@ -1,15 +1,20 @@
 package net.azurewebsites.athleet.Teams
 
 import android.os.Bundle
+import android.util.Log
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
+import androidx.navigation.ui.NavigationUI
 import net.azurewebsites.athleet.R
 import net.azurewebsites.athleet.databinding.FragmentTeamDashboardBinding
 
 class TeamDashboardFragment : Fragment() {
+
+    private lateinit var viewModel: TeamViewModel
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -18,7 +23,27 @@ class TeamDashboardFragment : Fragment() {
         val binding = DataBindingUtil.inflate<FragmentTeamDashboardBinding>(inflater,
             R.layout.fragment_team_dashboard, container, false )
 
+
+
+        Log.i("TeamDashbaordFragment", "Called ViewModelProvider.get")
+        viewModel = ViewModelProvider(this).get(TeamViewModel::class.java)
+
+        binding.teamName.text = viewModel.teamName
+        binding.teamDescription.text = viewModel.teamDescription
+
+
+        setHasOptionsMenu(true)
         return binding.root
     }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.team_option_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return NavigationUI.
+        onNavDestinationSelected(item,requireView().findNavController())
+                || super.onOptionsItemSelected(item)
+    }
 }
