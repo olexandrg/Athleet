@@ -21,7 +21,11 @@ interface Api {
 
     // add new user
     @POST("Users")
-    fun addNewUser(@Header("Authorization") token: String, @Body user: UserItem): Call<UserItem>
+    fun addNewUser(
+        @Header("Authorization") token: String,
+        @Query("userName") userName:String,
+        @Query("headline") userHeadline:String?
+    ): Call<ResponseBody>
 
     // get all workouts
     @GET("Workouts")
