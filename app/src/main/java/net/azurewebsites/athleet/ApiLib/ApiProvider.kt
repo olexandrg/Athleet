@@ -27,6 +27,7 @@ interface Api {
     // insert new user
     @POST("Users/InsertUser")
     fun addNewUser(
+        @Header("Authorization") token: String,
         @Query("userName") userName:String,
         @Query("headline") userHeadline:String?
     ): Call<ResponseBody>
