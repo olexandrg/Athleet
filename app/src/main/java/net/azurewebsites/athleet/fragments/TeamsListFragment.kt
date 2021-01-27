@@ -87,7 +87,7 @@ class TeamsListFragment : Fragment() {
 
             }
         }
-        if(resultCode == 58) {
+        if(requestCode == 58) {
             Toast.makeText(activity, "Successfully deleted Team", Toast.LENGTH_LONG).show();
             /*val api: Api = Api.createSafe("https://testapi.athleetapi.club/api/")
             FirebaseAuth.getInstance().currentUser?.getIdToken(false)

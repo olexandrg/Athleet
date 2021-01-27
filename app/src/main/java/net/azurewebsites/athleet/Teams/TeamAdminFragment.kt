@@ -36,9 +36,8 @@ class TeamAdminFragment : Fragment() {
 
 
     private fun deleteTeam() {
-        var intent = Intent()
-        activity?.setResult(58, intent)
-        activity?.finish()
+        Toast.makeText(activity, "Successfully Deleted Team (admin)", Toast.LENGTH_LONG).show()
+        activity?.finishActivity(58)
     }
 
 }
