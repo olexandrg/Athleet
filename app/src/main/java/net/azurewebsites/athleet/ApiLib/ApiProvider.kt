@@ -27,8 +27,8 @@ interface Api {
     // insert new user
     @POST("Users/InsertUser")
     fun addNewUser(
-        @Header("Authorization") token: String,
-        @Body user: UserItem
+        @Query("userName") userName:String,
+        @Query("headline") userHeadline:String?
     ): Call<ResponseBody>
 
     // get all workouts
@@ -84,6 +84,13 @@ interface Api {
         @Header("Authorization") token: String,
         @Query("WorkoutName") WorkoutName: String?
     ): Call<ViewExercisesInWorkout>
+
+    // delete a whole team
+    @DELETE("Team")
+    fun deleteTeam(
+        @Header("Authorization") token: String,
+        @Query("teamName") teamName: String
+    ): Call<ResponseBody>
 
     // factory method
     companion object {
