@@ -20,8 +20,8 @@ class WorkoutsListViewModel(val dataSource: DataSource) : ViewModel() {
         val newWorkout = Workout(
             name = workoutName,
             lastCompleted = Date.from(Instant.now()),
-            description = workoutDescription
-        )
+            description = workoutDescription,
+                    exercises = null)
         dataSource.addWorkout(newWorkout)
     }
 }

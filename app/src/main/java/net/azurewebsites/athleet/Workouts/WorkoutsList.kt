@@ -12,16 +12,14 @@ fun WorkoutList(resources: Resources): List<Workout> {
     return listOf(
         Workout(
             name = resources.getString(R.string.Workout1_name),
-            //image = R.drawable.rose,
             description = resources.getString(R.string.Workout1_description),
-            lastCompleted = Date.from(Instant.now())
-        ),
+            lastCompleted = Date.from(Instant.now()),
+            exercises = null),
         Workout(
-            //id = 2,
             name = resources.getString(R.string.Workout2_name),
-            //image = R.drawable.freesia,
             description = resources.getString(R.string.Workout2_description),
-            lastCompleted = Date.from(Instant.now())
+            lastCompleted = Date.from(Instant.now()),
+                    exercises = null
         )/*,
         Workout(
             id = 3,

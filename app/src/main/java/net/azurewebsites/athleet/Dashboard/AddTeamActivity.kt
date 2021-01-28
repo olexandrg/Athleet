@@ -23,7 +23,7 @@ class AddTeamActivity : AppCompatActivity() {
             addTeam()
         }
 
-        teamName = findViewById(R.id.add_team_name)
+        teamName = findViewById(R.id.add_exercise_name)
         teamDescription = findViewById(R.id.add_team_description)
     }
 

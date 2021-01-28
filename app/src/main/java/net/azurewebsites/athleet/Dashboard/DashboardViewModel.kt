@@ -27,8 +27,7 @@ import java.util.*
             val newWorkout = Workout(
                 WorkoutName,
                 Date(),
-                WorkoutDescription
-            )
+                WorkoutDescription,null)
 
             dataSource.addWorkout(newWorkout)
         }

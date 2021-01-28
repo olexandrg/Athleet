@@ -34,51 +34,28 @@ class DashboardActivity : AppCompatActivity() {
         setContentView(R.layout.activity_dashboard)
         setUpTabs()
         linearLayoutManager = LinearLayoutManager(this)
-//        tabLayout.setOnClickListener { if(tabLayout.selectedTabPosition == 0) {recyclerView.swapAdapter(WorkoutListAdapter({workout -> adapterOnClick(workout) }),true)} }
-//        val workoutAdapter = WorkoutListAdapter { workout -> adapterOnClick(workout) }
-//        recyclerView.adapter = workoutAdapter
-//        workoutListViewModel.workoutsLiveData.observe(this , { it?.let { workoutAdapter.submitList(it as MutableList<Workout>) } })
-
-/*        val fab: View = findViewById(R.id.fab)
-        fab.setOnClickListener {
-            fabOnClick()
-        }*/
     }
-    private fun adapterOnClick(Workout: Workout) {
-        val intent = Intent(this, WorkoutDetailActivity()::class.java)
-        intent.putExtra(WORKOUT_NAME, Workout.name)
-        startActivity(intent)
-    }
+//    private fun adapterOnClick(Workout: Workout) {
+//        val intent = Intent(this, WorkoutDetailActivity()::class.java)
+//        intent.putExtra(WORKOUT_NAME, Workout.name)
+//        startActivity(intent)
+//    }
     private fun setUpTabs()
     {
         var adapter = ViewPagerAdapter(this.supportFragmentManager)
-
         adapter.addFragment(WorkoutsListFragment(), "Workouts")
         adapter.addFragment(TeamsListFragment(), "Teams")
         viewPager.adapter = adapter;
         tabLayout.setupWithViewPager(viewPager)
         tabLayout.getTabAt(0)!!.setIcon(R.drawable.weightlifting_icon)
         tabLayout.getTabAt(1)!!.setIcon(R.drawable.teams_tab_icon)
-
     }
-    private fun pageChanged(){return}
 }
-class ViewPagerAdapter(supportFragmentManager: FragmentManager):FragmentPagerAdapter(supportFragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT)
-{
+class ViewPagerAdapter(supportFragmentManager: FragmentManager):FragmentPagerAdapter(supportFragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
     private var mFragmentList = ArrayList<Fragment>();
     private var mFragmentTitleList = ArrayList<String>();
-
-    override fun getCount(): Int {
-        return mFragmentList.size
-    }
-
-    override fun getItem(position: Int): Fragment {
-        return  mFragmentList[position]
-    }
-    fun addFragment(fragment:Fragment,title:String){
-        mFragmentList.add(fragment);
-        mFragmentTitleList.add(title);
-    }
-
+    override fun getCount(): Int { return mFragmentList.size }
+    override fun getItem(position: Int): Fragment { return  mFragmentList[position] }
+    fun addFragment(fragment:Fragment,title:String){ mFragmentList.add(fragment); mFragmentTitleList.add(title); }
 }
 

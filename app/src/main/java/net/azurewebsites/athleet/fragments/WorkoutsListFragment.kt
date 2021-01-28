@@ -51,7 +51,8 @@ class WorkoutsListFragment() : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         linearLayoutManager = LinearLayoutManager(context)
-        val workoutAdapter = WorkoutListAdapter { workout -> adapterOnClick(workout) }
+        val workoutAdapter = WorkoutListAdapter { workout ->
+           workoutListViewModel.dataSource.currentWorkout=workout; adapterOnClick(workout) }
         workoutListViewModel.workoutsLiveData.observe(this.viewLifecycleOwner , { it?.let { workoutAdapter.submitList(it as MutableList<Workout>) } })
         val rootView = inflater!!.inflate(R.layout.fragment_workouts_list, container, false)
         fab.setOnClickListener { fabOnClick() }
@@ -79,7 +80,6 @@ class WorkoutsListFragment() : Fragment() {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onActivityResult(requestCode: Int, resultCode: Int, intentData: Intent?) {
         super.onActivityResult(requestCode, resultCode, intentData)
-
         //Inserts Workout into viewModel. */
         if (requestCode == 1 && resultCode == Activity.RESULT_OK) {
             intentData?.let { data ->
