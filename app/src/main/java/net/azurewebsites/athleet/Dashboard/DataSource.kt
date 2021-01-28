@@ -88,12 +88,11 @@ class DataSource(resources: Resources) {
             val updatedList=currentList!!.toMutableList()
                 updatedList.add(0,newExercise)
                 ExercisesLiveData.postValue(updatedList)
-
         }
-
-
     }
-
+    fun clearExerciseList(){
+        ExercisesLiveData.postValue(null)
+    }
 /*    *//* Returns a random Workout asset for Workouts that are added. *//*
     fun getRandomWorkoutImageAsset(): Int? {
         val randomNumber = (initialWorkoutList.indices).random()

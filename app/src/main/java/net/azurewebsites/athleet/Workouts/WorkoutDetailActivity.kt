@@ -57,7 +57,5 @@ class WorkoutDetailActivity : AppCompatActivity() {
 
             }
         }
-
-
     }
 }
