@@ -91,6 +91,7 @@ class DataSource(resources: Resources) {
         }
     }
     fun clearExerciseList(){
+        currentWorkout!!.exercises = ExercisesLiveData.value;
         ExercisesLiveData.postValue(null)
     }
 /*    *//* Returns a random Workout asset for Workouts that are added. *//*

@@ -1,5 +1,6 @@
 package net.azurewebsites.athleet.ApiLib
 
+import com.google.firebase.auth.ActionCodeResult
 import okhttp3.OkHttpClient
 import okhttp3.ResponseBody
 import okhttp3.logging.HttpLoggingInterceptor
@@ -25,11 +26,11 @@ interface Api {
     ): Call<ResponseBody>
 
     // insert new user
-    @POST("Users/InsertUser")
+    @POST("Users")
     fun addNewUser(
         @Header("Authorization") token: String,
         @Query("userName") userName:String,
-        @Query("headline") userHeadline:String?
+        @Query("description") description: String
     ): Call<ResponseBody>
 
     // get all workouts
@@ -92,6 +93,14 @@ interface Api {
         @Header("Authorization") token: String,
         @Query("teamName") teamName: String
     ): Call<ResponseBody>
+
+    @GET("Users/CreateUser")
+    fun addNewUser(
+        @Header("Authorization") token: String,
+        @Query("userName") userName: String,
+        @Query("UID") UID: String,
+        @Query("description") description: String
+    )
 
     // factory method
     companion object {

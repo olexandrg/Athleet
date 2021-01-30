@@ -22,9 +22,15 @@ import com.firebase.ui.auth.AuthUI.getApplicationContext
 import com.firebase.ui.auth.IdpResponse
 import com.google.firebase.auth.FirebaseAuth
 import net.azurewebsites.athleet.*
+import net.azurewebsites.athleet.ApiLib.Api
+import net.azurewebsites.athleet.ApiLib.UserItem
 import net.azurewebsites.athleet.Dashboard.DashboardActivity
 import net.azurewebsites.athleet.UserAuth.LoginViewModel
 import net.azurewebsites.athleet.databinding.FragmentMainBinding
+import okhttp3.ResponseBody
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 open class MainFragment : Fragment() {
@@ -41,7 +47,7 @@ open class MainFragment : Fragment() {
             return FirebaseAuth.getInstance();
         }*/
     }
-
+    private val api = Api.createSafe("https://testapi.athleetapi.club/api/")
     // Get a reference to the ViewModel scoped to this Fragment
     private val viewModel by viewModels<LoginViewModel>()
     private lateinit var binding: FragmentMainBinding
@@ -80,6 +86,29 @@ open class MainFragment : Fragment() {
             if (resultCode == Activity.RESULT_OK)
             { /*login succeeded->*/
                 Log.i(TAG, "Successfully signed in user ${FirebaseAuth.getInstance().currentUser?.displayName} with uid: ${FirebaseAuth.getInstance().uid}");
+                FirebaseAuth.getInstance().currentUser?.getIdToken(false)?.addOnCompleteListener { response ->
+                    if(response.isSuccessful) {
+                        val userName = FirebaseAuth.getInstance().currentUser!!.displayName
+                        val call = api.addNewUser("Bearer " + response.result?.token.toString(),userName!!, "Welcome back, "+userName )
+                        call.enqueue(object : Callback<ResponseBody> {
+                            override fun onResponse(
+                                call: Call<ResponseBody>,
+                                response: Response<ResponseBody>
+                            ) {
+                                if(response.isSuccessful)
+                                    binding.btnDashboard.isVisible = true;
+                            }
+
+                            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                                TODO("Not yet implemented")
+                            }
+
+                        })
+                    }
+                    else {
+                    }
+                }
+
             }
             else
             {/*login failed->*/
@@ -103,18 +132,12 @@ open class MainFragment : Fragment() {
                     binding.authButton.setOnClickListener {
                         getInstance().signOut(requireContext())
                     }
-                    // binding.welcomeText.text = getFactWithPersonalization(factToDisplay)
                     binding.welcomeText.text =
                         "You are now signed in. Welcome back ${FirebaseAuth.getInstance().currentUser?.displayName}!"
-                    binding.btnDashboard.isVisible = true;
-
-
-
                 }
                 else -> {
                     binding.authButton.text = getString(R.string.login_button_text)
                     binding.authButton.setOnClickListener { launchSignInFlow() }
-                    //binding.welcomeText.text = factToDisplay
                     binding.welcomeText.text = getString(R.string.not_signed_in)
                     binding.btnDashboard.isVisible = false;
                 }
