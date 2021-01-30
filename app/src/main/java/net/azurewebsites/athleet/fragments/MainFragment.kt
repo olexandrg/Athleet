@@ -105,8 +105,7 @@ open class MainFragment : Fragment() {
 
                         })
                     }
-                    else {
-                    }
+
                 }
 
             }
@@ -134,6 +133,58 @@ open class MainFragment : Fragment() {
                     }
                     binding.welcomeText.text =
                         "You are now signed in. Welcome back ${FirebaseAuth.getInstance().currentUser?.displayName}!"
+                    FirebaseAuth.getInstance().currentUser?.getIdToken(false)?.addOnCompleteListener { response ->
+                        if(response.isSuccessful) {
+                            val userName = FirebaseAuth.getInstance().currentUser!!.displayName
+                            val callCheckExisting = api.checkExistingUser("Bearer " + response.result?.token.toString())
+                            val token = "Bearer " + response.result?.token.toString()
+                            callCheckExisting.enqueue(object : Callback<ResponseBody> {
+                                override fun onResponse(
+                                    call: Call<ResponseBody>,
+                                    response: Response<ResponseBody>
+                                ) {
+                                    when(response.code())
+                                    {
+                                        404-> {
+                                        val call = api.addNewUser(token,userName!!, "Welcome back, "+userName )
+                                        call.enqueue(object : Callback<ResponseBody> {
+                                            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                                                    if(response.isSuccessful)
+                                                        binding.btnDashboard.isVisible = true;
+                                            }
+                                            override fun onFailure(call: Call<ResponseBody>, t: Throwable) { TODO("Not yet implemented") }
+                                            })
+                                        }
+                                        200->{binding.btnDashboard.isVisible = true;}
+                                    }
+
+                                        binding.btnDashboard.isVisible = true;
+                                }
+
+                                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                                    TODO("Not yet implemented")
+                                }
+
+                            })
+
+                            val call = api.addNewUser("Bearer " + response.result?.token.toString(),userName!!, "Welcome back, "+userName )
+                            call.enqueue(object : Callback<ResponseBody> {
+                                override fun onResponse(
+                                    call: Call<ResponseBody>,
+                                    response: Response<ResponseBody>
+                                ) {
+                                    if(response.isSuccessful)
+                                        binding.btnDashboard.isVisible = true;
+                                }
+
+                                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                                    TODO("Not yet implemented")
+                                }
+
+                            })
+                        }
+
+                    }
                 }
                 else -> {
                     binding.authButton.text = getString(R.string.login_button_text)

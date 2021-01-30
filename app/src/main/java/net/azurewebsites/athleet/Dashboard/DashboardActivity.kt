@@ -21,6 +21,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
+import net.azurewebsites.athleet.ApiLib.Api
 import net.azurewebsites.athleet.Teams.TeamsListAdapter
 import java.util.ArrayList
 
@@ -28,6 +29,7 @@ import java.util.ArrayList
 class DashboardActivity : AppCompatActivity() {
     private val newWorkoutActivityRequestCode = 1
     val workoutListViewModel by viewModels<WorkoutsListViewModel> { WorkoutsListViewModelFactory(this) }
+    val api = Api.createSafe("https://testapi.athleetapi.club/api/")
     private lateinit var linearLayoutManager: LinearLayoutManager
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,11 +37,6 @@ class DashboardActivity : AppCompatActivity() {
         setUpTabs()
         linearLayoutManager = LinearLayoutManager(this)
     }
-//    private fun adapterOnClick(Workout: Workout) {
-//        val intent = Intent(this, WorkoutDetailActivity()::class.java)
-//        intent.putExtra(WORKOUT_NAME, Workout.name)
-//        startActivity(intent)
-//    }
     private fun setUpTabs()
     {
         var adapter = ViewPagerAdapter(this.supportFragmentManager)

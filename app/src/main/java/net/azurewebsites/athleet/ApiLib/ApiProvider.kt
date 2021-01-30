@@ -12,19 +12,25 @@ import retrofit2.http.*
 
 
 interface Api {
-    // fetch a list of all users
+/*
+//    // fetch a list of all users
+//    @GET("Users")
+//    fun getAllUsers(
+//        @Header("Authorization") token: String
+//    ): Call<List<UserItem>>
+//
+//   //  delete user by user id NOT firebaseID
+//    @DELETE("Users/{userID}")
+//    fun deleteUserByName(
+//        @Header("Authorization") token: String,
+//        @Path("userID") userID: Int?
+//    ): Call<ResponseBody>
+*/
+
     @GET("Users")
-    fun getAllUsers(
+    fun checkExistingUser(
         @Header("Authorization") token: String
-    ): Call<List<UserItem>>
-
-   //  delete user by user id NOT firebaseID
-    @DELETE("Users/{userID}")
-    fun deleteUserByName(
-        @Header("Authorization") token: String,
-        @Path("userID") userID: Int?
-    ): Call<ResponseBody>
-
+    ):Call<ResponseBody>
     // insert new user
     @POST("Users")
     fun addNewUser(
@@ -32,18 +38,26 @@ interface Api {
         @Query("userName") userName:String,
         @Query("description") description: String
     ): Call<ResponseBody>
+/*
 
     // get all workouts
     @GET("Workouts")
     fun getAllWorkouts(
         @Header("Authorization") token: String
     ): Call<List<WorkoutItem>>
+*/
 
     // get all user workouts
     @GET("UserWorkouts")
-    fun getAllUserWorkouts(
+    fun getUserWorkouts(
         @Header("Authorization") token: String
-    ): Call<UserWorkout>
+    ): Call<List<UserWorkouts>>
+
+    @GET("Workouts")
+    fun getWorkout(
+        @Header("Authorization") token: String,
+        @Query("workoutID") workoutID:String
+    ) : Call<WorkoutItem>
 
     // view all exercises
     @GET("Exercises")

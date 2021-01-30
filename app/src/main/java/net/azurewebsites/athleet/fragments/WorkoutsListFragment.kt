@@ -16,18 +16,24 @@ import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_dashboard.*
 import kotlinx.android.synthetic.main.activity_dashboard.view.*
 import kotlinx.android.synthetic.main.fragment_workouts_list.*
+import net.azurewebsites.athleet.ApiLib.*
 import net.azurewebsites.athleet.Dashboard.*
 import net.azurewebsites.athleet.R
 import net.azurewebsites.athleet.Workouts.Workout
 import net.azurewebsites.athleet.Workouts.WorkoutDetailActivity
 import net.azurewebsites.athleet.Workouts.WorkoutList
 import net.azurewebsites.athleet.Workouts.WorkoutListAdapter
+import okhttp3.ResponseBody
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class WorkoutsListFragment() : Fragment() {
-
+    val api = Api.createSafe("https://testapi.athleetapi.club/api/")
     private val workoutListViewModel by viewModels<WorkoutsListViewModel> { WorkoutsListViewModelFactory(requireContext()) }
     private lateinit var linearLayoutManager: LinearLayoutManager
     private lateinit var fab:View
@@ -37,8 +43,50 @@ class WorkoutsListFragment() : Fragment() {
         super.onCreate(savedInstanceState)
         linearLayoutManager = LinearLayoutManager(activity)
         workoutListAdapter = WorkoutListAdapter { workout -> adapterOnClick(workout) }
-        //recyclerView_Workout?.layoutManager = linearLayoutManager
-        //recyclerView_Workout?.adapter = workoutAdapter
+        FirebaseAuth.getInstance().currentUser?.getIdToken(false)?.addOnCompleteListener { response ->
+            if(response.isSuccessful) {
+                val token = "Bearer " + response.result?.token.toString()
+                val userName = FirebaseAuth.getInstance().currentUser!!.displayName
+
+                //### The comment block below will become the API call that gets all of the user's workouts when they navigate to their main dashboard.
+                // It will crash for the time being.
+
+               /* val call = api.getUserWorkouts("Bearer " + response.result?.token.toString())
+                call.enqueue(object:Callback<List<UserWorkouts>>{
+                    override fun onResponse(
+                        call: Call<List<UserWorkouts>>,
+                        response: Response<List<UserWorkouts>>
+                    ) {
+                        if(response.isSuccessful)
+                        {
+                            val results = response.body()!!.toList()
+                            var workoutList:MutableList<WorkoutItem>? = null
+                            for(UserWorkoutItem in results){
+                                val workoutCall = api.getWorkout(token, UserWorkoutItem.workoutId.toString())
+                                workoutCall.enqueue(object:Callback<WorkoutItem>{
+                                    override fun onResponse(
+                                        call: Call<WorkoutItem>,
+                                        response: Response<WorkoutItem>
+                                    ) {
+                                        if(response.isSuccessful)
+                                            workoutList!!.add(response.body()!!)
+                                    }
+
+                                    override fun onFailure(call: Call<WorkoutItem>, t: Throwable) {
+                                        TODO("Not yet implemented")
+                                    }
+                                })
+                            }
+                        }
+                    }
+
+                    override fun onFailure(call: Call<List<UserWorkouts>>, t: Throwable) {
+                        TODO("Not yet implemented")
+                    }
+                })*/
+            }
+
+        }
         workoutListAdapter.submitList(WorkoutList(resources))
         fab = requireActivity().findViewById(R.id.fab)
         fab.setOnClickListener {
