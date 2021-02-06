@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.annotation.RequiresApi
 import androidx.core.view.get
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
@@ -38,6 +39,7 @@ class WorkoutsListFragment() : Fragment() {
     private lateinit var linearLayoutManager: LinearLayoutManager
     private lateinit var fab:View
     private lateinit var workoutListAdapter: WorkoutListAdapter
+    private lateinit var token:String
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,45 +47,45 @@ class WorkoutsListFragment() : Fragment() {
         workoutListAdapter = WorkoutListAdapter { workout -> adapterOnClick(workout) }
         FirebaseAuth.getInstance().currentUser?.getIdToken(false)?.addOnCompleteListener { response ->
             if(response.isSuccessful) {
-                val token = "Bearer " + response.result?.token.toString()
+                token = "Bearer " + response.result?.token.toString()
                 val userName = FirebaseAuth.getInstance().currentUser!!.displayName
 
                 //### The comment block below will become the API call that gets all of the user's workouts when they navigate to their main dashboard.
                 // It will crash for the time being.
 
-               /* val call = api.getUserWorkouts("Bearer " + response.result?.token.toString())
-                call.enqueue(object:Callback<List<UserWorkouts>>{
-                    override fun onResponse(
-                        call: Call<List<UserWorkouts>>,
-                        response: Response<List<UserWorkouts>>
-                    ) {
-                        if(response.isSuccessful)
-                        {
-                            val results = response.body()!!.toList()
-                            var workoutList:MutableList<WorkoutItem>? = null
-                            for(UserWorkoutItem in results){
-                                val workoutCall = api.getWorkout(token, UserWorkoutItem.workoutId.toString())
-                                workoutCall.enqueue(object:Callback<WorkoutItem>{
-                                    override fun onResponse(
-                                        call: Call<WorkoutItem>,
-                                        response: Response<WorkoutItem>
-                                    ) {
-                                        if(response.isSuccessful)
-                                            workoutList!!.add(response.body()!!)
-                                    }
-
-                                    override fun onFailure(call: Call<WorkoutItem>, t: Throwable) {
-                                        TODO("Not yet implemented")
-                                    }
-                                })
-                            }
-                        }
-                    }
-
-                    override fun onFailure(call: Call<List<UserWorkouts>>, t: Throwable) {
-                        TODO("Not yet implemented")
-                    }
-                })*/
+//                val call = api.getUserWorkouts("Bearer " + response.result?.token.toString())
+//                call.enqueue(object:Callback<List<UserWorkouts>>{
+//                    override fun onResponse(
+//                        call: Call<List<UserWorkouts>>,
+//                        response: Response<List<UserWorkouts>>
+//                    ) {
+//                        if(response.isSuccessful)
+//                        {
+//                            val results = response.body()!!.toList()
+//                            var workoutList:MutableList<WorkoutItem>? = null
+//                            for(UserWorkoutItem in results){
+//                                val workoutCall = api.getWorkout(token, UserWorkoutItem.workoutId.toString())
+//                                workoutCall.enqueue(object:Callback<WorkoutItem>{
+//                                    override fun onResponse(
+//                                        call: Call<WorkoutItem>,
+//                                        response: Response<WorkoutItem>
+//                                    ) {
+//                                        if(response.isSuccessful)
+//                                            workoutList!!.add(response.body()!!)
+//                                    }
+//
+//                                    override fun onFailure(call: Call<WorkoutItem>, t: Throwable) {
+//                                        TODO("Not yet implemented")
+//                                    }
+//                                })
+//                            }
+//                        }
+//                    }
+//
+//                    override fun onFailure(call: Call<List<UserWorkouts>>, t: Throwable) {
+//                        TODO("Not yet implemented")
+//                    }
+//                })
             }
 
         }
@@ -134,7 +136,22 @@ class WorkoutsListFragment() : Fragment() {
             intentData?.let { data ->
                 val WorkoutName = data.getStringExtra(WORKOUT_NAME)
                 val WorkoutDescription = data.getStringExtra(WORKOUT_DESCRIPTION)
-                workoutListViewModel.insertWorkout(WorkoutName, WorkoutDescription)
+                val call = api.addNewWorkout(token, WorkoutName!!, WorkoutDescription!!)
+                call.enqueue(object : Callback<ResponseBody> {
+                    override fun onResponse(
+                        call: Call<ResponseBody>,
+                        response: Response<ResponseBody>
+                    ) {
+                        if(response.isSuccessful)
+                            workoutListViewModel.insertWorkout(WorkoutName, WorkoutDescription)
+                    }
+
+                    override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                        TODO("Not yet implemented")
+                    }
+
+                })
+
 
             }
         }

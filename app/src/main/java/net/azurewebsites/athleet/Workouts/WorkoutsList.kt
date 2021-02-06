@@ -13,12 +13,12 @@ fun WorkoutList(resources: Resources): List<Workout> {
         Workout(
             name = resources.getString(R.string.Workout1_name),
             description = resources.getString(R.string.Workout1_description),
-            lastCompleted = Date.from(Instant.now()),
+            //lastCompleted = Date.from(Instant.now()),
             exercises = null),
         Workout(
             name = resources.getString(R.string.Workout2_name),
             description = resources.getString(R.string.Workout2_description),
-            lastCompleted = Date.from(Instant.now()),
+            //lastCompleted = Date.from(Instant.now()),
                     exercises = null
         )/*,
         Workout(

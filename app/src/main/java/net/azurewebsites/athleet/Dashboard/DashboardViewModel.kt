@@ -19,16 +19,8 @@ import java.util.*
         /* If the name and description are present, create new Workout and add it to the datasource */
         @RequiresApi(Build.VERSION_CODES.O)
         fun insertWorkout(WorkoutName: String?, WorkoutDescription: String?) {
-            if (WorkoutName == null || WorkoutDescription == null) {
-                return
-            }
-
-            //val image = dataSource.getRandomWorkoutImageAsset()
-            val newWorkout = Workout(
-                WorkoutName,
-                Date(),
-                WorkoutDescription,null)
-
+            if (WorkoutName == null || WorkoutDescription == null) { return }
+            val newWorkout = Workout(WorkoutName, WorkoutDescription,null)
             dataSource.addWorkout(newWorkout)
         }
     }

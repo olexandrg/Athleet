@@ -29,11 +29,8 @@ class WorkoutListAdapter(private val onClick: (Workout) -> Unit) :
         }
 
         /* Bind workout name and image. */
-        fun bind(workout: Workout) {
-            currentWorkout = workout
-
-            workoutTextView.text = workout.name.toString()
-            workoutDateTextView.text = workout.lastCompleted.toString()
+        fun bind(workout: Workout) { currentWorkout = workout
+            workoutTextView.text = workout.name
         }
     }
 

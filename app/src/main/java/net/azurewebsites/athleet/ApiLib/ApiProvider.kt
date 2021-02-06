@@ -12,20 +12,6 @@ import retrofit2.http.*
 
 
 interface Api {
-/*
-//    // fetch a list of all users
-//    @GET("Users")
-//    fun getAllUsers(
-//        @Header("Authorization") token: String
-//    ): Call<List<UserItem>>
-//
-//   //  delete user by user id NOT firebaseID
-//    @DELETE("Users/{userID}")
-//    fun deleteUserByName(
-//        @Header("Authorization") token: String,
-//        @Path("userID") userID: Int?
-//    ): Call<ResponseBody>
-*/
 
     @GET("Users")
     fun checkExistingUser(
@@ -38,15 +24,13 @@ interface Api {
         @Query("userName") userName:String,
         @Query("description") description: String
     ): Call<ResponseBody>
-/*
 
-    // get all workouts
-    @GET("Workouts")
-    fun getAllWorkouts(
-        @Header("Authorization") token: String
-    ): Call<List<WorkoutItem>>
-*/
-
+    @POST("Workouts")
+    fun addNewWorkout(
+        @Header("Authorization")token:String,
+        @Query("Name") name:String,
+        @Query("Description") description: String
+    ):Call<ResponseBody>
     // get all user workouts
     @GET("UserWorkouts")
     fun getUserWorkouts(
@@ -125,7 +109,6 @@ interface Api {
 
             // create retrofit client
             val retrofit = Retrofit.Builder()
-
                     // here we set the base url of our API
                     .baseUrl(baseUrl)
                     // make OkHttpClient instance

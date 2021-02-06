@@ -19,7 +19,7 @@ class WorkoutsListViewModel(val dataSource: DataSource) : ViewModel() {
         if (workoutName == null || workoutDescription == null) { return }
         val newWorkout = Workout(
             name = workoutName,
-            lastCompleted = Date.from(Instant.now()),
+            //lastCompleted = Date.from(Instant.now()),
             description = workoutDescription,
                     exercises = null)
         dataSource.addWorkout(newWorkout)
