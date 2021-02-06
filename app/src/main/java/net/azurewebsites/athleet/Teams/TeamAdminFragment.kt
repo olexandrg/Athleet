@@ -29,11 +29,18 @@ class TeamAdminFragment : Fragment() {
             // Need to redirect to Users Dashboard after this.
         }
 
-
+        binding.buttonLeaveTeam.setOnClickListener {
+            leaveTeam()
+            // Need to redirect to Users Dashboard after this.
+        }
 
         return binding.root
     }
 
+    private fun leaveTeam() {
+        Toast.makeText(activity, "Successfully Left Team", Toast.LENGTH_LONG).show()
+        activity?.finish()
+    }
 
     private fun deleteTeam() {
         Toast.makeText(activity, "Successfully Deleted Team (admin)", Toast.LENGTH_LONG).show()
