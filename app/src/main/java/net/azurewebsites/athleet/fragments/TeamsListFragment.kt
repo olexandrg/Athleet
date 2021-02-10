@@ -124,7 +124,7 @@ class TeamsListFragment : Fragment() {
                 }*/
         }
 
-        else if(requestCode == 59) {
+        else if(resultCode == 59) {
             val api: Api = Api.createSafe("https://testapi.athleetapi.club/api/")
             FirebaseAuth.getInstance().currentUser?.getIdToken(false)
                 ?.addOnCompleteListener { response ->

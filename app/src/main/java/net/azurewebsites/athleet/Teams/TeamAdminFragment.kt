@@ -41,7 +41,8 @@ class TeamAdminFragment : Fragment() {
     }
 
     private fun leaveTeam() {
-        activity?.finishActivity(59)
+        activity?.setResult(59)
+        activity?.finish()
     }
 
     private fun deleteTeam() {
