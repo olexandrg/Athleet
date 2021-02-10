@@ -30,8 +30,8 @@ class TeamDashboardFragment : Fragment() {
 
         viewModel = ViewModelProvider(this).get(TeamViewModel()::class.java)
 
-        binding.root.findViewById<TextView>(R.id.teamName).text = requireActivity().intent.extras?.getString(TEAM_NAME).toString()
-        binding.root.findViewById<TextView>(R.id.teamDescription).text = requireActivity().intent.extras?.getString(TEAM_DESCRIPTION).toString()
+        binding.teamName.text = requireActivity().intent.extras?.getString(TEAM_NAME).toString()
+        binding.teamDescription.text = requireActivity().intent.extras?.getString(TEAM_DESCRIPTION).toString()
 
         //viewModel.teamDescription = requireActivity().intent.extras?.getString(TEAM_DESCRIPTION).toString()
         setHasOptionsMenu(true)
