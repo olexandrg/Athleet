@@ -1,12 +1,10 @@
-package net.azurewebsites.athleet.Workouts
+package net.azurewebsites.athleet.workouts
 import android.content.Context
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import net.azurewebsites.athleet.Dashboard.DataSource
-import java.time.Instant
-import java.util.*
 
 class WorkoutsListViewModel(val dataSource: DataSource) : ViewModel() {
 

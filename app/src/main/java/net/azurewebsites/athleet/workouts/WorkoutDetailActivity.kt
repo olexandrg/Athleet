@@ -1,4 +1,4 @@
-package net.azurewebsites.athleet.Workouts
+package net.azurewebsites.athleet.workouts
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

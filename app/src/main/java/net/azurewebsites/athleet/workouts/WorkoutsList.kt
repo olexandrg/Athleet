@@ -1,10 +1,8 @@
-package net.azurewebsites.athleet.Workouts
+package net.azurewebsites.athleet.workouts
 import android.content.res.Resources
 import android.os.Build
 import androidx.annotation.RequiresApi
 import net.azurewebsites.athleet.R
-import java.time.Instant
-import java.util.*
 
 /* Returns initial list of Workouts. */
 @RequiresApi(Build.VERSION_CODES.O)

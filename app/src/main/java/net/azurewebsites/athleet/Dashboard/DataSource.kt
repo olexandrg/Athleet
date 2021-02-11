@@ -8,8 +8,8 @@ import androidx.lifecycle.MutableLiveData
 import net.azurewebsites.athleet.Exercises.Exercise
 import net.azurewebsites.athleet.Teams.TeamItem
 import net.azurewebsites.athleet.Teams.TeamsList
-import net.azurewebsites.athleet.Workouts.Workout
-import net.azurewebsites.athleet.Workouts.WorkoutList
+import net.azurewebsites.athleet.workouts.Workout
+import net.azurewebsites.athleet.workouts.WorkoutList
 
 /* Handles operations on WorkoutsLiveData and holds details about it. */
 class DataSource(resources: Resources) {

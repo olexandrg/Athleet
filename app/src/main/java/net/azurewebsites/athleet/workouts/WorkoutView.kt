@@ -1,4 +1,4 @@
-package net.azurewebsites.athleet.Workouts
+package net.azurewebsites.athleet.workouts
 
 import android.content.Context
 import android.graphics.Canvas

@@ -107,6 +107,9 @@ dependencies {
     // LiveData
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$rootProject.liveDataVersion"
 
+    // dependencies for using moshi. Just want to try it out
+    implementation "com.squareup.retrofit2:converter-scalars:2.7.1"
+
 }
 
 // Google Play services Gradle plugin

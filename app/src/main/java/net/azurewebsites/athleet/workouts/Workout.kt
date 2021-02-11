@@ -1,7 +1,5 @@
-package net.azurewebsites.athleet.Workouts
-import androidx.annotation.DrawableRes
+package net.azurewebsites.athleet.workouts
 import net.azurewebsites.athleet.Exercises.Exercise
-import java.util.*
 
 data class Workout(
     var name: String,

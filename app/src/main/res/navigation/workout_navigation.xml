@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/workoutFragment"
-        android:name="net.azurewebsites.athleet.Workouts.WorkoutFragment"
+        android:name="net.azurewebsites.athleet.workouts.WorkoutFragment"
         android:label="fragment_workout"
         tools:layout="@layout/fragment_workout" />
 </navigation>

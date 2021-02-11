@@ -5,8 +5,7 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import net.azurewebsites.athleet.Workouts.Workout
-import java.util.*
+import net.azurewebsites.athleet.workouts.Workout
 
 //import androidx.preference.PreferenceManager
 
