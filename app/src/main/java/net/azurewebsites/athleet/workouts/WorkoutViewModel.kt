@@ -25,7 +25,7 @@ class WorkoutViewModel : ViewModel() {
 
     private fun getExercises() {
 
-        AthleetApi.retrofitService.getExercisesForWorkout(getFirebaseTokenId()).enqueue(
+        AthleetApi.retrofitService.getExercisesForWorkout(getFirebaseTokenId(), "35").enqueue(
             object: Callback<String> {
                 override fun onFailure(call: Call<String>, t: Throwable) {
                     _response.value = "Failure: " + t.message

@@ -17,13 +17,11 @@ private val retrofit = Retrofit.Builder()
 
 interface AthleetApiService {
 
-    @GET("Exercises/workout/35")
-    fun getExercisesForWorkout(@Header("Authorization") token: String):
+    @GET("Exercises/workout/{workoutID}")
+    fun getExercisesForWorkout(
+        @Header("Authorization") token: String,
+        @Path("workoutID") workoutID: String):
             Call<String>
-
-//    @GET("Workouts")
-//    fun getExercisesForWorkout(@Header("Authorization") token: String):
-//            Call<String>
 
 }
 
