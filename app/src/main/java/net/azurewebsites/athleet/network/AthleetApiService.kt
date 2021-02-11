@@ -1,8 +1,10 @@
 package net.azurewebsites.athleet.network
 
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import retrofit2.Call
 import retrofit2.Retrofit
-import retrofit2.converter.scalars.ScalarsConverterFactory
+import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Path
@@ -10,18 +12,22 @@ import retrofit2.http.Path
 // production
 private const val BASE_URL = "https://testapi.athleetapi.club/api/"
 
+private val moshi = Moshi.Builder()
+    .add(KotlinJsonAdapterFactory())
+    .build()
+
 private val retrofit = Retrofit.Builder()
-    .addConverterFactory(ScalarsConverterFactory.create())
+    .addConverterFactory(MoshiConverterFactory.create())
     .baseUrl(BASE_URL)
     .build()
 
 interface AthleetApiService {
 
     @GET("Exercises/workout/{workoutID}")
-    fun getExercisesForWorkout(
+    suspend fun getExercisesForWorkout(
         @Header("Authorization") token: String,
         @Path("workoutID") workoutID: String):
-            Call<String>
+            List<Exercise>
 
 }
 

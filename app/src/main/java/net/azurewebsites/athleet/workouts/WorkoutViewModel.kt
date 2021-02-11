@@ -4,13 +4,17 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import kotlinx.coroutines.launch
 import net.azurewebsites.athleet.getFirebaseTokenId
 import net.azurewebsites.athleet.network.AthleetApi
+import net.azurewebsites.athleet.network.Exercise
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.lang.Exception
 
 
 class WorkoutViewModel : ViewModel() {
@@ -25,21 +29,15 @@ class WorkoutViewModel : ViewModel() {
 
     private fun getExercises() {
 
-        AthleetApi.retrofitService.getExercisesForWorkout(getFirebaseTokenId(), "35").enqueue(
-            object: Callback<String> {
-                override fun onFailure(call: Call<String>, t: Throwable) {
-                    _response.value = "Failure: " + t.message
-                    Log.i("API CALL", "onFailure was entered")
-                }
-
-                override fun onResponse(call: Call<String>, response: Response<String>
-                ) {
-                    _response.value = response.body().toString()
-                    Log.i("API CALL", "onResponse was entered")
-                    Log.i("API CALL", response.body().toString())
-                }
+        viewModelScope.launch {
+            try {
+                var listResult = AthleetApi.retrofitService.getExercisesForWorkout(
+                    getFirebaseTokenId(), "35")
+                _response.value = "Success: ${listResult.size} Exercises retrieved"
+            } catch (e: Exception){
+                _response.value = "Failure: ${e.message}"
             }
-        )
+        }
 
 
     }
