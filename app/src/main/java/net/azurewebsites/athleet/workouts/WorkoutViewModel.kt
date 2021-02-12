@@ -22,6 +22,10 @@ class WorkoutViewModel : ViewModel() {
     val exercises: LiveData<List<Exercise>>
         get() = _exercises
 
+    private val _navigateToSelectedExercise = MutableLiveData<Exercise>()
+    val navigateToSelectedExercise: LiveData<Exercise>
+        get() = _navigateToSelectedExercise
+
     init {
         getExercises()
     }
@@ -32,12 +36,20 @@ class WorkoutViewModel : ViewModel() {
             try {
                 _exercises.value = AthleetApi.retrofitService.getExercisesForWorkout(
                     getFirebaseTokenId(), workoutID)
-                _response.value = "Success Exercises retrieved"
+                _response.value = "Success exercises retrieved"
             } catch (e: Exception){
                 _response.value = "Failure: ${e.message}"
             }
         }
 
 
+    }
+
+    fun displayExerciseDetails(exercise: Exercise) {
+        _navigateToSelectedExercise.value = exercise
+    }
+
+    fun displayExerciseDetailsComplete() {
+        _navigateToSelectedExercise.value = null
     }
 }

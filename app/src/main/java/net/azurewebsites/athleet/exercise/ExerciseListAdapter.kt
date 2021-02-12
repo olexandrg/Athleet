@@ -1,4 +1,4 @@
-package net.azurewebsites.athleet.Exercises
+package net.azurewebsites.athleet.exercise
 
 
 import android.view.LayoutInflater
@@ -10,7 +10,7 @@ import net.azurewebsites.athleet.databinding.ExerciseListItemBinding
 import net.azurewebsites.athleet.network.Exercise
 
 
-class ExerciseListAdapter : ListAdapter<Exercise, ExerciseListAdapter.ExerciseViewHolder>(DiffCallback){
+class ExerciseListAdapter(private val onClickListener: OnClickListener) : ListAdapter<Exercise, ExerciseListAdapter.ExerciseViewHolder>(DiffCallback){
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -23,6 +23,9 @@ class ExerciseListAdapter : ListAdapter<Exercise, ExerciseListAdapter.ExerciseVi
 
     override fun onBindViewHolder(holder: ExerciseListAdapter.ExerciseViewHolder, position: Int) {
         val exercise = getItem(position)
+        holder.itemView.setOnClickListener {
+            onClickListener.onClick(exercise)
+        }
         holder.bind(exercise)
     }
 
@@ -45,6 +48,10 @@ class ExerciseListAdapter : ListAdapter<Exercise, ExerciseListAdapter.ExerciseVi
             binding.exercise = exercise
             binding.executePendingBindings()
         }
+    }
+
+    class OnClickListener(val clickListener: (exercise: Exercise) -> Unit) {
+        fun onClick(exercise: Exercise) = clickListener(exercise)
     }
 
 }

@@ -13,13 +13,28 @@
         <action
             android:id="@+id/action_workoutFragment_to_addExerciseActivity"
             app:destination="@id/addExerciseActivity" />
+        <action
+            android:id="@+id/action_workoutFragment_to_exerciseFragment"
+            app:destination="@id/exerciseFragment" />
     </fragment>
     <activity
         android:id="@+id/addExerciseActivity"
-        android:name="net.azurewebsites.athleet.Exercises.AddExerciseActivity"
+        android:name="net.azurewebsites.athleet.exercise.AddExerciseActivity"
         android:label="AddExerciseActivity" >
         <argument
             android:name="workoutId"
             app:argType="integer" />
     </activity>
+
+    <fragment
+        android:id="@+id/exerciseFragment"
+        android:name="net.azurewebsites.athleet.exercise.ExerciseFragment"
+        android:label="ExerciseFragment" >
+        <argument
+            android:name="selectedExercise"
+            app:argType="net.azurewebsites.athleet.network.Exercise"/>
+
+    </fragment>
+
+
 </navigation>

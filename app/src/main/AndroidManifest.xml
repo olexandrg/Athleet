@@ -13,7 +13,7 @@
         android:theme="@style/Theme.Athleet">
         <activity android:name=".Dashboard.AddTeamActivity"></activity>
         <activity android:name=".workouts.WorkoutDetailActivity" />
-        <activity android:name=".Exercises.AddExerciseActivity" />
+        <activity android:name=".exercise.AddExerciseActivity" />
         <activity android:name=".Teams.TeamDetailActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>

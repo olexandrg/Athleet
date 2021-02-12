@@ -7,10 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import net.azurewebsites.athleet.Dashboard.WORKOUT_NAME
-import net.azurewebsites.athleet.Exercises.ExerciseListAdapter
+import net.azurewebsites.athleet.exercise.ExerciseListAdapter
 import net.azurewebsites.athleet.R
 import net.azurewebsites.athleet.databinding.FragmentWorkoutBinding
 
@@ -30,14 +32,25 @@ class WorkoutFragment : Fragment() {
 
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
+        binding.exercisesListRecView.adapter = ExerciseListAdapter(ExerciseListAdapter.OnClickListener {
+            viewModel.displayExerciseDetails(it)
+        })
+
+        viewModel.navigateToSelectedExercise.observe(viewLifecycleOwner, Observer {
+            if ( null != it ) {
+                this.findNavController().navigate(
+                    WorkoutFragmentDirections.actionWorkoutFragmentToExerciseFragment(it))
+                viewModel.displayExerciseDetailsComplete()
+            }
+        })
 
         binding.workoutName.text = requireActivity().intent.extras?.getString(WORKOUT_NAME).toString()
-        binding.exercisesListRecView.adapter = ExerciseListAdapter()
-
         binding.fabAddExercise.setOnClickListener { view: View ->
             Log.i("WorkoutFragment", "Fab add exercise clicked")
             view.findNavController().navigate(R.id.action_workoutFragment_to_addExerciseActivity)
         }
+
+
 
         return binding.root
     }

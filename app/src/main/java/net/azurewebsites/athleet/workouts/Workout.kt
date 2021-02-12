@@ -1,5 +1,5 @@
 package net.azurewebsites.athleet.workouts
-import net.azurewebsites.athleet.Exercises.Exercise
+import net.azurewebsites.athleet.exercise.Exercise
 
 data class Workout(
     var name: String,

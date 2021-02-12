@@ -44,7 +44,7 @@ interface Api {
     ) : Call<WorkoutItem>
 
     // view all exercises
-    @GET("Exercises")
+    @GET("exercises")
     fun getAllExercises(
         @Header("Authorization") token: String
     ) : Call<Exercises>

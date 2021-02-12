@@ -34,7 +34,7 @@ class ApiUnitTests {
     fun getAllExercises() {
         val api = apiFactory()
         val response = api.getAllExercises(tokenFactory()).execute().code()
-        assertEquals("GET /api/Exercises",200, response)
+        assertEquals("GET /api/exercises",200, response)
     }
 
     @Test // tests API response

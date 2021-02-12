@@ -28,10 +28,10 @@ class TeamDashboardFragment : Fragment() {
         val binding = DataBindingUtil.inflate<FragmentTeamDashboardBinding>(inflater,
             R.layout.fragment_team_dashboard, container, false )
 
-        viewModel = ViewModelProvider(this).get(TeamViewModel()::class.java)
-
-        binding.teamName.text = requireActivity().intent.extras?.getString(TEAM_NAME).toString()
-        binding.teamDescription.text = requireActivity().intent.extras?.getString(TEAM_DESCRIPTION).toString()
+//        viewModel = ViewModelProvider(this).get(TeamViewModel()::class.java)
+//
+//        binding.teamName.text = requireActivity().intent.extras?.getString(TEAM_NAME).toString()
+//        binding.teamDescription.text = requireActivity().intent.extras?.getString(TEAM_DESCRIPTION).toString()
 
         //viewModel.teamDescription = requireActivity().intent.extras?.getString(TEAM_DESCRIPTION).toString()
         setHasOptionsMenu(true)

@@ -2,7 +2,7 @@ package net.azurewebsites.athleet
 
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
-import net.azurewebsites.athleet.Exercises.ExerciseListAdapter
+import net.azurewebsites.athleet.exercise.ExerciseListAdapter
 import net.azurewebsites.athleet.network.Exercise
 
 @BindingAdapter("listData")
