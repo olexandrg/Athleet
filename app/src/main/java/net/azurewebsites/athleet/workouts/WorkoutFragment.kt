@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import net.azurewebsites.athleet.Dashboard.WORKOUT_NAME
+import net.azurewebsites.athleet.Exercises.ExerciseListAdapter
 import net.azurewebsites.athleet.R
 import net.azurewebsites.athleet.databinding.FragmentWorkoutBinding
 
@@ -33,6 +34,8 @@ class WorkoutFragment : Fragment() {
         binding.viewModel = viewModel
 
         binding.workoutName.text = requireActivity().intent.extras?.getString(WORKOUT_NAME).toString()
+
+        binding.exercisesListRecView.adapter = ExerciseListAdapter()
 
         return binding.root
     }
