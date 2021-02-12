@@ -9,5 +9,17 @@
         android:id="@+id/workoutFragment"
         android:name="net.azurewebsites.athleet.workouts.WorkoutFragment"
         android:label="fragment_workout"
-        tools:layout="@layout/fragment_workout" />
+        tools:layout="@layout/fragment_workout" >
+        <action
+            android:id="@+id/action_workoutFragment_to_addExerciseActivity"
+            app:destination="@id/addExerciseActivity" />
+    </fragment>
+    <activity
+        android:id="@+id/addExerciseActivity"
+        android:name="net.azurewebsites.athleet.Exercises.AddExerciseActivity"
+        android:label="AddExerciseActivity" >
+        <argument
+            android:name="workoutId"
+            app:argType="integer" />
+    </activity>
 </navigation>
