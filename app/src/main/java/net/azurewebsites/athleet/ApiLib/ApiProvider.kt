@@ -93,6 +93,12 @@ interface Api {
         @Query("teamName") teamName: String
     ): Call<ResponseBody>
 
+    @GET("Team")
+    fun teamInfo(
+        @Header("Authorization") token: String,
+        @Query("teamName") teamName: String
+    ): Call<TeamInfo>
+
     // leave a team
     @DELETE("Team/leave")
     fun leaveTeam(
