@@ -1,6 +1,7 @@
 package net.azurewebsites.athleet.ApiLib
 
 import com.google.firebase.auth.ActionCodeResult
+import net.azurewebsites.athleet.workouts.Workout
 import okhttp3.OkHttpClient
 import okhttp3.ResponseBody
 import okhttp3.logging.HttpLoggingInterceptor
@@ -41,7 +42,12 @@ interface Api {
     fun getWorkout(
         @Header("Authorization") token: String,
         @Query("workoutID") workoutID:String
-    ) : Call<WorkoutItem>
+    ) : Call<Workout>
+
+    @GET("Workouts")
+    fun getWorkout(
+        @Header("Authorization") token: String
+    ) : Call<List<Workout>>
 
     // view all exercises
     @GET("exercises")

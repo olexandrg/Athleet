@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -16,11 +17,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import net.azurewebsites.athleet.ApiLib.*
 import net.azurewebsites.athleet.Dashboard.*
+import net.azurewebsites.athleet.Dashboard.WorkoutsListViewModel
+import net.azurewebsites.athleet.Dashboard.WorkoutsListViewModelFactory
 import net.azurewebsites.athleet.R
-import net.azurewebsites.athleet.workouts.Workout
-import net.azurewebsites.athleet.workouts.WorkoutDetailActivity
-import net.azurewebsites.athleet.workouts.WorkoutList
-import net.azurewebsites.athleet.workouts.WorkoutListAdapter
+import net.azurewebsites.athleet.workouts.*
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
@@ -46,43 +46,29 @@ class WorkoutsListFragment() : Fragment() {
                 //### The comment block below will become the API call that gets all of the user's workouts when they navigate to their main dashboard.
                 // It will crash for the time being.
 
-//                val call = api.getUserWorkouts("Bearer " + response.result?.token.toString())
-//                call.enqueue(object:Callback<List<UserWorkouts>>{
-//                    override fun onResponse(
-//                        call: Call<List<UserWorkouts>>,
-//                        response: Response<List<UserWorkouts>>
-//                    ) {
-//                        if(response.isSuccessful)
-//                        {
-//                            val results = response.body()!!.toList()
-//                            var workoutList:MutableList<WorkoutItem>? = null
-//                            for(UserWorkoutItem in results){
-//                                val workoutCall = api.getWorkout(token, UserWorkoutItem.workoutId.toString())
-//                                workoutCall.enqueue(object:Callback<WorkoutItem>{
-//                                    override fun onResponse(
-//                                        call: Call<WorkoutItem>,
-//                                        response: Response<WorkoutItem>
-//                                    ) {
-//                                        if(response.isSuccessful)
-//                                            workoutList!!.add(response.body()!!)
-//                                    }
-//
-//                                    override fun onFailure(call: Call<WorkoutItem>, t: Throwable) {
-//                                        TODO("Not yet implemented")
-//                                    }
-//                                })
-//                            }
-//                        }
-//                    }
-//
-//                    override fun onFailure(call: Call<List<UserWorkouts>>, t: Throwable) {
-//                        TODO("Not yet implemented")
-//                    }
-//                })
+                val call = api.getWorkout("Bearer " + response.result?.token.toString())
+                call.enqueue(object:Callback<List<Workout>>{
+                    override fun onResponse(
+                        call: Call<List<Workout>>,
+                        response: Response<List<Workout>>
+                    ) {
+                        if(response.isSuccessful)
+                        {
+                            val results = response.body()!!.toList()
+                            workoutListAdapter.submitList(results)
+                            val resCount = results.count()
+                            Log.i("API GET Workout List", " Succeeded. $resCount workouts found.")
+                        }
+                    }
+
+                    override fun onFailure(call: Call<List<Workout>>, t: Throwable) {
+                        TODO("Not yet implemented")
+                    }
+                })
             }
 
         }
-        workoutListAdapter.submitList(WorkoutList(resources))
+
         fab = requireActivity().findViewById(R.id.fab)
         fab.setOnClickListener {
             fabOnClick()
@@ -136,7 +122,9 @@ class WorkoutsListFragment() : Fragment() {
                         response: Response<ResponseBody>
                     ) {
                         if(response.isSuccessful)
-                            workoutListViewModel.insertWorkout(WorkoutName, WorkoutDescription)
+                        {
+
+                        }
                     }
 
                     override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
