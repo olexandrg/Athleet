@@ -66,7 +66,7 @@ class TeamsListFragment : Fragment() {
         val intent = Intent(requireContext(), TeamDetailActivity()::class.java)  // THIS WILL BECOME TeamDetailActivity()
         intent.putExtra(TEAM_NAME, team.teamName)
         intent.putExtra(TEAM_DESCRIPTION, team.teamDescription)
-        startActivity(intent)
+        startActivityForResult(intent, 2)
     }
     private fun fabOnClick() {
         val intent = Intent(this.requireActivity(), AddTeamActivity::class.java) // THIS WILL BECOME CreateWorkoutActivity()
@@ -122,6 +122,42 @@ class TeamsListFragment : Fragment() {
                             .show()
                     }
                 }*/
+        }
+
+        else if(resultCode == 59) {
+            val api: Api = Api.createSafe("https://testapi.athleetapi.club/api/")
+            FirebaseAuth.getInstance().currentUser?.getIdToken(false)
+                ?.addOnCompleteListener { response ->
+                    if (response.isSuccessful) {
+                        val teamName = activity?.intent?.getStringExtra(TEAM_NAME).toString()
+                        val call = api.deleteTeam(response.result?.token.toString(), teamName)
+
+                        call.enqueue(object : Callback<ResponseBody> {
+                            override fun onFailure(
+                                call: retrofit2.Call<ResponseBody>,
+                                t: Throwable
+                            ) {
+                                Toast.makeText(activity, "Failed to leave Team", Toast.LENGTH_LONG)
+                                    .show()
+                            }
+
+                            override fun onResponse(
+                                call: retrofit2.Call<ResponseBody>,
+                                response: retrofit2.Response<ResponseBody>
+                            ) {
+                                Toast.makeText(
+                                    activity,
+                                    "Successfully left Team",
+                                    Toast.LENGTH_LONG
+                                ).show()
+                            }
+
+                        })
+                    } else {
+                        Toast.makeText(activity, "Couldn't get user token", Toast.LENGTH_LONG)
+                            .show()
+                    }
+                }
         }
     }
 }

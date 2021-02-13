@@ -100,6 +100,13 @@ interface Api {
         @Query("description") description: String
     )
 
+    // leave a team
+    @DELETE("Team/leave")
+    fun leaveTeam(
+        @Header("Authorization") token: String,
+        @Query("teamName") teamName: String
+    ): Call<ResponseBody>
+
     // factory method
     companion object {
         fun createSafe(baseUrl: String): Api {

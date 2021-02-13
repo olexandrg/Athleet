@@ -1,6 +1,5 @@
 package net.azurewebsites.athleet.Teams
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -8,9 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import com.google.firebase.auth.FirebaseAuth
+import net.azurewebsites.athleet.ApiLib.Api
+import net.azurewebsites.athleet.Dashboard.TEAM_NAME
 import net.azurewebsites.athleet.R
-import net.azurewebsites.athleet.databinding.ActivityTeamDetailBinding
+import retrofit2.Callback
 import net.azurewebsites.athleet.databinding.FragmentTeamAdminBinding
+import okhttp3.ResponseBody
 
 
 class TeamAdminFragment : Fragment() {
@@ -29,11 +32,18 @@ class TeamAdminFragment : Fragment() {
             // Need to redirect to Users Dashboard after this.
         }
 
-
+        binding.buttonLeaveTeam.setOnClickListener {
+            leaveTeam()
+            // Need to redirect to Users Dashboard after this.
+        }
 
         return binding.root
     }
 
+    private fun leaveTeam() {
+        activity?.setResult(59)
+        activity?.finish()
+    }
 
     private fun deleteTeam() {
         Toast.makeText(activity, "Successfully Deleted Team (admin)", Toast.LENGTH_LONG).show()
