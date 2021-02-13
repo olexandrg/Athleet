@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -17,10 +16,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import net.azurewebsites.athleet.ApiLib.*
 import net.azurewebsites.athleet.Dashboard.*
-import net.azurewebsites.athleet.Dashboard.WorkoutsListViewModel
-import net.azurewebsites.athleet.Dashboard.WorkoutsListViewModelFactory
 import net.azurewebsites.athleet.R
-import net.azurewebsites.athleet.workouts.*
+import net.azurewebsites.athleet.workouts.Workout
+import net.azurewebsites.athleet.workouts.WorkoutDetailActivity
+import net.azurewebsites.athleet.workouts.WorkoutList
+import net.azurewebsites.athleet.workouts.WorkoutListAdapter
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
@@ -46,18 +46,15 @@ class WorkoutsListFragment() : Fragment() {
                 //### The comment block below will become the API call that gets all of the user's workouts when they navigate to their main dashboard.
                 // It will crash for the time being.
 
-                val call = api.getWorkout("Bearer " + response.result?.token.toString())
-                call.enqueue(object:Callback<List<Workout>>{
+                val callGetWorkouts = api.getWorkout("Bearer " + response.result?.token.toString())
+                callGetWorkouts.enqueue(object:Callback<List<Workout>>{
                     override fun onResponse(
                         call: Call<List<Workout>>,
                         response: Response<List<Workout>>
                     ) {
                         if(response.isSuccessful)
                         {
-                            val results = response.body()!!.toList()
-                            workoutListAdapter.submitList(results)
-                            val resCount = results.count()
-                            Log.i("API GET Workout List", " Succeeded. $resCount workouts found.")
+                            workoutListViewModel.insertWorkouts(response.body()!!.toList())
                         }
                     }
 
@@ -68,7 +65,7 @@ class WorkoutsListFragment() : Fragment() {
             }
 
         }
-
+        //workoutListAdapter.submitList(WorkoutList(resources))
         fab = requireActivity().findViewById(R.id.fab)
         fab.setOnClickListener {
             fabOnClick()
@@ -98,7 +95,7 @@ class WorkoutsListFragment() : Fragment() {
     }
     private fun adapterOnClick(Workout: Workout) {
         val intent = Intent(requireContext(), WorkoutDetailActivity()::class.java)
-        intent.putExtra(WORKOUT_NAME, Workout.name)
+        intent.putExtra(WORKOUT_NAME, Workout.workoutName)
         startActivityForResult(intent, 69)
     }
     /* Adds Workout to WorkoutList when FAB is clicked. */
@@ -121,10 +118,8 @@ class WorkoutsListFragment() : Fragment() {
                         call: Call<ResponseBody>,
                         response: Response<ResponseBody>
                     ) {
-                        if(response.isSuccessful)
-                        {
-
-                        }
+                        //if(response.isSuccessful)
+                            //workoutListViewModel.insertWorkout()
                     }
 
                     override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
