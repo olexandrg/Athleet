@@ -13,17 +13,6 @@ class WorkoutsListViewModel(val dataSource: DataSource) : ViewModel() {
 
     /* If the name and description are present, create new Workout and add it to the datasource */
     @RequiresApi(Build.VERSION_CODES.O)
-    fun insertWorkout(workoutName: String?, workoutDescription: String?) {
-        if (workoutName == null || workoutDescription == null) { return }
-        val newWorkout = Workout(
-            workoutName = workoutName,
-            //lastCompleted = Date.from(Instant.now()),
-            description = workoutDescription,
-                    exercises = null)
-        dataSource.addWorkout(newWorkout)
-    }
-
-    @RequiresApi(Build.VERSION_CODES.O)
     fun insertWorkouts(list:List<Workout>) {
         dataSource.addWorkouts(list)
     }

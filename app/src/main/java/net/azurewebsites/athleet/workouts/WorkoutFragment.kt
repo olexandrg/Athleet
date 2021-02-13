@@ -22,11 +22,12 @@ class WorkoutFragment : Fragment() {
     private val viewModel: WorkoutViewModel by lazy {
         ViewModelProvider(this).get(WorkoutViewModel::class.java)
     }
+    var workoutId = -1
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
+        workoutId = requireActivity().intent.extras!!.getInt("WORKOUT_ID")
         val binding = DataBindingUtil.inflate<FragmentWorkoutBinding>(inflater,
             R.layout.fragment_workout, container, false )
 

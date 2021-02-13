@@ -41,7 +41,6 @@ class WorkoutsListFragment() : Fragment() {
         linearLayoutManager = LinearLayoutManager(activity)
         workoutListAdapter = WorkoutListAdapter { workout -> adapterOnClick(workout) }
         GetWorkouts()
-        //workoutListAdapter.submitList(WorkoutList(resources))
         fab = requireActivity().findViewById(R.id.fab)
         fab.setOnClickListener {
             fabOnClick()
@@ -77,8 +76,6 @@ class WorkoutsListFragment() : Fragment() {
         val recyclerView = rootView.findViewById<RecyclerView>(R.id.recyclerView_Workout) as RecyclerView
         recyclerView.adapter = workoutAdapter
         recyclerView.layoutManager=linearLayoutManager
-//        if(!token.isNullOrBlank())
-//            GetWorkouts()
         return rootView
     }
 
@@ -91,6 +88,7 @@ class WorkoutsListFragment() : Fragment() {
     private fun adapterOnClick(Workout: Workout) {
         val intent = Intent(requireContext(), WorkoutDetailActivity()::class.java)
         intent.putExtra(WORKOUT_NAME, Workout.workoutName)
+        intent.putExtra("WORKOUT_ID", Workout.workoutId)
         startActivityForResult(intent, 69)
     }
     /* Adds Workout to WorkoutList when FAB is clicked. */

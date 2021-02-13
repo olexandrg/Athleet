@@ -10,10 +10,9 @@ import net.azurewebsites.athleet.network.AthleetApi
 import net.azurewebsites.athleet.network.Exercise
 
 // Need to get this from the previous fragment for the api service call
-const val workoutID = "34"
 
 class WorkoutViewModel : ViewModel() {
-
+    var workoutId = -1
     private val _response = MutableLiveData<String>()
     val response: LiveData<String>
         get() = _response
@@ -35,7 +34,7 @@ class WorkoutViewModel : ViewModel() {
         viewModelScope.launch {
             try {
                 _exercises.value = AthleetApi.retrofitService.getExercisesForWorkout(
-                    getFirebaseTokenId(), workoutID)
+                    getFirebaseTokenId(), workoutId.toString())
                 _response.value = "Success exercises retrieved"
             } catch (e: Exception){
                 _response.value = "Failure: ${e.message}"
