@@ -36,11 +36,7 @@ class DataSource(resources: Resources) {
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun addWorkouts(list: List<Workout>) {
-        val currentList = WorkoutsLiveData.value
-        val updatedList = currentList!!.toMutableList()
-        updatedList.addAll(list)
-        WorkoutsLiveData.postValue(updatedList)
-
+        WorkoutsLiveData.postValue(list)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
