@@ -109,7 +109,7 @@ interface Api {
 
     // factory method
     companion object {
-        fun createSafe(baseUrl: String): Api {
+        fun createSafe(baseUrl: String = "https://testapi.athleetapi.club/api/"): Api {
             // add interceptor to read raw JSON
             val interceptor = HttpLoggingInterceptor()
             interceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
