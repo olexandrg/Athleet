@@ -11,8 +11,10 @@ import net.azurewebsites.athleet.network.Exercise
 
 // Need to get this from the previous fragment for the api service call
 
-class WorkoutViewModel : ViewModel() {
+class WorkoutViewModel() : ViewModel() {
+
     var workoutId = -1
+
     private val _response = MutableLiveData<String>()
     val response: LiveData<String>
         get() = _response
@@ -26,11 +28,10 @@ class WorkoutViewModel : ViewModel() {
         get() = _navigateToSelectedExercise
 
     init {
-        getExercises()
+        getExercises(workoutId)
     }
 
-    private fun getExercises() {
-
+    fun getExercises(workoutId: Int) {
         viewModelScope.launch {
             try {
                 _exercises.value = AthleetApi.retrofitService.getExercisesForWorkout(
@@ -40,9 +41,9 @@ class WorkoutViewModel : ViewModel() {
                 _response.value = "Failure: ${e.message}"
             }
         }
-
-
     }
+
+
 
     fun displayExerciseDetails(exercise: Exercise) {
         _navigateToSelectedExercise.value = exercise

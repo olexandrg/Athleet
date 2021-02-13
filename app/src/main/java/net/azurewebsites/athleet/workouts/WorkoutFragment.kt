@@ -22,16 +22,19 @@ class WorkoutFragment : Fragment() {
     private val viewModel: WorkoutViewModel by lazy {
         ViewModelProvider(this).get(WorkoutViewModel::class.java)
     }
-    var workoutId = -1
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        workoutId = requireActivity().intent.extras!!.getInt("WORKOUT_ID")
+        
+        var workoutId = requireActivity().intent.extras!!.getInt("WORKOUT_ID")
+        Log.i("WORKOUT ID", workoutId.toString())
         val binding = DataBindingUtil.inflate<FragmentWorkoutBinding>(inflater,
             R.layout.fragment_workout, container, false )
 
         binding.lifecycleOwner = this
+        viewModel.getExercises(workoutId)
         binding.viewModel = viewModel
         binding.exercisesListRecView.adapter = ExerciseListAdapter(ExerciseListAdapter.OnClickListener {
             viewModel.displayExerciseDetails(it)
@@ -46,6 +49,7 @@ class WorkoutFragment : Fragment() {
         })
 
         binding.workoutName.text = requireActivity().intent.extras?.getString(WORKOUT_NAME).toString()
+
         binding.fabAddExercise.setOnClickListener { view: View ->
             Log.i("WorkoutFragment", "Fab add exercise clicked")
             view.findNavController().navigate(R.id.action_workoutFragment_to_addExerciseActivity)
