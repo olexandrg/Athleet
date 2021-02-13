@@ -34,7 +34,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class WorkoutsListFragment() : Fragment() {
-    val api = Api.createSafe("https://testapi.athleetapi.club/api/")
+    val api = Api.createSafe()
     private val workoutListViewModel by viewModels<WorkoutsListViewModel> { WorkoutsListViewModelFactory(requireContext()) }
     private lateinit var linearLayoutManager: LinearLayoutManager
     private lateinit var fab:View

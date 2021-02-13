@@ -47,7 +47,7 @@ open class MainFragment : Fragment() {
             return FirebaseAuth.getInstance();
         }*/
     }
-    private val api = Api.createSafe("https://testapi.athleetapi.club/api/")
+    private val api = Api.createSafe()
     // Get a reference to the ViewModel scoped to this Fragment
     private val viewModel by viewModels<LoginViewModel>()
     private lateinit var binding: FragmentMainBinding

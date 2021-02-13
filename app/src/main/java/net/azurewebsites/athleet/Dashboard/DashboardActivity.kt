@@ -29,7 +29,7 @@ import java.util.ArrayList
 class DashboardActivity : AppCompatActivity() {
     private val newWorkoutActivityRequestCode = 1
     val workoutListViewModel by viewModels<WorkoutsListViewModel> { WorkoutsListViewModelFactory(this) }
-    val api = Api.createSafe("https://testapi.athleetapi.club/api/")
+    val api = Api.createSafe()
     private lateinit var linearLayoutManager: LinearLayoutManager
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -5,7 +5,7 @@ import org.junit.Test
 import org.junit.Assert.*
 
 class WriteWorkoutStatisticsTests {
-    private fun apiFactory(): Api {return Api.createSafe("https://testapi.athleetapi.club/api/")}
+    private fun apiFactory(): Api {return Api.createSafe()}
     private fun tokenFactory(): String {
         return tokenMaster.tokenFactory()
     }
