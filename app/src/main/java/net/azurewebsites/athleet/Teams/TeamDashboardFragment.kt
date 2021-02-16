@@ -20,6 +20,8 @@ class TeamDashboardFragment : Fragment() {
 
     private lateinit var viewModel: TeamViewModel
 
+    val teamMembers = arrayOf<String>("Nathan", "Simeon", "Olex", "Taylor", "Ryan")
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
