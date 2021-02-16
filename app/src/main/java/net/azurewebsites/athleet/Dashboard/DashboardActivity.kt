@@ -1,28 +1,17 @@
 package net.azurewebsites.athleet.Dashboard
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
-import androidx.core.view.get
-import androidx.databinding.adapters.ListenerUtil
-import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_dashboard.*
-import kotlinx.android.synthetic.main.fragment_workouts_list.*
 import net.azurewebsites.athleet.R
-import net.azurewebsites.athleet.Workouts.Workout
-import net.azurewebsites.athleet.Workouts.WorkoutDetailActivity
-import net.azurewebsites.athleet.Workouts.WorkoutListAdapter
 import net.azurewebsites.athleet.fragments.TeamsListFragment
 import net.azurewebsites.athleet.fragments.WorkoutsListFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
-import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager.widget.ViewPager
 import net.azurewebsites.athleet.ApiLib.Api
-import net.azurewebsites.athleet.Teams.TeamsListAdapter
 import java.util.ArrayList
 
 

@@ -2,11 +2,11 @@ package net.azurewebsites.athleet.Dashboard
 
 import android.content.Context
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import net.azurewebsites.athleet.Workouts.Workout
-import java.util.*
+import net.azurewebsites.athleet.workouts.Workout
 
 //import androidx.preference.PreferenceManager
 
@@ -18,10 +18,21 @@ import java.util.*
 
         /* If the name and description are present, create new Workout and add it to the datasource */
         @RequiresApi(Build.VERSION_CODES.O)
-        fun insertWorkout(WorkoutName: String?, WorkoutDescription: String?) {
-            if (WorkoutName == null || WorkoutDescription == null) { return }
-            val newWorkout = Workout(WorkoutName, WorkoutDescription,null)
-            dataSource.addWorkout(newWorkout)
+        fun insertWorkout(Workout:Workout) {
+            if (Workout.workoutName == null || Workout.description == null)
+            {
+                Log.i("InsertWorkout", "Error: name or description null")
+                return
+            }
+            dataSource.addWorkout(Workout)
+        }
+        @RequiresApi(Build.VERSION_CODES.O)
+        fun insertWorkouts(list:List<Workout>) {
+            dataSource.addWorkouts(list)
+        }
+
+        fun clearList(){
+            dataSource.clearExerciseList()
         }
     }
 

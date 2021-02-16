@@ -1,12 +1,10 @@
-package net.azurewebsites.athleet.Workouts
+package net.azurewebsites.athleet.workouts
 import android.content.Context
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import net.azurewebsites.athleet.Dashboard.DataSource
-import java.time.Instant
-import java.util.*
 
 class WorkoutsListViewModel(val dataSource: DataSource) : ViewModel() {
 
@@ -15,15 +13,10 @@ class WorkoutsListViewModel(val dataSource: DataSource) : ViewModel() {
 
     /* If the name and description are present, create new Workout and add it to the datasource */
     @RequiresApi(Build.VERSION_CODES.O)
-    fun insertWorkout(workoutName: String?, workoutDescription: String?) {
-        if (workoutName == null || workoutDescription == null) { return }
-        val newWorkout = Workout(
-            name = workoutName,
-            //lastCompleted = Date.from(Instant.now()),
-            description = workoutDescription,
-                    exercises = null)
-        dataSource.addWorkout(newWorkout)
+    fun insertWorkouts(list:List<Workout>) {
+        dataSource.addWorkouts(list)
     }
+
 }
 
 class WorkoutsListViewModelFactory(private val context: Context) : ViewModelProvider.Factory {

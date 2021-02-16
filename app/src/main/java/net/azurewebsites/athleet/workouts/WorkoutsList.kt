@@ -1,26 +1,25 @@
-package net.azurewebsites.athleet.Workouts
+package net.azurewebsites.athleet.workouts
 import android.content.res.Resources
 import android.os.Build
 import androidx.annotation.RequiresApi
 import net.azurewebsites.athleet.R
-import java.time.Instant
-import java.util.*
 
 /* Returns initial list of Workouts. */
 @RequiresApi(Build.VERSION_CODES.O)
 fun WorkoutList(resources: Resources): List<Workout> {
-    return listOf(
-        Workout(
-            name = resources.getString(R.string.Workout1_name),
-            description = resources.getString(R.string.Workout1_description),
-            //lastCompleted = Date.from(Instant.now()),
-            exercises = null),
-        Workout(
-            name = resources.getString(R.string.Workout2_name),
-            description = resources.getString(R.string.Workout2_description),
-            //lastCompleted = Date.from(Instant.now()),
-                    exercises = null
-        )/*,
+    return mutableListOf(
+/*
+//        Workout(
+//            name = resources.getString(R.string.Workout1_name),
+//            description = resources.getString(R.string.Workout1_description),
+//            //lastCompleted = Date.from(Instant.now()),
+//            exercises = null),
+//        Workout(
+//            name = resources.getString(R.string.Workout2_name),
+//            description = resources.getString(R.string.Workout2_description),
+//            //lastCompleted = Date.from(Instant.now()),
+//                    exercises = null
+       ),
         Workout(
             id = 3,
             name = resources.getString(R.string.Workout3_name),

@@ -1,16 +1,12 @@
-package net.azurewebsites.athleet.Exercises
+package net.azurewebsites.athleet.exercise
 
 import android.app.Activity
 import android.content.Intent
-import android.opengl.Visibility
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
-import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.Switch
-import androidx.core.view.children
-import androidx.core.view.get
 import androidx.core.view.isVisible
 import com.google.android.material.textfield.TextInputEditText
 import net.azurewebsites.athleet.R
