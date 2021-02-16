@@ -11,7 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Athleet">
-        <activity android:name=".TeamMemberListView"></activity>
+        <activity android:name=".InviteTeamUser"></activity>
+        <activity android:name=".TeamMemberListView" />
         <activity android:name=".Teams.TeamMemberListViewActivity" />
         <activity android:name=".Dashboard.AddTeamActivity" />
         <activity android:name=".Workouts.WorkoutDetailActivity" />
