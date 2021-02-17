@@ -1,16 +1,13 @@
 package net.azurewebsites.athleet.ApiLib
 
-import com.google.firebase.auth.ActionCodeResult
 import net.azurewebsites.athleet.workouts.Workout
 import okhttp3.OkHttpClient
 import okhttp3.ResponseBody
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
-import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
-
 
 interface Api {
 
@@ -18,6 +15,7 @@ interface Api {
     fun checkExistingUser(
         @Header("Authorization") token: String
     ):Call<ResponseBody>
+
     // insert new user
     @POST("Users")
     fun addNewUser(
@@ -32,17 +30,18 @@ interface Api {
         @Query("Name") name:String,
         @Query("Description") description: String
     ):Call<ResponseBody>
-    // get all user workouts
-    @GET("UserWorkouts")
-    fun getUserWorkouts(
-        @Header("Authorization") token: String
-    ): Call<List<UserWorkouts>>
 
-    @GET("Workouts")
-    fun getWorkout(
-        @Header("Authorization") token: String,
-        @Query("workoutID") workoutID:String
-    ) : Call<Workout>
+    // get all user workouts
+//    @GET("UserWorkouts")
+//    fun getUserWorkouts(
+//        @Header("Authorization") token: String
+//    ): Call<List<UserWorkouts>>
+
+//    @GET("Workouts")
+//    fun getWorkout(
+//        @Header("Authorization") token: String,
+//        @Query("workoutID") workoutID:String
+//    ) : Call<Workout>
 
     @GET("Workouts")
     fun getWorkout(
@@ -50,16 +49,16 @@ interface Api {
     ) : Call<List<Workout>>
 
     // view all exercises
-    @GET("exercises")
-    fun getAllExercises(
-        @Header("Authorization") token: String
-    ) : Call<Exercises>
+//    @GET("exercises")
+//    fun getAllExercises(
+//        @Header("Authorization") token: String
+//    ) : Call<Exercises>
 
     // get all workout exercises
-    @GET("WorkoutExercises")
-    fun getAllWorkoutExercises(
-        @Header("Authorization") token: String
-    ): Call<WorkoutExercises>
+//    @GET("WorkoutExercises")
+//    fun getAllWorkoutExercises(
+//        @Header("Authorization") token: String
+//    ): Call<WorkoutExercises>
 
     // insert a new workout
     // only returns a status code 201 on successful completion
@@ -79,17 +78,17 @@ interface Api {
     ): Call<ResponseBody>
 
     // view workouts procedure
-    @GET("ViewUserWorkouts")
-    fun viewUserWorkoutsByUser(
-        @Header("Authorization") token: String
-    ): Call<ViewUserWorkouts>
+//    @GET("ViewUserWorkouts")
+//    fun viewUserWorkoutsByUser(
+//        @Header("Authorization") token: String
+//    ): Call<ViewUserWorkouts>
 
     // view exercises within a workout
-    @GET("ViewExerciseInWorkout")
-    fun viewExerciseInWorkoutByUser(
-        @Header("Authorization") token: String,
-        @Query("WorkoutName") WorkoutName: String?
-    ): Call<ViewExercisesInWorkout>
+//    @GET("ViewExerciseInWorkout")
+//    fun viewExerciseInWorkoutByUser(
+//        @Header("Authorization") token: String,
+//        @Query("WorkoutName") WorkoutName: String?
+//    ): Call<ViewExercisesInWorkout>
 
     // delete a whole team
     @DELETE("Team")
