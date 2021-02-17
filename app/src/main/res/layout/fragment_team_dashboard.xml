@@ -42,6 +42,14 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/teamDescription" />
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/teamMemberListView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/listOfTeammates" />
+
         <TextView
             android:id="@+id/textView4"
             android:layout_width="wrap_content"
@@ -51,8 +59,17 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.045"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/listOfTeammates"
-            app:layout_constraintVertical_bias="0.094" />
+            app:layout_constraintTop_toBottomOf="@+id/teamMemberListView"
+            app:layout_constraintVertical_bias="0.094"/>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/fab_content_description"
+            android:src="@drawable/ic_add_black_24dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

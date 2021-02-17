@@ -84,7 +84,6 @@ class TeamsListFragment : Fragment() {
                 val TeamName = data.getStringExtra(WORKOUT_NAME)
                 val WorkoutDescription = data.getStringExtra(WORKOUT_DESCRIPTION)
                 teamsListViewModel.insertTeam(teamName = TeamName, teamDescription = WorkoutDescription)
-
             }
         }
         if(requestCode == 58) {
