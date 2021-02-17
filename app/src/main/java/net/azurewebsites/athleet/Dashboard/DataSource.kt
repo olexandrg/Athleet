@@ -5,14 +5,13 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import net.azurewebsites.athleet.ApiLib.WorkoutItem
 import net.azurewebsites.athleet.exercise.Exercise
 import net.azurewebsites.athleet.Teams.TeamItem
 import net.azurewebsites.athleet.Teams.TeamsList
 import net.azurewebsites.athleet.workouts.Workout
 import net.azurewebsites.athleet.workouts.WorkoutList
 
-/* Handles operations on WorkoutsLiveData and holds details about it. */
+// Handles operations on Live Data and holds details about it.
 class DataSource(resources: Resources) {
     @RequiresApi(Build.VERSION_CODES.O)
     private var initialWorkoutList = WorkoutList(resources)
@@ -24,15 +23,6 @@ class DataSource(resources: Resources) {
     private val TeamsLiveData = MutableLiveData(initialTeamsList)
     var currentWorkout:Workout? = null
     private var ExercisesLiveData:MutableLiveData<List<Exercise>> = MutableLiveData(listOf(Exercise(null,null,null,null,null,null)))
-    /* Adds Workout to liveData and posts value. */
-    @RequiresApi(Build.VERSION_CODES.O)
-    fun addWorkout(workout: Workout) {
-            val currentList = WorkoutsLiveData.value
-                val updatedList = currentList!!.toMutableList()
-                updatedList.add(0, workout)
-                WorkoutsLiveData.postValue(updatedList)
-
-    }
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun addWorkouts(list: List<Workout>) {
@@ -77,11 +67,6 @@ class DataSource(resources: Resources) {
         currentWorkout!!.exercises = ExercisesLiveData.value;
         ExercisesLiveData.postValue(null)
     }
-/*    *//* Returns a random Workout asset for Workouts that are added. *//*
-    fun getRandomWorkoutImageAsset(): Int? {
-        val randomNumber = (initialWorkoutList.indices).random()
-        return initialWorkoutList[randomNumber].image
-    }*/
 
     companion object {
         private var INSTANCE: DataSource? = null
