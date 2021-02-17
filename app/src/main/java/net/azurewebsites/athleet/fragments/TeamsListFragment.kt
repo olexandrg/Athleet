@@ -9,13 +9,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import com.google.firebase.auth.FirebaseAuth
-import net.azurewebsites.athleet.ApiLib.Api
 import net.azurewebsites.athleet.Dashboard.WORKOUT_NAME
 import net.azurewebsites.athleet.R
 import net.azurewebsites.athleet.Teams.TeamItem
-import retrofit2.Callback
-import okhttp3.ResponseBody
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
@@ -25,11 +21,11 @@ import kotlinx.android.synthetic.main.fragment_workouts_list.*
 import net.azurewebsites.athleet.Dashboard.*
 import net.azurewebsites.athleet.Teams.*
 
-
 class TeamsListFragment : Fragment() {
     private val teamsListViewModel by viewModels<TeamsListViewModel> { TeamsListViewModelFactory(requireContext()) }
     private lateinit var linearLayoutManager: LinearLayoutManager
     private lateinit var fab: View
+
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,7 +35,7 @@ class TeamsListFragment : Fragment() {
         recyclerView_Workout?.adapter = teamsAdapter
         teamsAdapter.submitList(TeamsList(resources))
 
-        // fab: floating action button. This button leads to adding the team window (activity_add_team.xml)
+        // Button goes to Create New Team activity.
         fab = requireActivity().findViewById(R.id.fab)
     }
 
@@ -47,27 +43,32 @@ class TeamsListFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         linearLayoutManager = LinearLayoutManager(context)
         val teamsAdapter = TeamsListAdapter { team -> adapterOnClick(team) }
+
         teamsListViewModel.teamsLiveData.observe(this.viewLifecycleOwner , { it?.let { teamsAdapter.submitList(it as MutableList<TeamItem>) } })
         val rootView = inflater!!.inflate(R.layout.fragment_teams_list, container, false)
         val recyclerView = rootView.findViewById<RecyclerView>(R.id.recyclerView_Teams) as RecyclerView
+
         fab.setOnClickListener { fabOnClick() }
         recyclerView.adapter = teamsAdapter
         recyclerView.layoutManager=linearLayoutManager
+
         return rootView
     }
+
     override fun onResume() {
         super.onResume()
         fab.setOnClickListener { fabOnClick() }
     }
+
     private fun adapterOnClick(team: TeamItem) {
         val intent = Intent(requireContext(), TeamDetailActivity()::class.java)  // THIS WILL BECOME TeamDetailActivity()
         intent.putExtra(TEAM_NAME, team.teamName)
         intent.putExtra(TEAM_DESCRIPTION, team.teamDescription)
         startActivityForResult(intent, 2)
     }
+
     private fun fabOnClick() {
         val intent = Intent(this.requireActivity(), AddTeamActivity::class.java) // THIS WILL BECOME CreateWorkoutActivity()
         startActivityForResult(intent, 1)
@@ -81,14 +82,14 @@ class TeamsListFragment : Fragment() {
         // THIS WILL NEED TO BE CHANGE
         if (requestCode == 1 && resultCode == Activity.RESULT_OK) {
             intentData?.let { data ->
-                val TeamName = data.getStringExtra(WORKOUT_NAME)
-                val WorkoutDescription = data.getStringExtra(WORKOUT_DESCRIPTION)
-                teamsListViewModel.insertTeam(teamName = TeamName, teamDescription = WorkoutDescription)
+                val teamName = data.getStringExtra(TEAM_NAME)
+                val workoutDescription = data.getStringExtra(TEAM_DESCRIPTION)
+                teamsListViewModel.insertTeam(teamName = teamName, teamDescription = workoutDescription)
             }
         }
         if(requestCode == 58) {
             Toast.makeText(activity, "Successfully deleted Team", Toast.LENGTH_LONG).show()
-            /*val api: Api = Api.createSafe("https://testapi.athleetapi.club/api/")
+            /*val api: Api = Api.createSafe()
             FirebaseAuth.getInstance().currentUser?.getIdToken(false)
                 ?.addOnCompleteListener { response ->
                     if (response.isSuccessful) {
@@ -125,7 +126,7 @@ class TeamsListFragment : Fragment() {
 
         else if(resultCode == 59) {
             Toast.makeText(activity, "Successfully deleted Team", Toast.LENGTH_LONG).show()
-            /*val api: Api = Api.createSafe("https://testapi.athleetapi.club/api/")
+            /*val api: Api = Api.createSafe()
             FirebaseAuth.getInstance().currentUser?.getIdToken(false)
                 ?.addOnCompleteListener { response ->
                     if (response.isSuccessful) {

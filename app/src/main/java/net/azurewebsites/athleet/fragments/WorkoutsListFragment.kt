@@ -20,13 +20,11 @@ import net.azurewebsites.athleet.Dashboard.*
 import net.azurewebsites.athleet.R
 import net.azurewebsites.athleet.workouts.Workout
 import net.azurewebsites.athleet.workouts.WorkoutDetailActivity
-import net.azurewebsites.athleet.workouts.WorkoutList
 import net.azurewebsites.athleet.workouts.WorkoutListAdapter
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.beans.PropertyChangeListener
 
 class WorkoutsListFragment() : Fragment() {
     val api = Api.createSafe()
@@ -36,26 +34,32 @@ class WorkoutsListFragment() : Fragment() {
     private lateinit var workoutListAdapter: WorkoutListAdapter
     private lateinit var token:String
     @RequiresApi(Build.VERSION_CODES.O)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         linearLayoutManager = LinearLayoutManager(activity)
         workoutListAdapter = WorkoutListAdapter { workout -> adapterOnClick(workout) }
-        GetWorkouts()
+        getWorkouts()
+
         fab = requireActivity().findViewById(R.id.fab)
         fab.setOnClickListener {
             fabOnClick()
         }
     }
+
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun GetWorkouts() {
+    private fun getWorkouts() {
         FirebaseAuth.getInstance().currentUser?.getIdToken(false)?.addOnCompleteListener { response ->
             if(response.isSuccessful) {
                 token = "Bearer " + response.result?.token.toString()
                 val callGetWorkouts = api.getWorkout(token)
+
                 callGetWorkouts.enqueue(object:Callback<List<Workout>>{
                     override fun onResponse(call: Call<List<Workout>>, response: Response<List<Workout>>) {
                         if(response.isSuccessful) { workoutListViewModel.insertWorkouts(response.body()!!.toList()) } }
-                    override fun onFailure(call: Call<List<Workout>>, t: Throwable) { TODO("Not yet implemented") }
+                    override fun onFailure(call: Call<List<Workout>>, t: Throwable) {
+                        TODO("Not yet implemented")
+                    }
                 })
             }
         }
@@ -82,15 +86,17 @@ class WorkoutsListFragment() : Fragment() {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onResume() {
         super.onResume()
-        GetWorkouts()
+        getWorkouts()
         fab.setOnClickListener { fabOnClick() }
     }
+
     private fun adapterOnClick(Workout: Workout) {
         val intent = Intent(requireContext(), WorkoutDetailActivity()::class.java)
         intent.putExtra(WORKOUT_NAME, Workout.workoutName)
         intent.putExtra("WORKOUT_ID", Workout.workoutId)
         startActivityForResult(intent, 69)
     }
+
     /* Adds Workout to WorkoutList when FAB is clicked. */
     private fun fabOnClick() {
         val intent = Intent(this.requireActivity(), AddWorkoutActivity::class.java)
@@ -111,25 +117,16 @@ class WorkoutsListFragment() : Fragment() {
                         call: Call<ResponseBody>,
                         response: Response<ResponseBody>
                     ) {
-                        if(response.isSuccessful)
-                        {
+                        if(response.isSuccessful) {
                             Log.i("API Call Insert Workout", "Insert workout sucessful. New WorkoutName: $WorkoutName")
-
                         }
                     }
 
                     override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                         TODO("Not yet implemented")
                     }
-
                 })
-
-
             }
-        }
-        else if (requestCode == 69)
-        {
-            workoutListViewModel.dataSource.clearExerciseList()
         }
     }
 }
