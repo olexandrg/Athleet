@@ -1,4 +1,4 @@
-package net.azurewebsites.athleet.Workouts
+package net.azurewebsites.athleet.workouts
 
 import android.view.LayoutInflater
 import android.view.View
@@ -30,7 +30,7 @@ class WorkoutListAdapter(private val onClick: (Workout) -> Unit) :
 
         /* Bind workout name and image. */
         fun bind(workout: Workout) { currentWorkout = workout
-            workoutTextView.text = workout.name
+            workoutTextView.text = workout.workoutName
         }
     }
 
@@ -54,7 +54,7 @@ object WorkoutDiffCallback : DiffUtil.ItemCallback<Workout>() {
     }
 
     override fun areContentsTheSame(oldItem: Workout, newItem: Workout): Boolean {
-        return oldItem.name == newItem.name
+        return oldItem.workoutName == newItem.workoutName
     }
 }
 class TeamsListAdapter(private val onClick: (TeamItem) -> Unit) :

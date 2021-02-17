@@ -1,4 +1,4 @@
-//package net.azurewebsites.athleet.Exercises
+//package net.azurewebsites.athleet.exercises
 //import android.content.res.Resources
 //import android.os.Build
 //import androidx.annotation.RequiresApi

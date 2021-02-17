@@ -1,4 +1,4 @@
-package net.azurewebsites.athleet.Workouts
+package net.azurewebsites.athleet.workouts
 
 import android.content.Context
 import android.graphics.Canvas
@@ -26,9 +26,9 @@ class WorkoutView : View {
      * The text to draw
      */
     private var WorkoutName: String?
-        get() = workout?.name
+        get() = workout?.workoutName
         set(value) {
-            workout?.name = value.toString()
+            workout?.workoutName = value.toString()
             invalidateTextPaintAndMeasurements()
         }
 
