@@ -47,6 +47,7 @@ class TeamDashboardFragment : Fragment() {
         //viewModel.teamDescription = requireActivity().intent.extras?.getString(TEAM_DESCRIPTION).toString()
         val recyclerView: RecyclerView = binding.teamMemberListView
         fab = binding.fab
+
         fab.setOnClickListener {
             fabOnClick()
         }
