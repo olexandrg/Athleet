@@ -30,7 +30,7 @@ class TeamAdminFragment : Fragment() {
             R.layout.fragment_team_admin, container, false )
         val userName = FirebaseAuth.getInstance().currentUser!!.displayName;
         //change true to false when the api call is used
-        button_leaveTeam.isEnabled = true
+        //button_leaveTeam.isEnabled = true
 
         /*val api: Api = Api.createSafe("https://testapi.athleetapi.club/api/")
         FirebaseAuth.getInstance().currentUser?.getIdToken(false)
