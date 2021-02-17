@@ -29,9 +29,10 @@ class TeamAdminFragment : Fragment() {
         val binding = DataBindingUtil.inflate<FragmentTeamAdminBinding>(inflater,
             R.layout.fragment_team_admin, container, false )
         val userName = FirebaseAuth.getInstance().currentUser!!.displayName;
-        button_leaveTeam.isEnabled = false
+        //change true to false when the api call is used
+        button_leaveTeam.isEnabled = true
 
-        val api: Api = Api.createSafe("https://testapi.athleetapi.club/api/")
+        /*val api: Api = Api.createSafe("https://testapi.athleetapi.club/api/")
         FirebaseAuth.getInstance().currentUser?.getIdToken(false)
             ?.addOnCompleteListener { response ->
                 if (response.isSuccessful) {
@@ -68,7 +69,7 @@ class TeamAdminFragment : Fragment() {
                     Toast.makeText(activity, "Couldn't get user token", Toast.LENGTH_LONG)
                         .show()
                 }
-            }
+            }*/
 
         binding.buttonDeleteTeam.setOnClickListener {
             deleteTeam()
