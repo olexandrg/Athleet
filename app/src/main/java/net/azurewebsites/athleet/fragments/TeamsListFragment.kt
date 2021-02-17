@@ -87,7 +87,7 @@ class TeamsListFragment : Fragment() {
             }
         }
         if(requestCode == 58) {
-            Toast.makeText(activity, "Successfully deleted Team", Toast.LENGTH_LONG).show();
+            Toast.makeText(activity, "Successfully deleted Team", Toast.LENGTH_LONG).show()
             /*val api: Api = Api.createSafe("https://testapi.athleetapi.club/api/")
             FirebaseAuth.getInstance().currentUser?.getIdToken(false)
                 ?.addOnCompleteListener { response ->
@@ -124,7 +124,8 @@ class TeamsListFragment : Fragment() {
         }
 
         else if(resultCode == 59) {
-            val api: Api = Api.createSafe()
+            Toast.makeText(activity, "Successfully deleted Team", Toast.LENGTH_LONG).show()
+            /*val api: Api = Api.createSafe("https://testapi.athleetapi.club/api/")
             FirebaseAuth.getInstance().currentUser?.getIdToken(false)
                 ?.addOnCompleteListener { response ->
                     if (response.isSuccessful) {
@@ -156,7 +157,7 @@ class TeamsListFragment : Fragment() {
                         Toast.makeText(activity, "Couldn't get user token", Toast.LENGTH_LONG)
                             .show()
                     }
-                }
+                }*/
         }
     }
 }

@@ -98,8 +98,16 @@ interface Api {
         @Query("teamName") teamName: String
     ): Call<ResponseBody>
 
-    @GET("Users/CreateUser")
-    fun addNewUser(
+
+    @GET("Team")
+    fun teamInfo(
+        @Header("Authorization") token: String,
+        @Query("teamName") teamName: String
+    ): Call<TeamInfo>
+
+    // leave a team
+    @DELETE("Team/leave")
+    fun leaveTeam(
         @Header("Authorization") token: String,
         @Query("userName") userName: String,
         @Query("UID") UID: String,
