@@ -3,14 +3,7 @@ package net.azurewebsites.athleet.UserAuth
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
 
-//import androidx.preference.PreferenceManager
-
 class LoginViewModel : ViewModel() {
-
-    companion object {
-
-    }
-
     enum class AuthenticationState {
         AUTHENTICATED, UNAUTHENTICATED, INVALID_AUTHENTICATION
     }
@@ -18,7 +11,8 @@ class LoginViewModel : ViewModel() {
     val authenticationState = FirebaseUserLiveData().map { user ->
         if (user != null) {
             AuthenticationState.AUTHENTICATED
-        } else {
+        }
+        else {
             AuthenticationState.UNAUTHENTICATED
         }
     }
