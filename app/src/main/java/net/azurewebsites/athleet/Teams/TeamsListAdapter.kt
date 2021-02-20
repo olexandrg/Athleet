@@ -12,7 +12,7 @@ import net.azurewebsites.athleet.R
 class TeamsListAdapter(private val onClick: (TeamItem) -> Unit) :
     ListAdapter<TeamItem, TeamsListAdapter.TeamsViewHolder>(TeamsDiffCallback) {
 
-    /* ViewHolder for Workout, takes in the inflated view and the onClick behavior. */
+    // ViewHolder for Workout, takes in the inflated view and the onClick behavior.
     class TeamsViewHolder(itemView: View, val onClick: (TeamItem) -> Unit) :
         RecyclerView.ViewHolder(itemView) {
         private val teamNameTextView: TextView = itemView.findViewById(R.id.textView_TeamName)

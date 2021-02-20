@@ -3,29 +3,20 @@ package net.azurewebsites.athleet.Teams
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
-import android.widget.ListView
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.databinding.DataBindingUtil
-import androidx.databinding.DataBindingUtil.setContentView
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.TeamMemberListAdapter
-import net.azurewebsites.athleet.Dashboard.AddWorkoutActivity
 import net.azurewebsites.athleet.Dashboard.TEAM_DESCRIPTION
 import net.azurewebsites.athleet.Dashboard.TEAM_NAME
 import net.azurewebsites.athleet.InviteTeamUser
 import net.azurewebsites.athleet.R
-import net.azurewebsites.athleet.TeamMemberListView
 import net.azurewebsites.athleet.databinding.FragmentTeamDashboardBinding
 
 class TeamDashboardFragment : Fragment() {
-
-    private lateinit var viewModel: TeamViewModel
-
     private val teamList = ArrayList<String>()
     private lateinit var teamMemberListAdapter : TeamMemberListAdapter
     private lateinit var linearLayoutManager: LinearLayoutManager
@@ -46,9 +37,8 @@ class TeamDashboardFragment : Fragment() {
 
         //viewModel.teamDescription = requireActivity().intent.extras?.getString(TEAM_DESCRIPTION).toString()
         val recyclerView: RecyclerView = binding.teamMemberListView
-        fab = binding.fab
 
-        fab.setOnClickListener {
+        binding.fab.setOnClickListener {
             fabOnClick()
         }
 
