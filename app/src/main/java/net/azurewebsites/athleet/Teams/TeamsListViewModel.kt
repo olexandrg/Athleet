@@ -16,7 +16,7 @@ class TeamsListViewModel(val dataSource: DataSource) : ViewModel() {
     @RequiresApi(Build.VERSION_CODES.O)
     fun insertTeam(teamName: String?, teamDescription: String?) {
         if (teamName == null || teamDescription == null) { return }
-        val newTeam = TeamItem(
+        val newTeam = Team(
             5,teamName = teamName, teamDescription = teamDescription
         )
         dataSource.addTeam(newTeam)

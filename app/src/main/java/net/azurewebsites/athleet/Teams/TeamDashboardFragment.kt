@@ -68,7 +68,7 @@ class TeamDashboardFragment : Fragment() {
                 || super.onOptionsItemSelected(item)
     }
 
-    private fun adapterOnClick(team: TeamItem) {
+    private fun adapterOnClick(team: Team) {
         val intent = Intent(requireContext(), TeamDetailActivity()::class.java)  // THIS WILL BECOME TeamDetailActivity()
         intent.putExtra(TEAM_NAME, team.teamName)
         intent.putExtra(TEAM_DESCRIPTION, team.teamDescription)

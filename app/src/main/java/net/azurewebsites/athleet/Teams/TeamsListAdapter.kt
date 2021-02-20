@@ -9,14 +9,14 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import net.azurewebsites.athleet.R
 
-class TeamsListAdapter(private val onClick: (TeamItem) -> Unit) :
-    ListAdapter<TeamItem, TeamsListAdapter.TeamsViewHolder>(TeamsDiffCallback) {
+class TeamsListAdapter(private val onClick: (Team) -> Unit) :
+    ListAdapter<Team, TeamsListAdapter.TeamsViewHolder>(TeamsDiffCallback) {
 
     // ViewHolder for Workout, takes in the inflated view and the onClick behavior.
-    class TeamsViewHolder(itemView: View, val onClick: (TeamItem) -> Unit) :
+    class TeamsViewHolder(itemView: View, val onClick: (Team) -> Unit) :
         RecyclerView.ViewHolder(itemView) {
         private val teamNameTextView: TextView = itemView.findViewById(R.id.textView_TeamName)
-        private var currentTeam: TeamItem? = null
+        private var currentTeam: Team? = null
         init {
             itemView.setOnClickListener {
                 currentTeam?.let {
@@ -26,7 +26,7 @@ class TeamsListAdapter(private val onClick: (TeamItem) -> Unit) :
         }
 
         /* Bind workout name and image. */
-        fun bind(team: TeamItem) {
+        fun bind(team: Team) {
             currentTeam = team
             teamNameTextView.text = team.teamName
 }
@@ -46,12 +46,12 @@ class TeamsListAdapter(private val onClick: (TeamItem) -> Unit) :
     }
 }
 
-object TeamsDiffCallback : DiffUtil.ItemCallback<TeamItem>() {
-    override fun areItemsTheSame(oldItem: TeamItem, newItem: TeamItem): Boolean {
+object TeamsDiffCallback : DiffUtil.ItemCallback<Team>() {
+    override fun areItemsTheSame(oldItem: Team, newItem: Team): Boolean {
         return oldItem == newItem
     }
 
-    override fun areContentsTheSame(oldItem: TeamItem, newItem: TeamItem): Boolean {
+    override fun areContentsTheSame(oldItem: Team, newItem: Team): Boolean {
         return oldItem.teamName == newItem.teamName
     }
 }

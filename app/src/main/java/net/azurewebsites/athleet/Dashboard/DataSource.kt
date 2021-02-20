@@ -6,7 +6,7 @@ import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import net.azurewebsites.athleet.exercise.Exercise
-import net.azurewebsites.athleet.Teams.TeamItem
+import net.azurewebsites.athleet.Teams.Team
 import net.azurewebsites.athleet.Teams.TeamsList
 import net.azurewebsites.athleet.workouts.Workout
 import net.azurewebsites.athleet.workouts.WorkoutList
@@ -35,11 +35,11 @@ class DataSource(resources: Resources) {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun getTeamsList(): LiveData<List<TeamItem>> {
+    fun getTeamsList(): LiveData<List<Team>> {
         return TeamsLiveData
     }
     @RequiresApi(Build.VERSION_CODES.O)
-    fun addTeam(newTeam: TeamItem) {
+    fun addTeam(newTeam: Team) {
         val currentList = TeamsLiveData.value
         if (currentList == null) {
             TeamsLiveData.postValue(listOf(newTeam))

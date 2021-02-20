@@ -9,9 +9,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import net.azurewebsites.athleet.Dashboard.WORKOUT_NAME
 import net.azurewebsites.athleet.R
-import net.azurewebsites.athleet.Teams.TeamItem
+import net.azurewebsites.athleet.Teams.Team
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
@@ -46,7 +45,7 @@ class TeamsListFragment : Fragment() {
         linearLayoutManager = LinearLayoutManager(context)
         val teamsAdapter = TeamsListAdapter { team -> adapterOnClick(team) }
 
-        teamsListViewModel.teamsLiveData.observe(this.viewLifecycleOwner , { it?.let { teamsAdapter.submitList(it as MutableList<TeamItem>) } })
+        teamsListViewModel.teamsLiveData.observe(this.viewLifecycleOwner , { it?.let { teamsAdapter.submitList(it as MutableList<Team>) } })
         val rootView = inflater!!.inflate(R.layout.fragment_teams_list, container, false)
         val recyclerView = rootView.findViewById<RecyclerView>(R.id.recyclerView_Teams) as RecyclerView
 
@@ -62,7 +61,7 @@ class TeamsListFragment : Fragment() {
         fab.setOnClickListener { fabOnClick() }
     }
 
-    private fun adapterOnClick(team: TeamItem) {
+    private fun adapterOnClick(team: Team) {
         val intent = Intent(requireContext(), TeamDetailActivity()::class.java)  // THIS WILL BECOME TeamDetailActivity()
         intent.putExtra(TEAM_NAME, team.teamName)
         intent.putExtra(TEAM_DESCRIPTION, team.teamDescription)
