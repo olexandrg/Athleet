@@ -2,7 +2,6 @@ package net.azurewebsites.athleet.Dashboard
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_dashboard.*
 import net.azurewebsites.athleet.R
@@ -14,10 +13,7 @@ import androidx.fragment.app.FragmentPagerAdapter
 import net.azurewebsites.athleet.ApiLib.Api
 import java.util.ArrayList
 
-
 class DashboardActivity : AppCompatActivity() {
-    private val newWorkoutActivityRequestCode = 1
-    val workoutListViewModel by viewModels<WorkoutsListViewModel> { WorkoutsListViewModelFactory(this) }
     val api = Api.createSafe()
     private lateinit var linearLayoutManager: LinearLayoutManager
     override fun onCreate(savedInstanceState: Bundle?) {

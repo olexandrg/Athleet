@@ -17,10 +17,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import net.azurewebsites.athleet.ApiLib.*
 import net.azurewebsites.athleet.Dashboard.*
+import net.azurewebsites.athleet.workouts.WorkoutsListViewModelFactory
 import net.azurewebsites.athleet.R
 import net.azurewebsites.athleet.workouts.Workout
 import net.azurewebsites.athleet.workouts.WorkoutDetailActivity
 import net.azurewebsites.athleet.workouts.WorkoutListAdapter
+import net.azurewebsites.athleet.workouts.WorkoutsListViewModel
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback

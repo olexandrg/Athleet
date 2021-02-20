@@ -55,8 +55,6 @@ class WorkoutFragment : Fragment() {
             view.findNavController().navigate(R.id.action_workoutFragment_to_addExerciseActivity)
         }
 
-
-
         return binding.root
     }
 

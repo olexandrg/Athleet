@@ -43,8 +43,6 @@ class WorkoutViewModel() : ViewModel() {
         }
     }
 
-
-
     fun displayExerciseDetails(exercise: Exercise) {
         _navigateToSelectedExercise.value = exercise
     }
