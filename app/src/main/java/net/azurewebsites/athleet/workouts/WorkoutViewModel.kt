@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import net.azurewebsites.athleet.ApiLib.Api
 import net.azurewebsites.athleet.getFirebaseTokenId
-import net.azurewebsites.athleet.network.Exercise
+import net.azurewebsites.athleet.models.Exercise
 
 // Need to get this from the previous fragment for the api service call
 

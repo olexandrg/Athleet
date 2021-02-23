@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import net.azurewebsites.athleet.databinding.FragmentExerciseBinding
-import net.azurewebsites.athleet.network.Exercise
+import net.azurewebsites.athleet.models.Exercise
 
 
 class ExerciseFragment : Fragment() {

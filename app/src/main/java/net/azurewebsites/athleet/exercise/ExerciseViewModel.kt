@@ -4,7 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import net.azurewebsites.athleet.network.Exercise
+import net.azurewebsites.athleet.models.Exercise
 
 class ExerciseViewModel(exercise: Exercise, app: Application) : AndroidViewModel(app) {
 

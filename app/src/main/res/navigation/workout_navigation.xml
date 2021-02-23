@@ -32,7 +32,7 @@
         android:label="ExerciseFragment" >
         <argument
             android:name="selectedExercise"
-            app:argType="net.azurewebsites.athleet.network.Exercise"/>
+            app:argType="net.azurewebsites.athleet.models.Exercise"/>
 
     </fragment>
 

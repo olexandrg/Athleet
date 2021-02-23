@@ -3,8 +3,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.TestCoroutineScope
 import net.azurewebsites.athleet.ApiLib.*
-import net.azurewebsites.athleet.network.AthleetApi
-import net.azurewebsites.athleet.network.Exercise
+import net.azurewebsites.athleet.models.AthleetApi
+import net.azurewebsites.athleet.models.Exercise
 import org.junit.Test
 import org.junit.Assert.*
 
