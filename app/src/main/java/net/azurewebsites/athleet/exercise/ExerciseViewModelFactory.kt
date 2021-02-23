@@ -3,7 +3,7 @@ package net.azurewebsites.athleet.exercise
 import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import net.azurewebsites.athleet.network.Exercise
+import net.azurewebsites.athleet.models.Exercise
 
 class ExerciseViewModelFactory (
     private val exercise: Exercise,

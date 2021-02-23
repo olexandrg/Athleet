@@ -1,10 +1,19 @@
 package net.azurewebsites.athleet
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.test.TestCoroutineDispatcher
+import kotlinx.coroutines.test.TestCoroutineScope
 import net.azurewebsites.athleet.ApiLib.*
+import net.azurewebsites.athleet.models.AthleetApi
+import net.azurewebsites.athleet.models.Exercise
 import org.junit.Test
 import org.junit.Assert.*
 
 
 class ApiUnitTests {
+
+    private val dispatcher = TestCoroutineDispatcher()
+    private val testScope = TestCoroutineScope(dispatcher)
+
     private fun apiFactory(): Api {return Api.createSafe()}
 
     private fun tokenFactory(): String {
@@ -35,5 +44,21 @@ class ApiUnitTests {
         val api = apiFactory()
         val response =  api.getAllWorkoutExercises(tokenFactory()).execute().code()
         assertEquals("GET /api/WorkoutExercises ", 200, response)
+    }
+
+    @Test // Will break if test user's exercises gets cleared :(
+    fun getExercisesForWorkoutById_shouldMatchFirstExercise() {
+
+        // Given
+        val api = apiFactory()
+        val expected = Exercise(2, "Test Exercise", "Test Exercise Description", "5")
+
+        // When
+        testScope.launch {
+            val response = api.getExercisesForWorkout(tokenFactory(), "6")
+
+            // Then
+            assertEquals("GET /api/Exercises/workout/{workoutID}", expected, response[0])
+        }
     }
 }

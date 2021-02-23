@@ -1,12 +1,11 @@
 package net.azurewebsites.athleet.ApiLib
 
-import com.google.firebase.auth.ActionCodeResult
+import net.azurewebsites.athleet.models.Exercise
 import net.azurewebsites.athleet.workouts.Workout
 import okhttp3.OkHttpClient
 import okhttp3.ResponseBody
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
-import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
@@ -113,6 +112,12 @@ interface Api {
         @Query("UID") UID: String,
         @Query("description") description: String
     )
+
+    @GET("exercises/workout/{workoutID}")
+    suspend fun getExercisesForWorkout(
+        @Header("Authorization") token: String,
+        @Path("workoutID") workoutID: String):
+            List<Exercise>
 
     // factory method
     companion object {

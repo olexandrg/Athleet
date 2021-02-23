@@ -1,4 +1,4 @@
-package net.azurewebsites.athleet.network
+package net.azurewebsites.athleet.models
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize

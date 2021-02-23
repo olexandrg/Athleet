@@ -5,7 +5,7 @@
         <import type="android.view.View"/>
         <variable
             name="exercise"
-            type="net.azurewebsites.athleet.network.Exercise" />
+            type="net.azurewebsites.athleet.models.Exercise" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
