@@ -5,14 +5,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
+import net.azurewebsites.athleet.ApiLib.Api
 import net.azurewebsites.athleet.getFirebaseTokenId
-import net.azurewebsites.athleet.network.AthleetApi
 import net.azurewebsites.athleet.network.Exercise
 
 // Need to get this from the previous fragment for the api service call
 
 class WorkoutViewModel() : ViewModel() {
-
+    private val api = Api.createSafe()
     var workoutId = -1
 
     private val _response = MutableLiveData<String>()
@@ -34,7 +34,7 @@ class WorkoutViewModel() : ViewModel() {
     fun getExercises(workoutId: Int) {
         viewModelScope.launch {
             try {
-                _exercises.value = AthleetApi.retrofitService.getExercisesForWorkout(
+                _exercises.value = api.getExercisesForWorkout(
                     getFirebaseTokenId(), workoutId.toString())
                 _response.value = "Success exercises retrieved"
             } catch (e: Exception){

@@ -1,6 +1,7 @@
 package net.azurewebsites.athleet.ApiLib
 
 import com.google.firebase.auth.ActionCodeResult
+import net.azurewebsites.athleet.network.Exercise
 import net.azurewebsites.athleet.workouts.Workout
 import okhttp3.OkHttpClient
 import okhttp3.ResponseBody
@@ -113,6 +114,12 @@ interface Api {
         @Query("UID") UID: String,
         @Query("description") description: String
     )
+
+    @GET("exercises/workout/{workoutID}")
+    suspend fun getExercisesForWorkout(
+        @Header("Authorization") token: String,
+        @Path("workoutID") workoutID: String):
+            List<Exercise>
 
     // factory method
     companion object {

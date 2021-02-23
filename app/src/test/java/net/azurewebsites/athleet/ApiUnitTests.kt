@@ -46,15 +46,16 @@ class ApiUnitTests {
         assertEquals("GET /api/WorkoutExercises ", 200, response)
     }
 
-    @Test // Wil break if test user's exercises gets cleared :(
+    @Test // Will break if test user's exercises gets cleared :(
     fun getExercisesForWorkoutById_shouldMatchFirstExercise() {
 
         // Given
+        val api = apiFactory()
         val expected = Exercise(2, "Test Exercise", "Test Exercise Description", "5")
 
         // When
         testScope.launch {
-            val response = AthleetApi.retrofitService.getExercisesForWorkout(tokenFactory(), "6")
+            val response = api.getExercisesForWorkout(tokenFactory(), "6")
 
             // Then
             assertEquals("GET /api/Exercises/workout/{workoutID}", expected, response[0])
