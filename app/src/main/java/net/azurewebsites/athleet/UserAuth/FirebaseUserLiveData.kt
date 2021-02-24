@@ -31,4 +31,8 @@ class FirebaseUserLiveData : LiveData<FirebaseUser?>() {
     override fun onInactive() {
         firebaseAuth.removeAuthStateListener(authStateListener)
     }
+
+    public fun getUserToken(): FirebaseAuth{
+        return firebaseAuth
+    }
 }

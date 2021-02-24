@@ -203,4 +203,5 @@ open class MainFragment : Fragment() {
             SIGN_IN_REQUEST_CODE
         )
     }
+
 }
