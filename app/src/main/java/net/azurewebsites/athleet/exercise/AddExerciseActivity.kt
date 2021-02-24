@@ -17,6 +17,7 @@ const val EXERCISE_REPS = "reps"
 const val EXERCISE_SETS = "sets"
 const val EXERCISE_UNIT_TYPE = "unit type"
 const val EXERCISE_UNIT_COUNT = "unit count"
+
 class AddExerciseActivity : AppCompatActivity() {
     private lateinit var addExerciseName: TextInputEditText
     private lateinit var addExerciseDescription: TextInputEditText

@@ -8,27 +8,19 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import com.google.firebase.auth.FirebaseAuth
-import kotlinx.android.synthetic.main.fragment_team_admin.*
-import net.azurewebsites.athleet.ApiLib.Api
-import net.azurewebsites.athleet.ApiLib.TeamInfo
-import net.azurewebsites.athleet.Dashboard.TEAM_NAME
 import net.azurewebsites.athleet.R
-import retrofit2.Callback
 import net.azurewebsites.athleet.databinding.FragmentTeamAdminBinding
-import okhttp3.ResponseBody
-
 
 class TeamAdminFragment : Fragment() {
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-
         val binding = DataBindingUtil.inflate<FragmentTeamAdminBinding>(inflater,
             R.layout.fragment_team_admin, container, false )
         val userName = FirebaseAuth.getInstance().currentUser!!.displayName;
+
         //change true to false when the api call is used
         //button_leaveTeam.isEnabled = true
 
@@ -94,5 +86,4 @@ class TeamAdminFragment : Fragment() {
         activity?.finishActivity(58)
         activity?.finish()
     }
-
 }

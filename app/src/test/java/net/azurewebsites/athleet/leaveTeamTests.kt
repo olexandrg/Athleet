@@ -1,16 +1,16 @@
-package net.azurewebsites.athleet
-
-import net.azurewebsites.athleet.ApiLib.*
-import org.junit.Test
-import org.junit.Assert.*
-
-class leaveTeamTests {
-    private fun apiFactory(): Api {return Api.createSafe()}
-
-    private fun tokenFactory(): String {
-        return tokenMaster.tokenFactory()
-    }
-
+//package net.azurewebsites.athleet
+//
+//import net.azurewebsites.athleet.ApiLib.*
+//import org.junit.Test
+//import org.junit.Assert.*
+//
+//class leaveTeamTests {
+//    private fun apiFactory(): Api {return Api.createSafe()}
+//
+//    private fun tokenFactory(): String {
+//        return tokenMaster.tokenFactory()
+//    }
+//
 //    @Test
 //    fun deleteSuccess() {
 //        val api = apiFactory()
@@ -20,4 +20,4 @@ class leaveTeamTests {
 //
 //        assertEquals("GET /api/Team/leave", 200, leaveTeam.code())
 //    }
-}
+//}

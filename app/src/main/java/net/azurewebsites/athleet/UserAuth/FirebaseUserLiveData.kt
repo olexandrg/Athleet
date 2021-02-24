@@ -1,7 +1,5 @@
-
 package net.azurewebsites.athleet.UserAuth
 
-import android.util.Log
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.FirebaseAuth
 import androidx.lifecycle.LiveData
@@ -34,7 +32,7 @@ class FirebaseUserLiveData : LiveData<FirebaseUser?>() {
         firebaseAuth.removeAuthStateListener(authStateListener)
     }
 
-    fun getSometoken(){
-        Log.i("firebase", "get some token called")
+    public fun getUserToken(): FirebaseAuth{
+        return firebaseAuth
     }
 }

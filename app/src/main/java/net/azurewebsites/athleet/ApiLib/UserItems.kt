@@ -13,6 +13,7 @@ data class UserItem(
 interface userHandler {
     companion object {
         @Throws (IndexOutOfBoundsException::class)
+        // Deprecated/unsafe function, will probably be deleted or changed
         // returns username, if found
         fun returnUserName(list: List<UserItem>?, userName: String): String {
             return try {

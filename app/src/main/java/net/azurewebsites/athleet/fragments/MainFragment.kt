@@ -1,12 +1,9 @@
 package net.azurewebsites.athleet.fragments
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.view.*
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -15,15 +12,12 @@ import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.navigation.Navigation
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.AuthUI.*
-import com.firebase.ui.auth.AuthUI.getApplicationContext
 import com.firebase.ui.auth.IdpResponse
 import com.google.firebase.auth.FirebaseAuth
 import net.azurewebsites.athleet.*
 import net.azurewebsites.athleet.ApiLib.Api
-import net.azurewebsites.athleet.ApiLib.UserItem
 import net.azurewebsites.athleet.Dashboard.DashboardActivity
 import net.azurewebsites.athleet.UserAuth.LoginViewModel
 import net.azurewebsites.athleet.databinding.FragmentMainBinding
@@ -32,26 +26,19 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-
 open class MainFragment : Fragment() {
+    private val api = Api.createSafe()
+    private val viewModel by viewModels<LoginViewModel>()
+    private lateinit var binding: FragmentMainBinding
 
-    public companion object
+    companion object
     {
         const val TAG = "MainFragment"
         const val SIGN_IN_REQUEST_CODE = 1001
         const val DASHBOARD_REQUEST_CODE = 2002
-        const val ADD_WORKOUT_REQUEST_CODE = 3003
-        lateinit var tokenString:String;
-
-        /*public fun getUserAuth(): FirebaseAuth {
-            return FirebaseAuth.getInstance();
-        }*/
     }
-    private val api = Api.createSafe()
-    // Get a reference to the ViewModel scoped to this Fragment
-    private val viewModel by viewModels<LoginViewModel>()
-    private lateinit var binding: FragmentMainBinding
 
+    // Get a reference to the ViewModel scoped to this Fragment
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_main, container, false)
@@ -67,54 +54,54 @@ open class MainFragment : Fragment() {
         binding.authButton.setOnClickListener{
             binding.authButton.setOnClickListener { launchSignInFlow()}
         }
-        binding.btnDashboard.setOnClickListener {GoToDashboard()}
+        binding.btnDashboard.setOnClickListener {goToDashboard()}
     }
-    override fun onResume() {
-        super.onResume()
-    }
-    private fun GoToDashboard() {
+
+    private fun goToDashboard() {
         val intent = Intent(this.requireContext(), DashboardActivity::class.java)
         startActivityForResult(intent, DASHBOARD_REQUEST_CODE)
     }
-
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == SIGN_IN_REQUEST_CODE) {
             val response = IdpResponse.fromResultIntent(data)
 
-            if (resultCode == Activity.RESULT_OK)
-            { /*login succeeded->*/
-                Log.i(TAG, "Successfully signed in user ${FirebaseAuth.getInstance().currentUser?.displayName} with uid: ${FirebaseAuth.getInstance().uid}");
-                FirebaseAuth.getInstance().currentUser?.getIdToken(false)?.addOnCompleteListener { response ->
-                    if(response.isSuccessful) {
-                        val userName = FirebaseAuth.getInstance().currentUser!!.displayName
-                        val call = api.addNewUser("Bearer " + response.result?.token.toString(),userName!!, "Welcome back, "+userName )
-                        call.enqueue(object : Callback<ResponseBody> {
-                            override fun onResponse(
-                                call: Call<ResponseBody>,
-                                response: Response<ResponseBody>
-                            ) {
-                                if(response.isSuccessful)
-                                    binding.btnDashboard.isVisible = true;
-                            }
+            //login succeeded
+            if (resultCode == Activity.RESULT_OK)   {
+                Log.
+                    i(TAG, "Successfully signed in user ${FirebaseAuth.getInstance().
+                    currentUser?.displayName} with uid: ${FirebaseAuth.getInstance().uid}");
+                FirebaseAuth.getInstance().
+                    currentUser?.getIdToken(false)?.
+                    addOnCompleteListener { response ->
+                        if(response.isSuccessful) {
+                            val userName = FirebaseAuth.getInstance().currentUser!!.displayName
+                            val call = api.addNewUser("Bearer " + response.result?.token.toString(),userName!!, "Welcome back, "+userName )
 
-                            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                                TODO("Not yet implemented")
-                            }
+                            call.enqueue(object : Callback<ResponseBody> {
+                                override fun onResponse(
+                                    call: Call<ResponseBody>,
+                                    response: Response<ResponseBody>
+                                ) {
+                                    if(response.isSuccessful)
+                                        binding.btnDashboard.isVisible = true;
+                                }
 
-                        })
+                                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                                    TODO("Not yet implemented")
+                                }
+                            })
+                        }
                     }
-
-                }
-
             }
-            else
-            {/*login failed->*/
+
+            //  If response is null, the user canceled the
+            //  sign-in flow using the back button. Otherwise, check
+            //  the error code and handle the error.
+            else {
                 Log.i(TAG, getString(R.string.log_msg_err));
-                /*  If response is null, the user canceled the
-                  sign-in flow using the back button. Otherwise, check
-                  the error code and handle the error.*/}
+            }
         };
     }
 
@@ -201,7 +188,7 @@ open class MainFragment : Fragment() {
         // If users choose to register with their email,
         // they will need to create a password as well.
         val providers = arrayListOf(
-            AuthUI.IdpConfig.EmailBuilder().build(), AuthUI.IdpConfig.GoogleBuilder().build()
+            AuthUI.IdpConfig.EmailBuilder().build()
             // This is where you can provide more ways for users to register and
             // sign in.
         )
@@ -216,4 +203,5 @@ open class MainFragment : Fragment() {
             SIGN_IN_REQUEST_CODE
         )
     }
+
 }

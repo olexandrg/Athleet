@@ -1,6 +1,5 @@
 package net.azurewebsites.athleet.exercise
 
-
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -8,7 +7,6 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import net.azurewebsites.athleet.databinding.ExerciseListItemBinding
 import net.azurewebsites.athleet.models.Exercise
-
 
 class ExerciseListAdapter(private val onClickListener: OnClickListener) : ListAdapter<Exercise, ExerciseListAdapter.ExerciseViewHolder>(DiffCallback){
 
