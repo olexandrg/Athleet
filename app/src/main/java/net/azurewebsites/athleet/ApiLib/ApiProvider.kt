@@ -1,5 +1,6 @@
 package net.azurewebsites.athleet.ApiLib
 
+import net.azurewebsites.athleet.Teams.Team
 import net.azurewebsites.athleet.models.Exercise
 import net.azurewebsites.athleet.workouts.Workout
 import okhttp3.OkHttpClient
@@ -113,6 +114,11 @@ interface Api {
         @Query("UID") UID: String,
         @Query("description") description: String
     )
+
+    @GET("Team/list")
+    fun listTeams(
+        @Header("Authorization") token: String
+    ): Call<List<Team>>
 
     @GET("exercises/workout/{workoutID}")
     suspend fun getExercisesForWorkout(
