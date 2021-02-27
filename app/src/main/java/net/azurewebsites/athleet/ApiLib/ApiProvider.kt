@@ -43,7 +43,6 @@ interface Api {
         @Query("MeasureUnits") measureUnits:String,
         @Query("unitCount") unitCount: Int,
         @Query("WorkoutName") workoutName: String
-
     ):Call<ResponseBody>
     // get all user workouts
     @GET("UserWorkouts")
