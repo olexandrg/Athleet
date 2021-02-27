@@ -32,6 +32,19 @@ interface Api {
         @Query("Name") name:String,
         @Query("Description") description: String
     ):Call<ResponseBody>
+
+    @POST("Exercises")
+    fun addNewExercise(
+        @Header("Authorization")token:String,
+        @Query("Name") name:String,
+        @Query("Description") description: String,
+        @Query("DefaultReps") defaultReps:Int,
+        @Query("ExerciseSets") exerciseSets: Int,
+        @Query("MeasureUnits") measureUnits:String,
+        @Query("unitCount") unitCount: Int,
+        @Query("WorkoutName") workoutName: String
+
+    ):Call<ResponseBody>
     // get all user workouts
     @GET("UserWorkouts")
     fun getUserWorkouts(
