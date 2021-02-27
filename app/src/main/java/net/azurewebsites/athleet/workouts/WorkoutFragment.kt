@@ -31,6 +31,7 @@ class WorkoutFragment : Fragment() {
     val api = Api.createSafe()
     private lateinit var token:String
     private lateinit var workoutName: String
+    var workoutId:Int = 0
     private val viewModel: WorkoutViewModel by lazy {
         ViewModelProvider(this).get(WorkoutViewModel::class.java)
     }
@@ -41,6 +42,7 @@ class WorkoutFragment : Fragment() {
     ): View? {
         
         var workoutId = requireActivity().intent.extras!!.getInt("WORKOUT_ID")
+        this.workoutId = workoutId
         Log.i("WORKOUT ID", workoutId.toString())
         val binding = DataBindingUtil.inflate<FragmentWorkoutBinding>(inflater,
             R.layout.fragment_workout, container, false )
@@ -104,5 +106,6 @@ class WorkoutFragment : Fragment() {
 
             }
         }
+        viewModel.getExercises(workoutId)
     }
 }
