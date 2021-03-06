@@ -19,7 +19,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.fragment_workouts_list.*
 import net.azurewebsites.athleet.ApiLib.Api
-import net.azurewebsites.athleet.ApiLib.team
 import net.azurewebsites.athleet.Dashboard.*
 import net.azurewebsites.athleet.Teams.*
 import net.azurewebsites.athleet.workouts.Workout
