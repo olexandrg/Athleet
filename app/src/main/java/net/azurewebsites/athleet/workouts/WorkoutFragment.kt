@@ -85,7 +85,7 @@ class WorkoutFragment : Fragment() {
                 val Sets = data.getStringExtra(EXERCISE_SETS)
                 val UnitCount = data.getStringExtra(EXERCISE_UNIT_COUNT)
                 val UnitType = data.getStringExtra(EXERCISE_UNIT_TYPE)
-                val call = api.addNewExercise(token, ExerciseName!!, ExerciseDescription!!, Reps!!.toInt(), Sets!!.toInt(), UnitType!!, UnitCount!!.toInt(), workoutName)
+                val call = api.addNewExercise(token, ExerciseName!!, ExerciseDescription!!, Reps!!.toInt(), Sets!!.toInt(), UnitType!!, UnitCount!!.toInt(), workoutId)
                 call.enqueue(object : Callback<ResponseBody> {
                     override fun onResponse(
                         call: Call<ResponseBody>,
