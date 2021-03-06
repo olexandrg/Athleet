@@ -114,6 +114,13 @@ interface Api {
         @Query("description") description: String
     )
 
+    @POST("Team")
+    fun createTeam(
+        @Header("Authorization") token: String,
+        @Query("teamName") teamName: String,
+        @Query("description") description: String
+    ): Call<ResponseBody>
+
     @GET("exercises/workout/{workoutID}")
     suspend fun getExercisesForWorkout(
         @Header("Authorization") token: String,
