@@ -31,9 +31,6 @@ import net.azurewebsites.athleet.workouts.Workout
             dataSource.addWorkouts(list)
         }
 
-        fun clearList(){
-            dataSource.clearExerciseList()
-        }
     }
 
     class WorkoutsListViewModelFactory(private val context: Context) : ViewModelProvider.Factory {

@@ -127,9 +127,5 @@ class WorkoutsListFragment() : Fragment() {
 
             }
         }
-        else if (requestCode == 69)
-        {
-            workoutListViewModel.dataSource.clearExerciseList()
-        }
     }
 }

@@ -73,10 +73,7 @@ class DataSource(resources: Resources) {
                 ExercisesLiveData.postValue(updatedList)
         }
     }
-    fun clearExerciseList(){
-        currentWorkout!!.exercises = ExercisesLiveData.value;
-        ExercisesLiveData.postValue(null)
-    }
+
 /*    *//* Returns a random Workout asset for Workouts that are added. *//*
     fun getRandomWorkoutImageAsset(): Int? {
         val randomNumber = (initialWorkoutList.indices).random()
