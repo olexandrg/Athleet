@@ -6,9 +6,11 @@ import okhttp3.OkHttpClient
 import okhttp3.ResponseBody
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
+
 
 interface Api {
 
@@ -30,6 +32,18 @@ interface Api {
         @Header("Authorization")token:String,
         @Query("Name") name:String,
         @Query("Description") description: String
+    ):Call<ResponseBody>
+
+    @POST("Exercises")
+    fun addNewExercise(
+        @Header("Authorization")token:String,
+        @Query("Name") name:String,
+        @Query("Description") description: String,
+        @Query("DefaultReps") defaultReps:Int,
+        @Query("ExerciseSets") exerciseSets: Int,
+        @Query("MeasureUnits") measureUnits:String,
+        @Query("unitCount") unitCount: Int,
+        @Query("WorkoutID") workoutID: Int
     ):Call<ResponseBody>
 
     // get all user workouts
