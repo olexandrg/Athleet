@@ -42,7 +42,7 @@ interface Api {
         @Query("DefaultReps") defaultReps:Int,
         @Query("ExerciseSets") exerciseSets: Int,
         @Query("MeasureUnits") measureUnits:String,
-        @Query("unitCount") unitCount: Int,
+        @Query("unitCount") unitCount: Float,
         @Query("WorkoutID") workoutID: Int
     ):Call<ResponseBody>
 

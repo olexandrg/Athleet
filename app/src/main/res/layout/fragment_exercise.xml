@@ -12,30 +12,33 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         >
 
         <TextView
             android:id="@+id/exercise_detail_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="100dp"
+            android:hint="Exercise name:"
             android:text="@{viewModel.selectedExercise.exerciseName}"
             android:textSize="24sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.141"
+            app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.156" />
 
         <TextView
             android:id="@+id/exercise_detail_desc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="128dp"
+            android:layout_marginTop="4dp"
+            android:hint="Description:"
             android:text="@{viewModel.selectedExercise.description}"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.141"
+            app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/exercise_detail_name" />
 
@@ -43,15 +46,52 @@
             android:id="@+id/exercise_detail_reps"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="300dp"
+            android:hint="Reps:"
             android:text="@{viewModel.selectedExercise.defaultReps}"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.343"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/exercise_detail_desc"
+            app:layout_constraintVertical_bias="0.432" />
+        <!--            app:layout_constraintBottom_toTopOf="@+id/exercise_detail_sets"-->
+
+
+<!--
+        <TextView
+            android:id="@+id/exercise_detail_unit_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{viewModel.selectedExercise.unitCount.toString()}"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@+id/exercise_detail_reps"
+            app:layout_constraintEnd_toStartOf="@+id/exercise_detail_unit_type"
+            app:layout_constraintStart_toEndOf="@+id/exercise_detail_reps"
+            app:layout_constraintTop_toTopOf="@+id/exercise_detail_reps" />
+
+        <TextView
+            android:id="@+id/exercise_detail_unit_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="80dp"
+            android:text="@{viewModel.selectedExercise.unitType}"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@+id/exercise_detail_reps"
+            app:layout_constraintStart_toEndOf="@+id/exercise_detail_reps"
+            app:layout_constraintTop_toTopOf="@+id/exercise_detail_reps" />
+
+        <TextView
+            android:id="@+id/exercise_detail_sets"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:hint="Sets:"
+            android:text="@{viewModel.selectedExercise.sets}"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.141"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/exercise_detail_desc"
-            app:layout_constraintVertical_bias="0.521" />
+            app:layout_constraintHorizontal_bias="0.338"
+            app:layout_constraintStart_toStartOf="parent" />-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -78,7 +78,7 @@ class WorkoutFragment : Fragment() {
                 val ExerciseDescription = data.getStringExtra(EXERCISE_DESCRIPTION)
                 val Reps = data.getStringExtra(EXERCISE_REPS)!!.toInt()
                 val Sets = data.getStringExtra(EXERCISE_SETS)!!.toInt()
-                val UnitCount = data.getStringExtra(EXERCISE_UNIT_COUNT)!!.toInt()
+                val UnitCount = data.getStringExtra(EXERCISE_UNIT_COUNT)!!.toFloat()
                 val UnitType = data.getStringExtra(EXERCISE_UNIT_TYPE)
 
                 insertExercise(ExerciseName!!,ExerciseDescription!!,Reps,Sets,UnitType!!,UnitCount)
@@ -86,7 +86,7 @@ class WorkoutFragment : Fragment() {
             }
         }
     }
-    fun insertExercise(eName:String, eDesc:String, eReps:Int, eSets:Int, eUnitType:String, eUnitCount:Int)
+    fun insertExercise(eName:String, eDesc:String, eReps:Int, eSets:Int, eUnitType:String, eUnitCount:Float)
     {
         val call = api.addNewExercise(token, eName, eDesc, eReps, eSets, eUnitType, eUnitCount, workoutId)
         call.enqueue(object : Callback<ResponseBody> {

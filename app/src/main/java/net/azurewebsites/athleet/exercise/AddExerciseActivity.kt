@@ -4,7 +4,9 @@ import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
+import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.Switch
 import androidx.core.view.isVisible
@@ -26,6 +28,7 @@ class AddExerciseActivity : AppCompatActivity() {
     private lateinit var addExerciseUnitCount: TextInputEditText
     private lateinit var switch: Switch
     private lateinit var radioButtons:RadioGroup
+    private lateinit var radioButtonSelected: RadioButton
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_exercise)
@@ -42,11 +45,16 @@ class AddExerciseActivity : AppCompatActivity() {
         radioButtons.isVisible=false;
         switch = findViewById(R.id.switch_use_units)
         switch.setOnClickListener { showRadioButtons() }
+        // Get radio group selected status and text using button click event
+    }
+    fun radio_button_click(view: View){
+        radioButtons.clearCheck()
+        radioButtons.check(view.id)
+        radioButtonSelected = radioButtons.findViewById(radioButtons.checkedRadioButtonId)
     }
     private fun showRadioButtons(){
         if(switch.isChecked){
             radioButtons.isVisible=true
-            radioButtons.check(0)
         }
         else
             radioButtons.isVisible=false
@@ -62,18 +70,18 @@ class AddExerciseActivity : AppCompatActivity() {
             val description = addExerciseDescription.text.toString()
             val reps = addExerciseReps.text.toString()
             val sets = addExerciseSets.text.toString()
-            var unitType:String = "none"
+            var unitType:String = radioButtonSelected.text.toString()
             val unitCount = addExerciseUnitCount.text.toString()
-            if(switch.isChecked)
-                when(radioButtons.checkedRadioButtonId){
-                    0->unitType="lbs"
-                    1->unitType="kg"
-                    2->unitType="mi"
-                    3->unitType="km"
-                    4->unitType="kCal"
-                    5->unitType="psi"
-                    6->unitType="¥"
-                }
+//            if(switch.isChecked)
+//                when(radioButtons.checkedRadioButtonId){
+//                    0->unitType="lbs"
+//                    1->unitType="kg"
+//                    2->unitType="mi"
+//                    3->unitType="km"
+//                    4->unitType="kCal"
+//                    5->unitType="psi"
+//                    6->unitType="¥"
+//                }
 
             resultIntent.putExtra(EXERCISE_NAME, name)
             resultIntent.putExtra(EXERCISE_DESCRIPTION, description)
