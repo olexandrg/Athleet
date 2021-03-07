@@ -2,11 +2,13 @@ package net.azurewebsites.athleet.workouts
 
 import android.app.Activity
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -32,15 +34,10 @@ class WorkoutFragment : Fragment() {
     private lateinit var token:String
     private lateinit var workoutName: String
     var workoutId:Int = 0
-    private val viewModel: WorkoutViewModel by lazy {
-        ViewModelProvider(this).get(WorkoutViewModel::class.java)
-    }
+    private val viewModel: WorkoutViewModel by lazy { ViewModelProvider(this).get(WorkoutViewModel::class.java) }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+
         var workoutId = requireActivity().intent.extras!!.getInt("WORKOUT_ID")
         this.workoutId = workoutId
         Log.i("WORKOUT ID", workoutId.toString())
@@ -81,31 +78,26 @@ class WorkoutFragment : Fragment() {
             data?.let { data ->
                 val ExerciseName = data.getStringExtra(EXERCISE_NAME)
                 val ExerciseDescription = data.getStringExtra(EXERCISE_DESCRIPTION)
-                val Reps = data.getStringExtra(EXERCISE_REPS)
-                val Sets = data.getStringExtra(EXERCISE_SETS)
-                val UnitCount = data.getStringExtra(EXERCISE_UNIT_COUNT)
+                val Reps = data.getStringExtra(EXERCISE_REPS)!!.toInt()
+                val Sets = data.getStringExtra(EXERCISE_SETS)!!.toInt()
+                val UnitCount = data.getStringExtra(EXERCISE_UNIT_COUNT)!!.toInt()
                 val UnitType = data.getStringExtra(EXERCISE_UNIT_TYPE)
-                val call = api.addNewExercise(token, ExerciseName!!, ExerciseDescription!!, Reps!!.toInt(), Sets!!.toInt(), UnitType!!, UnitCount!!.toInt(), workoutId)
-                call.enqueue(object : Callback<ResponseBody> {
-                    override fun onResponse(
-                        call: Call<ResponseBody>,
-                        response: Response<ResponseBody>
-                    ) {
-                        if(response.isSuccessful)
-                        {
-                            Log.i("API Insert Exercise", "Insert exercise sucessful. New ExerciseName: $ExerciseName")
-                        }
-                    }
 
-                    override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                        TODO("Not yet implemented")
-                    }
-
-                })
-
+                insertExercise(ExerciseName!!,ExerciseDescription!!,Reps,Sets,UnitType!!,UnitCount)
 
             }
         }
-        viewModel.getExercises(workoutId)
+    }
+    fun insertExercise(eName:String, eDesc:String, eReps:Int, eSets:Int, eUnitType:String, eUnitCount:Int)
+    {
+        val call = api.addNewExercise(token, eName, eDesc, eReps, eSets, eUnitType, eUnitCount, workoutId)
+        call.enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                if(response.isSuccessful) {
+                    Log.i("API Insert Exercise", "Insert exercise sucessful. New ExerciseName: $eName")
+                    viewModel.getExercises(workoutId)
+                    Log.i("Workout Fragment:", "Updated exercise list requested")} }
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) { TODO("Not yet implemented") }
+        })
     }
 }
