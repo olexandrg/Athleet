@@ -1,11 +1,8 @@
 package net.azurewebsites.athleet
-import kotlinx.coroutines.launch
 //import kotlinx.coroutines.test.TestCoroutineDispatcher
 //import kotlinx.coroutines.test.TestCoroutineScope
-import android.util.Log
 import net.azurewebsites.athleet.ApiLib.*
 //import net.azurewebsites.athleet.models.AthleetApi
-import net.azurewebsites.athleet.models.Exercise
 import org.junit.Test
 import org.junit.Assert.*
 import java.nio.charset.Charset
@@ -30,6 +27,24 @@ class ApiUnitTests {
         println(response)
         println(userData?.get(5))
         println(userData?.get(9))
+    }
+
+    @Test
+    fun checkRetrieveUser() {
+        val api = apiFactory()
+        val response = api.retrieveExistingUser(tokenFactory()).execute().body()?.get(0)
+
+        response!!.userHeadline = "Edited headline"
+
+        println(response!!.userId)
+        println(response.userName)
+        println(response.userHeadline)
+        println(response.firebaseUID)
+
+        //send modifed object
+
+//        val addToDatabase = api.updateExistingUser(tokenFactory(), response?.userId.toString(), response)
+//        println(addToDatabase)
     }
     // GET Api response tests
     // returns 200 for successful GET from the Api
