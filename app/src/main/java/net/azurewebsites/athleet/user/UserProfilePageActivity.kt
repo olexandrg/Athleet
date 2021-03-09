@@ -28,8 +28,6 @@ class UserProfilePageActivity : AppCompatActivity() {
 
         // populate menu with retrieved user data
         getUserMenuData()
-        //findViewById<TextView>(R.id.userName).text = userName
-        //findViewById<TextView>(R.id.userHeadline).text = userHeadline
         findViewById<TextView>(R.id.userEmail).text = userEmail
     }
 
@@ -40,6 +38,7 @@ class UserProfilePageActivity : AppCompatActivity() {
             if(response.isSuccessful) {
                 var token = "Bearer " + response.result?.token.toString()
                 val callGetUser = api.checkExistingUser(token)
+
                 callGetUser.enqueue(object: Callback<ResponseBody> {
                     override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                         if(response.isSuccessful) {

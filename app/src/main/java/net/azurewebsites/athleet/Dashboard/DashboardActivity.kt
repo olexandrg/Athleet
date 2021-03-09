@@ -34,9 +34,6 @@ import java.util.ArrayList
 
 class DashboardActivity : AppCompatActivity() {
     private val newWorkoutActivityRequestCode = 1
-    private var userName = ""
-    private var userHeadline = ""
-    private var userEmail = FirebaseAuth.getInstance().currentUser?.email
     val workoutListViewModel by viewModels<WorkoutsListViewModel> { WorkoutsListViewModelFactory(this) }
     val api = Api.createSafe()
     private lateinit var linearLayoutManager: LinearLayoutManager
@@ -58,46 +55,7 @@ class DashboardActivity : AppCompatActivity() {
         tabLayout.getTabAt(1)!!.setIcon(R.drawable.teams_tab_icon)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.personal_option_menu, menu)
-        return super.onCreateOptionsMenu(menu)
-    }
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun getUserMenuData() {
-        FirebaseAuth.getInstance().currentUser?.getIdToken(false)?.addOnCompleteListener { response ->
-            if(response.isSuccessful) {
-                var token = "Bearer " + response.result?.token.toString()
-                val callGetUser = api.checkExistingUser(token)
-                callGetUser.enqueue(object:Callback<ResponseBody>{
-                    override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
-                        if(response.isSuccessful) {
-                            var response1 = response.body()?.source()?.readString(charset = Charset.defaultCharset())
-                            val userData = response1?.split("[", "]", "{", "}", ",",":")?.map { it.trim()}
-                            userName = userData?.get(5).toString()
-                            userHeadline = userData?.get(9).toString()
-                        }
-                    }
-                    override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                        TODO("Not yet implemented")
-                    }
-                })
-            }
-        }
-    }
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Helper function to fetch current user data and convert to UserItem data instance
-        getUserMenuData()
-//        when (item.itemId) {
-//            //R.id.personalMenu -> Toast.makeText(this, userName+"\n"+userHeadline+"\n"+userEmail, Toast.LENGTH_LONG).show()
-//            //TODO: launch activity
-//        }
-        return super.onOptionsItemSelected(item)
-    }
-
-    fun goToUserProfilePage() {
+    private fun goToUserProfilePage() {
         val intent = Intent(this, UserProfilePageActivity()::class.java)
         startActivity(intent)
     }
