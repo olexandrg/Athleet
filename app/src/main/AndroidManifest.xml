@@ -19,9 +19,10 @@
 
         <activity android:name=".workouts.WorkoutDetailActivity" />
         <activity android:name=".exercise.AddExerciseActivity" />
-
+        <activity android:name=".user.UserProfilePageActivity"/>
         <activity android:name=".Teams.TeamDetailActivity" />
         <activity android:name=".MainActivity">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

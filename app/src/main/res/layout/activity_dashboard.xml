@@ -47,6 +47,7 @@
         android:layout_height="151dp"
         android:layout_centerHorizontal="true"
         android:contentDescription="@string/the_user_s_profile_picture"
+        android:onClick="goToUserProfilePage()"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"

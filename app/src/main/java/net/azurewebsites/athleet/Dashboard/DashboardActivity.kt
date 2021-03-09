@@ -1,13 +1,16 @@
 package net.azurewebsites.athleet.Dashboard
 
+import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_dashboard.*
 import net.azurewebsites.athleet.R
@@ -18,6 +21,8 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import com.google.firebase.auth.FirebaseAuth
 import net.azurewebsites.athleet.ApiLib.Api
+import net.azurewebsites.athleet.user.UserProfilePageActivity
+import net.azurewebsites.athleet.workouts.WorkoutDetailActivity
 import net.azurewebsites.athleet.workouts.WorkoutsListViewModel
 import net.azurewebsites.athleet.workouts.WorkoutsListViewModelFactory
 import okhttp3.ResponseBody
@@ -39,6 +44,7 @@ class DashboardActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dashboard)
         setUpTabs()
+        findViewById<ImageView>(R.id.imageView_userProfilePicture).setOnClickListener { goToUserProfilePage() }
         linearLayoutManager = LinearLayoutManager(this)
     }
     private fun setUpTabs()
@@ -78,19 +84,22 @@ class DashboardActivity : AppCompatActivity() {
                 })
             }
         }
-
-
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // Helper function to fetch current user data and convert to UserItem data instance
         getUserMenuData()
-        when (item.itemId) {
-            R.id.personalMenu -> Toast.makeText(this, userName+"\n"+userHeadline+"\n"+userEmail, Toast.LENGTH_LONG).show()
-        }
+//        when (item.itemId) {
+//            //R.id.personalMenu -> Toast.makeText(this, userName+"\n"+userHeadline+"\n"+userEmail, Toast.LENGTH_LONG).show()
+//            //TODO: launch activity
+//        }
         return super.onOptionsItemSelected(item)
+    }
 
+    fun goToUserProfilePage() {
+        val intent = Intent(this, UserProfilePageActivity()::class.java)
+        startActivity(intent)
     }
 }
 
