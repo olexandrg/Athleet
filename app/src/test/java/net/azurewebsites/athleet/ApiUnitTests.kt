@@ -34,17 +34,22 @@ class ApiUnitTests {
         val api = apiFactory()
         val response = api.retrieveExistingUser(tokenFactory()).execute().body()?.get(0)
 
-        response!!.userHeadline = "Edited headline"
-
         println(response!!.userId)
         println(response.userName)
         println(response.userHeadline)
         println(response.firebaseUID)
+    }
 
-        //send modifed object
+    @Test
+    fun checkEditUser() {
+        val api = apiFactory()
+        val response = api.retrieveExistingUser(tokenFactory()).execute().body()?.get(0)
 
-//        val addToDatabase = api.updateExistingUser(tokenFactory(), response?.userId.toString(), response)
-//        println(addToDatabase)
+        response!!.userHeadline = "Edited Test"
+        val addToDatabase = api.updateExistingUser(tokenFactory(), response?.userId.toString(), response).execute()
+        val putRequestCode = addToDatabase.code()
+        assertEquals(200, putRequestCode)
+        println(addToDatabase)
     }
     // GET Api response tests
     // returns 200 for successful GET from the Api

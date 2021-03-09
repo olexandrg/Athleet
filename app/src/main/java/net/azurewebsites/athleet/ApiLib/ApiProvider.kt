@@ -13,10 +13,21 @@ import retrofit2.http.*
 
 
 interface Api {
-
     @GET("Users")
     fun checkExistingUser(
         @Header("Authorization") token: String
+    ):Call<ResponseBody>
+
+    @GET("Users")
+    fun retrieveExistingUser(
+        @Header("Authorization") token: String
+    ):Call<List<UserItem>>
+
+    @PUT("Users/{id}")
+    fun updateExistingUser(
+        @Header("Authorization") token: String,
+        @Path("id") id: String,
+        @Body user: UserItem
     ):Call<ResponseBody>
 
     // insert new user

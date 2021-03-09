@@ -4,8 +4,8 @@ import kotlin.IndexOutOfBoundsException
 
 //      Child items of Data
 data class UserItem(
-    val firebaseUID: String?,
-    val userHeadline: String?,
+    var firebaseUID: String?,
+    var userHeadline: String?,
     val userId: Int?,
     val userName: String
 )
