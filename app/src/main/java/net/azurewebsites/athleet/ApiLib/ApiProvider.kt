@@ -128,11 +128,22 @@ interface Api {
         @Query("description") description: String
     )
 
+    // Update admin status of a team member
+    @PUT("Team/{teamName}/{userName}")
+    fun makeTeamUserCoach(
+        @Header("Authorization") token: String,
+        @Path("teamName") teamName: String,
+        @Path("userName") userName: String,
+        @Query("isAdmin") isAdmin: Boolean
+    ): Call<ResponseBody>
+
     @GET("exercises/workout/{workoutID}")
     suspend fun getExercisesForWorkout(
         @Header("Authorization") token: String,
         @Path("workoutID") workoutID: String):
             List<Exercise>
+
+
 
     // factory method
     companion object {
