@@ -6,12 +6,17 @@ import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import net.azurewebsites.athleet.Dashboard.DataSource
+import net.azurewebsites.athleet.workouts.Workout
 
 class TeamsListViewModel(val dataSource: DataSource) : ViewModel() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     val teamsLiveData = dataSource.getTeamsList()
 
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun insertTeams(list:List<Team>) {
+        dataSource.addTeams(list)
+    }
     // If the name and description are present, create new Team and add it to the datasource
     @RequiresApi(Build.VERSION_CODES.O)
     fun insertTeam(teamName: String?, teamDescription: String?) {
