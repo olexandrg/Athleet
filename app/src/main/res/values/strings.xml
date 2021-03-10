@@ -43,4 +43,5 @@
     <string name="team_admin">Team Admin</string>
     <string name="cancel_button_text">Cancel</string>
     <string name="make_admin">Make Admin</string>
+    <string name="username">Enter User Name</string>
 </resources>

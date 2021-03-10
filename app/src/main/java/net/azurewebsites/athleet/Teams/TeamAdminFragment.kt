@@ -1,15 +1,25 @@
 package net.azurewebsites.athleet.Teams
 
+import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.databinding.DataBindingUtil
 import com.google.firebase.auth.FirebaseAuth
+import net.azurewebsites.athleet.ApiLib.Api
+import net.azurewebsites.athleet.ApiLib.TeamInfo
+import net.azurewebsites.athleet.Dashboard.TEAM_NAME
 import net.azurewebsites.athleet.R
 import net.azurewebsites.athleet.databinding.FragmentTeamAdminBinding
+import net.azurewebsites.athleet.getFirebaseTokenId
+import okhttp3.ResponseBody
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class TeamAdminFragment : Fragment() {
     override fun onCreateView(
@@ -21,47 +31,7 @@ class TeamAdminFragment : Fragment() {
             R.layout.fragment_team_admin, container, false )
         val userName = FirebaseAuth.getInstance().currentUser!!.displayName;
 
-        //change true to false when the api call is used
-        //button_leaveTeam.isEnabled = true
 
-        /*val api: Api = Api.createSafe("https://testapi.athleetapi.club/api/")
-        FirebaseAuth.getInstance().currentUser?.getIdToken(false)
-            ?.addOnCompleteListener { response ->
-                if (response.isSuccessful) {
-                    val teamName = activity?.intent?.getStringExtra(TEAM_NAME).toString()
-                    val call = api.teamInfo(response.result?.token.toString(), teamName)
-
-                    call.enqueue(object : Callback<TeamInfo> {
-                        override fun onFailure(
-                            call: retrofit2.Call<TeamInfo>,
-                            t: Throwable
-                        ) {
-                            Toast.makeText(activity, "Failed to get team information", Toast.LENGTH_LONG)
-                                .show()
-                        }
-
-                        override fun onResponse(
-                            call: retrofit2.Call<TeamInfo>,
-                            response: retrofit2.Response<TeamInfo>
-                        ) {
-                            var users = response.body()!!.users
-                            var isAdmin: Boolean = false;
-                            var multAdmin: Int = 0;
-                            for(user in users) {
-                                if (user.isAdmin)
-                                    multAdmin++;
-                                if (user.UserName == userName)
-                                    isAdmin = true
-                            }
-                            if((isAdmin && multAdmin > 2) || !isAdmin)
-                                button_leaveTeam.isEnabled = true
-                        }
-                    })
-                } else {
-                    Toast.makeText(activity, "Couldn't get user token", Toast.LENGTH_LONG)
-                        .show()
-                }
-            }*/
 
         binding.buttonDeleteTeam.setOnClickListener {
             deleteTeam()
@@ -85,5 +55,18 @@ class TeamAdminFragment : Fragment() {
         Toast.makeText(activity, "Successfully Deleted Team (admin)", Toast.LENGTH_LONG).show()
         activity?.finishActivity(58)
         activity?.finish()
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun updateUserToAdmin(userName : String) {
+        FirebaseAuth.getInstance().currentUser?.getIdToken(false)?.addOnCompleteListener() { response ->
+            if (response.isSuccessful) {
+                val api = Api.createSafe()
+                val apiCall = api.makeTeamUserCoach(getFirebaseTokenId(), TEAM_NAME, userName, true)
+                val responseCode = apiCall.execute().code()
+                if (!responseCode.equals(200)) {Toast.makeText(activity, "Failed finding user name. User may not be part of team.", Toast.LENGTH_LONG).show()}
+            }
+            else { Toast.makeText(activity, "Failed getting token of user.", Toast.LENGTH_LONG).show() }
+        }
     }
 }
