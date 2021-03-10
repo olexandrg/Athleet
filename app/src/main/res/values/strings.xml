@@ -42,4 +42,5 @@
     <string name="leave_team">Leave Team</string>
     <string name="team_admin">Team Admin</string>
     <string name="cancel_button_text">Cancel</string>
+    <string name="make_admin">Make Admin</string>
 </resources>
