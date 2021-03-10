@@ -22,6 +22,8 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class TeamAdminFragment : Fragment() {
+    private val teamList = ArrayList<Pair<String, Boolean>>()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -67,6 +69,31 @@ class TeamAdminFragment : Fragment() {
                 if (!responseCode.equals(200)) {Toast.makeText(activity, "Failed finding user name. User may not be part of team.", Toast.LENGTH_LONG).show()}
             }
             else { Toast.makeText(activity, "Failed getting token of user.", Toast.LENGTH_LONG).show() }
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun getTeamUsers()
+    {
+        FirebaseAuth.getInstance().currentUser?.getIdToken(false)?.addOnCompleteListener() { response ->
+            if (response.isSuccessful) {
+                val api = Api.createSafe()
+                val apiCall = api.teamInfo(getFirebaseTokenId(), TEAM_NAME)
+                apiCall.enqueue(object: Callback<TeamInfo>{
+                    override fun onResponse(call: Call<TeamInfo>, response: Response<TeamInfo>) {
+                        if (response.isSuccessful) {
+                            val userList = response.body()!!.users
+                            for (user in userList) {
+                                teamList.add(Pair(user.UserName, user.isAdmin))
+                            }
+                        }
+                    }
+                    override fun onFailure(call: Call<TeamInfo>, t: Throwable) {
+                        Toast.makeText(activity, "Failed getting the team users", Toast.LENGTH_LONG).show()
+                    }
+                })
+            }
+            else { Toast.makeText(activity, "Failed getting token of user", Toast.LENGTH_LONG).show() }
         }
     }
 }
