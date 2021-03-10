@@ -13,6 +13,7 @@ import androidx.navigation.ui.NavigationUI
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.TeamMemberListAdapter
+import com.google.firebase.auth.FirebaseAuth
 import net.azurewebsites.athleet.ApiLib.Api
 import net.azurewebsites.athleet.ApiLib.TeamInfo
 import net.azurewebsites.athleet.Dashboard.TEAM_DESCRIPTION
@@ -83,24 +84,25 @@ class TeamDashboardFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.O)
     fun getTeamUsers()
     {
-        val api = Api.createSafe()
-        val apiCall = api.teamInfo(getFirebaseTokenId(), TEAM_NAME)
-        apiCall.enqueue(object: Callback<TeamInfo>{
-            override fun onResponse(call: Call<TeamInfo>, response: Response<TeamInfo>) {
-                if(response.isSuccessful) {
-                    val userList = response.body()!!.users
-                    for (user in userList) {
-                        teamList.add(user.UserName)
+        FirebaseAuth.getInstance().currentUser?.getIdToken(false)?.addOnCompleteListener() { response ->
+            if (response.isSuccessful) {
+                val api = Api.createSafe()
+                val apiCall = api.teamInfo(getFirebaseTokenId(), TEAM_NAME)
+                apiCall.enqueue(object: Callback<TeamInfo>{
+                    override fun onResponse(call: Call<TeamInfo>, response: Response<TeamInfo>) {
+                        if (response.isSuccessful) {
+                            val userList = response.body()!!.users
+                            for (user in userList) {
+                                teamList.add(user.UserName)
+                            }
+                        }
                     }
-                }
+                    override fun onFailure(call: Call<TeamInfo>, t: Throwable) {
+                        Toast.makeText(activity, "Failed getting the team users", Toast.LENGTH_LONG).show()
+                    }
+                })
             }
-            override fun onFailure(call: Call<TeamInfo>, t: Throwable) {
-                Toast.makeText(
-                    activity,
-                    "Failed getting the team users",
-                    Toast.LENGTH_LONG
-                ).show()
-            }
-        })
+            else { Toast.makeText(activity, "Failed getting token of user", Toast.LENGTH_LONG).show() }
+        }
     }
 }
