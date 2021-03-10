@@ -32,6 +32,7 @@ class TeamAdminFragment : Fragment() {
         // Inflate the layout for this fragment
         val binding = DataBindingUtil.inflate<FragmentTeamAdminBinding>(inflater,
             R.layout.fragment_team_admin, container, false )
+
         val currentUserUserName = FirebaseAuth.getInstance().currentUser!!.displayName!!;
 
         binding.buttonMakeUserAdmin.setOnClickListener {
