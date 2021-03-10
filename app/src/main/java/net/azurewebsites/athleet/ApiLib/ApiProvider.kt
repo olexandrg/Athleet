@@ -138,14 +138,18 @@ interface Api {
         @Query("isAdmin") isAdmin: Boolean
     ): Call<ResponseBody>
 
+    @POST("Team")
+    fun createTeam(
+        @Header("Authorization") token: String,
+        @Query("teamName") teamName: String,
+        @Query("description") description: String
+    ): Call<ResponseBody>
 
     @GET("exercises/workout/{workoutID}")
     suspend fun getExercisesForWorkout(
         @Header("Authorization") token: String,
         @Path("workoutID") workoutID: String):
             List<Exercise>
-
-
 
     // factory method
     companion object {
