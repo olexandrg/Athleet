@@ -1,5 +1,6 @@
 package net.azurewebsites.athleet.ApiLib
 
+import com.firebase.ui.auth.data.model.User
 import net.azurewebsites.athleet.models.Exercise
 import net.azurewebsites.athleet.workouts.Workout
 import okhttp3.OkHttpClient
@@ -17,6 +18,11 @@ interface Api {
     fun checkExistingUser(
         @Header("Authorization") token: String
     ):Call<ResponseBody>
+
+
+//  ############################################
+//  ############## USER STUFF ##################
+//  ############################################
 
     @GET("Users")
     fun retrieveExistingUser(
@@ -38,12 +44,42 @@ interface Api {
         @Query("description") description: String
     ): Call<ResponseBody>
 
+    // update User
+    @PUT("Users/{id}")
+    fun updateUser(
+        @Header("Authorization") token: String,
+        @Path("id") userId:Int,
+        @Body user: UserItem
+    ): Call<ResponseBody>
+
+
+//  ############################################
+//  ############## WORKOUT STUFF ###############
+//  ############################################
+
     @POST("Workouts")
     fun addNewWorkout(
         @Header("Authorization")token:String,
         @Query("Name") name:String,
         @Query("Description") description: String
     ):Call<ResponseBody>
+
+    @GET("Workouts")
+    fun getWorkout(
+        @Header("Authorization") token: String
+    ) : Call<List<Workout>>
+
+    // delete and existing workout
+    // only returns a status code 201 on successful completion
+    @GET("Workouts/DeleteWorkout")
+    fun deleteWorkoutByUser(
+        @Header("Authorization") token: String,
+        @Query("Name") Name: String
+    ): Call<ResponseBody>
+
+//  ############################################
+//  ############## EXERCISE STUFF ##############
+//  ############################################
 
     @POST("Exercises")
     fun addNewExercise(
@@ -57,64 +93,15 @@ interface Api {
         @Query("WorkoutID") workoutID: Int
     ):Call<ResponseBody>
 
-    // get all user workouts
-//    @GET("UserWorkouts")
-//    fun getUserWorkouts(
-//        @Header("Authorization") token: String
-//    ): Call<List<UserWorkouts>>
-
-//    @GET("Workouts")
-//    fun getWorkout(
-//        @Header("Authorization") token: String,
-//        @Query("workoutID") workoutID:String
-//    ) : Call<Workout>
-
-    @GET("Workouts")
-    fun getWorkout(
-        @Header("Authorization") token: String
-    ) : Call<List<Workout>>
-
-    // view all exercises
-//    @GET("exercises")
-//    fun getAllExercises(
-//        @Header("Authorization") token: String
-//    ) : Call<Exercises>
-
-    // get all workout exercises
-//    @GET("WorkoutExercises")
-//    fun getAllWorkoutExercises(
-//        @Header("Authorization") token: String
-//    ): Call<WorkoutExercises>
-
-    // insert a new workout
-    // only returns a status code 201 on successful completion
-    @GET("Workouts/InsertWorkout")
-    fun insertNewWorkoutByUser(
+    @GET("exercises/workout/{workoutID}")
+    suspend fun getExercisesForWorkout(
         @Header("Authorization") token: String,
-        @Query("Name") Name: String,
-        @Query("Description") Description: String?
-    ): Call<ResponseBody>
+        @Path("workoutID") workoutID: String):
+            List<Exercise>
 
-    // delete and existing workout
-    // only returns a status code 201 on successful completion
-    @GET("Workouts/DeleteWorkout")
-    fun deleteWorkoutByUser(
-        @Header("Authorization") token: String,
-        @Query("Name") Name: String
-    ): Call<ResponseBody>
-
-    // view workouts procedure
-//    @GET("ViewUserWorkouts")
-//    fun viewUserWorkoutsByUser(
-//        @Header("Authorization") token: String
-//    ): Call<ViewUserWorkouts>
-
-    // view exercises within a workout
-//    @GET("ViewExerciseInWorkout")
-//    fun viewExerciseInWorkoutByUser(
-//        @Header("Authorization") token: String,
-//        @Query("WorkoutName") WorkoutName: String?
-//    ): Call<ViewExercisesInWorkout>
+//  ############################################
+//  ############## TEAMS STUFF #################
+//  ############################################
 
     // delete a whole team
     @DELETE("Team")
@@ -139,11 +126,10 @@ interface Api {
         @Query("description") description: String
     )
 
-    @GET("exercises/workout/{workoutID}")
-    suspend fun getExercisesForWorkout(
-        @Header("Authorization") token: String,
-        @Path("workoutID") workoutID: String):
-            List<Exercise>
+//  #####################################################################
+//  ############## FACTORY METHOD FOR INSTANTIATING API #################
+//  #########################  NO TOUCH  ################################
+//  #####################################################################
 
     // factory method
     companion object {

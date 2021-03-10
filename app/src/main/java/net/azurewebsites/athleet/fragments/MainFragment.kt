@@ -118,42 +118,39 @@ open class MainFragment : Fragment() {
                     binding.authButton.setOnClickListener {
                         getInstance().signOut(requireContext())
                     }
-                    binding.welcomeText.text =
-                        "You are now signed in. Welcome back ${FirebaseAuth.getInstance().currentUser?.displayName}!"
+                    binding.welcomeText.text = "You are now signed in. Welcome back ${FirebaseAuth.getInstance().currentUser?.displayName}!"
                     FirebaseAuth.getInstance().currentUser?.getIdToken(false)?.addOnCompleteListener { response ->
                         if(response.isSuccessful) {
                             val userName = FirebaseAuth.getInstance().currentUser!!.displayName
-                            val callCheckExisting = api.checkExistingUser("Bearer " + response.result?.token.toString())
+                            val callCheckExisting = api.checkExistingUser(getFirebaseTokenId())
                             val token = "Bearer " + response.result?.token.toString()
                             callCheckExisting.enqueue(object : Callback<ResponseBody> {
-                                override fun onResponse(
-                                    call: Call<ResponseBody>,
-                                    response: Response<ResponseBody>
-                                ) {
+                                override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                                     when(response.code())
                                     {
-                                        404-> {
-                                        val call = api.addNewUser(token,userName!!, "Welcome back, "+userName )
-                                        call.enqueue(object : Callback<ResponseBody> {
+                                        404->
+                                        {
+                                            val fbUsername = FirebaseAuth.getInstance().currentUser?.displayName!!
+                                            val addcall = api.addNewUser(getFirebaseTokenId(),fbUsername, "Welcome back, "+fbUsername+"!" )
+                                            addcall.enqueue(object : Callback<ResponseBody> {
                                             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                                                     if(response.isSuccessful)
                                                         binding.btnDashboard.isVisible = true;
                                             }
-                                            override fun onFailure(call: Call<ResponseBody>, t: Throwable) { TODO("Not yet implemented") }
-                                            })
+                                            override fun onFailure(call: Call<ResponseBody>, t: Throwable)
+                                            {
+                                                TODO("Not yet implemented")
+                                            }
+                                        })
                                         }
-                                        200->{binding.btnDashboard.isVisible = true;}
+                                        200->
+                                        {
+                                            binding.btnDashboard.isVisible = true;
+                                        }
                                     }
-
-                                        binding.btnDashboard.isVisible = true;
                                 }
-
-                                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                                    TODO("Not yet implemented")
-                                }
-
+                                override fun onFailure(call: Call<ResponseBody>, t: Throwable) { TODO("Not yet implemented") }
                             })
-
                             val call = api.addNewUser("Bearer " + response.result?.token.toString(),userName!!, "Welcome back, "+userName )
                             call.enqueue(object : Callback<ResponseBody> {
                                 override fun onResponse(
@@ -169,15 +166,12 @@ open class MainFragment : Fragment() {
                                 }
 
                             })
-                        }
-
-                    }
-                }
-                else -> {
-                    binding.authButton.text = getString(R.string.login_button_text)
-                    binding.authButton.setOnClickListener { launchSignInFlow() }
-                    binding.welcomeText.text = getString(R.string.not_signed_in)
-                    binding.btnDashboard.isVisible = false;
+                        }}}
+                        else -> {
+                            binding.authButton.text = getString(R.string.login_button_text)
+                            binding.authButton.setOnClickListener { launchSignInFlow() }
+                            binding.welcomeText.text = getString(R.string.not_signed_in)
+                            binding.btnDashboard.isVisible = false;
                 }
             }
         })
