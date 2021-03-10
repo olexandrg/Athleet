@@ -33,7 +33,7 @@ class TeamAdminFragment : Fragment() {
             R.layout.fragment_team_admin, container, false )
         val userName = FirebaseAuth.getInstance().currentUser!!.displayName;
 
-
+        
 
         binding.buttonDeleteTeam.setOnClickListener {
             deleteTeam()
@@ -95,5 +95,15 @@ class TeamAdminFragment : Fragment() {
             }
             else { Toast.makeText(activity, "Failed getting token of user", Toast.LENGTH_LONG).show() }
         }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun isAdmin(userName: String) : Boolean {
+        getTeamUsers()
+        for (teamUser in teamList) {
+            // first is username, second is admin flag
+            if (userName == teamUser.first && teamUser.second) { return true }
+        }
+        return false
     }
 }
