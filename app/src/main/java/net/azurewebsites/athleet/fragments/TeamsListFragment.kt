@@ -93,8 +93,8 @@ class TeamsListFragment : Fragment() {
             FirebaseAuth.getInstance().currentUser?.getIdToken(false)?.addOnCompleteListener { response ->
                 if(response.isSuccessful) {
                     token = "Bearer " + response.result?.token.toString()
-                    val callGetWorkouts = api.createTeam(token, teamName, teamDescription)
-                    callGetWorkouts.enqueue(object: Callback<ResponseBody> {
+                    val callCreateTeam = api.createTeam(token, teamName, teamDescription)
+                    callCreateTeam.enqueue(object: Callback<ResponseBody> {
                         override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                             if(response.isSuccessful) {
                                 Toast.makeText(activity, "Created team", Toast.LENGTH_LONG).show()
