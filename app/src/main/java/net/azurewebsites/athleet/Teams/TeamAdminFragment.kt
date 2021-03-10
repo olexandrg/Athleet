@@ -24,6 +24,7 @@ import retrofit2.Response
 class TeamAdminFragment : Fragment() {
     private val teamList = ArrayList<Pair<String, Boolean>>()
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -31,9 +32,14 @@ class TeamAdminFragment : Fragment() {
         // Inflate the layout for this fragment
         val binding = DataBindingUtil.inflate<FragmentTeamAdminBinding>(inflater,
             R.layout.fragment_team_admin, container, false )
-        val userName = FirebaseAuth.getInstance().currentUser!!.displayName;
+        val currentUserUserName = FirebaseAuth.getInstance().currentUser!!.displayName!!;
 
-        
+        binding.buttonMakeUserAdmin.setOnClickListener {
+            if (isAdmin(currentUserUserName)) {
+                val desiredUserToBeAdmin = binding.editTextMakeUserAdmin.text.toString()
+                updateUserToAdmin(desiredUserToBeAdmin)
+            }
+        }
 
         binding.buttonDeleteTeam.setOnClickListener {
             deleteTeam()
