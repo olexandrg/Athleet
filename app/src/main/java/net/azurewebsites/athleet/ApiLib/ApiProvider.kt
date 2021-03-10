@@ -128,7 +128,8 @@ interface Api {
         @Query("description") description: String
     )
 
-    // Update admin status of a team member
+    // Update admin status of a team
+    // returns 200 upon proper execution of server-side procedure of updating userName within teamName to admin
     @PUT("Team/{teamName}/{userName}")
     fun makeTeamUserCoach(
         @Header("Authorization") token: String,
@@ -136,6 +137,7 @@ interface Api {
         @Path("userName") userName: String,
         @Query("isAdmin") isAdmin: Boolean
     ): Call<ResponseBody>
+
 
     @GET("exercises/workout/{workoutID}")
     suspend fun getExercisesForWorkout(
