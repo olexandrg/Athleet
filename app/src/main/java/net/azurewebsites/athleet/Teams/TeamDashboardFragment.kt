@@ -99,6 +99,8 @@ class TeamDashboardFragment : Fragment() {
                             for (user in userList) {
                                 teamList.add(user.userName)
                             }
+
+                            teamMemberListAdapter.notifyDataSetChanged()
                         }
                     }
                     override fun onFailure(call: Call<TeamInfo>, t: Throwable) {
