@@ -102,7 +102,7 @@ class TeamAdminFragment : Fragment() {
                         if (response.isSuccessful) {
                             val userList = response.body()!!.users
                             for (user in userList) {
-                                teamList.add(Pair(user.UserName, user.isAdmin))
+                                teamList.add(Pair(user.userName, user.isAdmin))
                             }
                         }
                     }

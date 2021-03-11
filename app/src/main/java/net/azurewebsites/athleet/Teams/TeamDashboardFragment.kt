@@ -97,7 +97,7 @@ class TeamDashboardFragment : Fragment() {
                         if (response.isSuccessful) {
                             val userList = response.body()!!.users
                             for (user in userList) {
-                                teamList.add(user.UserName)
+                                teamList.add(user.userName)
                             }
                         }
                     }

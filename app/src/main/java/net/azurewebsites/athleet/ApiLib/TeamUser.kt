@@ -1,6 +1,6 @@
 package net.azurewebsites.athleet.ApiLib
 
 data class TeamUser (
-    var UserName: String,
+    var userName: String,
     var isAdmin: Boolean
 )
