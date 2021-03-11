@@ -33,7 +33,7 @@ class TeamDashboardFragment : Fragment() {
 
     private lateinit var teamMemberListAdapter : TeamMemberListAdapter
     private lateinit var linearLayoutManager: LinearLayoutManager
-    private lateinit var fab:View
+    private lateinit var fab: View
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
