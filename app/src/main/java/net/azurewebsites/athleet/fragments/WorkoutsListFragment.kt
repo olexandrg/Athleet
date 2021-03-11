@@ -19,6 +19,7 @@ import net.azurewebsites.athleet.ApiLib.*
 import net.azurewebsites.athleet.Dashboard.*
 import net.azurewebsites.athleet.workouts.WorkoutsListViewModelFactory
 import net.azurewebsites.athleet.R
+import net.azurewebsites.athleet.getFirebaseTokenId
 import net.azurewebsites.athleet.workouts.Workout
 import net.azurewebsites.athleet.workouts.WorkoutDetailActivity
 import net.azurewebsites.athleet.workouts.WorkoutListAdapter
@@ -51,21 +52,14 @@ class WorkoutsListFragment() : Fragment() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun getWorkouts() {
-        FirebaseAuth.getInstance().currentUser?.getIdToken(false)?.addOnCompleteListener { response ->
-            if(response.isSuccessful) {
-                token = "Bearer " + response.result?.token.toString()
-                val callGetWorkouts = api.getWorkout(token)
-
-                callGetWorkouts.enqueue(object:Callback<List<Workout>>{
-                    override fun onResponse(call: Call<List<Workout>>, response: Response<List<Workout>>) {
-                        if(response.isSuccessful) { workoutListViewModel.insertWorkouts(response.body()!!.toList()) } }
-                    override fun onFailure(call: Call<List<Workout>>, t: Throwable) {
-                        TODO("Not yet implemented")
-                    }
-                })
-            }
-        }
+        token = getFirebaseTokenId()
+        val callGetWorkouts = api.getWorkout(token)
+        callGetWorkouts.enqueue(object:Callback<List<Workout>>{
+            override fun onResponse(call: Call<List<Workout>>, response: Response<List<Workout>>) { if(response.isSuccessful) { workoutListViewModel.insertWorkouts(response.body()!!.toList()) } }
+            override fun onFailure(call: Call<List<Workout>>, t: Throwable) { TODO("Not yet implemented") }
+        })
     }
+
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
@@ -74,9 +68,8 @@ class WorkoutsListFragment() : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         linearLayoutManager = LinearLayoutManager(context)
-        val workoutAdapter = WorkoutListAdapter { workout ->
-           workoutListViewModel.dataSource.currentWorkout=workout; adapterOnClick(workout) }
-        workoutListViewModel.workoutsLiveData.observe(this.viewLifecycleOwner , { it?.let { workoutAdapter.submitList(it as MutableList<Workout>) } })
+        val workoutAdapter = WorkoutListAdapter { workout -> adapterOnClick(workout) }
+        workoutListViewModel.workoutsLiveData.observe(this.viewLifecycleOwner , { it.let { if(workoutListViewModel.workoutsLiveData.value!!.size != 0) workoutAdapter.submitList(it as MutableList<Workout>) } })
         val rootView = inflater!!.inflate(R.layout.fragment_workouts_list, container, false)
         fab.setOnClickListener { fabOnClick() }
         val recyclerView = rootView.findViewById<RecyclerView>(R.id.recyclerView_Workout) as RecyclerView

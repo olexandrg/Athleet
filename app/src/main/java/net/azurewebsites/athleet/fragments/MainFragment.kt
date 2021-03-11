@@ -145,6 +145,7 @@ open class MainFragment : Fragment() {
                                         200->{binding.btnDashboard.isVisible = true;}
                                     }
 
+
                                         binding.btnDashboard.isVisible = true;
                                 }
 
@@ -153,6 +154,9 @@ open class MainFragment : Fragment() {
                                 }
 
                             })
+
+
+
 
 //                            val call = api.addNewUser("Bearer " + response.result?.token.toString(),userName!!, "Welcome back, "+userName )
 //                            call.enqueue(object : Callback<ResponseBody> {
@@ -168,6 +172,7 @@ open class MainFragment : Fragment() {
 //                                    TODO("Not yet implemented")
 //                                }
 
+
                             //})
                         }
 
@@ -178,8 +183,10 @@ open class MainFragment : Fragment() {
                     binding.authButton.setOnClickListener { launchSignInFlow() }
                     binding.welcomeText.text = getString(R.string.not_signed_in)
                     binding.btnDashboard.isVisible = false;
-                }
-            }
+
+//
+//                            })
+                        }}
         })
     }
 
