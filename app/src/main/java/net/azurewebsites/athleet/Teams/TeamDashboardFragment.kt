@@ -28,7 +28,9 @@ import retrofit2.Response
 
 
 class TeamDashboardFragment : Fragment() {
-    private val teamList = ArrayList<String>()
+    private var teamList = ArrayList<String>()
+    private var teamName : String = ""
+
     private lateinit var teamMemberListAdapter : TeamMemberListAdapter
     private lateinit var linearLayoutManager: LinearLayoutManager
     private lateinit var fab:View
@@ -87,7 +89,7 @@ class TeamDashboardFragment : Fragment() {
         FirebaseAuth.getInstance().currentUser?.getIdToken(false)?.addOnCompleteListener() { response ->
             if (response.isSuccessful) {
                 val api = Api.createSafe()
-                val apiCall = api.teamInfo(getFirebaseTokenId(), TEAM_NAME)
+                val apiCall = api.teamInfo(getFirebaseTokenId(), )
                 apiCall.enqueue(object: Callback<TeamInfo>{
                     override fun onResponse(call: Call<TeamInfo>, response: Response<TeamInfo>) {
                         if (response.isSuccessful) {

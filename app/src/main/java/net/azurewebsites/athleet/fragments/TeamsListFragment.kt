@@ -77,7 +77,8 @@ class TeamsListFragment : Fragment() {
         linearLayoutManager = LinearLayoutManager(context)
         val teamsAdapter = TeamsListAdapter { team -> adapterOnClick(team) }
 
-        teamsListViewModel.teamsLiveData.observe(this.viewLifecycleOwner , { it?.let { teamsAdapter.submitList(it as MutableList<Team>) } })
+        // workoutListViewModel.workoutsLiveData.observe(this.viewLifecycleOwner , { it.let { if(workoutListViewModel.workoutsLiveData.value!!.size != 0) workoutAdapter.submitList(it as MutableList<Workout>) } })
+        teamsListViewModel.teamsLiveData.observe(this.viewLifecycleOwner , { it?.let { if(teamsListViewModel.teamsLiveData.value!!.size != 0) teamsAdapter.submitList(it as MutableList<Team>) } })
         val rootView = inflater!!.inflate(R.layout.fragment_teams_list, container, false)
         val recyclerView = rootView.findViewById<RecyclerView>(R.id.recyclerView_Teams) as RecyclerView
 
