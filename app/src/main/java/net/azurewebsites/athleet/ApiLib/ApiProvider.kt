@@ -19,7 +19,6 @@ interface Api {
         @Header("Authorization") token: String
     ):Call<ResponseBody>
 
-
 //  ############################################
 //  ############## USER STUFF ##################
 //  ############################################
@@ -43,15 +42,6 @@ interface Api {
         @Query("userName") userName:String,
         @Query("description") description: String
     ): Call<ResponseBody>
-
-    // update User
-    @PUT("Users/{id}")
-    fun updateUser(
-        @Header("Authorization") token: String,
-        @Path("id") userId:Int,
-        @Body user: UserItem
-    ): Call<ResponseBody>
-
 
 //  ############################################
 //  ############## WORKOUT STUFF ###############

@@ -4,7 +4,6 @@ import net.azurewebsites.athleet.ApiLib.Api
 import org.junit.Test
 import java.nio.charset.Charset
 import org.junit.Assert.*
-import kotlin.text.Typography.quote
 
 class UserProfilePageTests {
     private fun apiFactory(): Api {return Api.createSafe()}
@@ -16,13 +15,17 @@ class UserProfilePageTests {
     @Test
     fun checkExistingUser() {
         val api = apiFactory()
-        val response = api.checkExistingUser(tokenFactory()).execute().body()?.source()?.readString(charset = Charset.defaultCharset())
-        val userData = response?.split("[", "]", "{", "}", ",",":")?.map { it.trim()}
 
-        // User name
-        assertEquals("\"TestUseraGKhtr\"", userData?.get(5))
+        // response as raw string
+        val rawResponse = api.checkExistingUser(tokenFactory()).execute().body()?.source()?.readString(charset = Charset.defaultCharset())
+        val userData = rawResponse?.split("[", "]", "{", "}", ",",":")?.map { it.trim()}
 
-        // Headline
-        assertEquals("\"Test Add headline\"", userData?.get(9))
+        // response in form of User object
+        val response = api.retrieveExistingUser(tokenFactory()).execute().body()?.get(0)
+        val userName = response?.userName
+        val userHeadline = response?.userHeadline
+
+        assertEquals("\""+userName+"\"", userData?.get(5))
+        assertEquals("\""+userHeadline+"\"", userData?.get(9))
     }
 }
