@@ -44,6 +44,8 @@ class TeamDashboardFragment : Fragment() {
         val binding = DataBindingUtil.inflate<FragmentTeamDashboardBinding>(inflater,
             R.layout.fragment_team_dashboard, container, false )
 
+        teamName = requireActivity()?.intent?.getStringExtra("name")!!
+
         val recyclerView: RecyclerView = binding.teamMemberListView
 
         binding.fab.setOnClickListener {
@@ -89,7 +91,7 @@ class TeamDashboardFragment : Fragment() {
         FirebaseAuth.getInstance().currentUser?.getIdToken(false)?.addOnCompleteListener() { response ->
             if (response.isSuccessful) {
                 val api = Api.createSafe()
-                val apiCall = api.teamInfo(getFirebaseTokenId(),  )
+                val apiCall = api.teamInfo(getFirebaseTokenId(),  teamName)
                 apiCall.enqueue(object: Callback<TeamInfo>{
                     override fun onResponse(call: Call<TeamInfo>, response: Response<TeamInfo>) {
                         if (response.isSuccessful) {
