@@ -119,7 +119,6 @@ class TeamAdminFragment : Fragment() {
     fun isAdmin(userName: String) : Boolean {
         getTeamUsers()
         for (teamUser in teamList) {
-            // first is username, second is admin flag
             if (userName == teamUser.first && teamUser.second) { return true }
         }
         return false

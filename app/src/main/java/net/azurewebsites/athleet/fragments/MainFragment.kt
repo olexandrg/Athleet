@@ -154,21 +154,21 @@ open class MainFragment : Fragment() {
 
                             })
 
-                            val call = api.addNewUser("Bearer " + response.result?.token.toString(),userName!!, "Welcome back, "+userName )
-                            call.enqueue(object : Callback<ResponseBody> {
-                                override fun onResponse(
-                                    call: Call<ResponseBody>,
-                                    response: Response<ResponseBody>
-                                ) {
-                                    if(response.isSuccessful)
-                                        binding.btnDashboard.isVisible = true;
-                                }
+//                            val call = api.addNewUser("Bearer " + response.result?.token.toString(),userName!!, "Welcome back, "+userName )
+//                            call.enqueue(object : Callback<ResponseBody> {
+//                                override fun onResponse(
+//                                    call: Call<ResponseBody>,
+//                                    response: Response<ResponseBody>
+//                                ) {
+//                                    if(response.isSuccessful)
+//                                        binding.btnDashboard.isVisible = true;
+//                                }
+//
+//                                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+//                                    TODO("Not yet implemented")
+//                                }
 
-                                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                                    TODO("Not yet implemented")
-                                }
-
-                            })
+                            //})
                         }
 
                     }
