@@ -23,7 +23,7 @@ import retrofit2.Response
 
 class TeamAdminFragment : Fragment() {
     // username, isAdmin
-    private val teamList = ArrayList<Pair<String, Boolean>>()
+    private var teamList = ArrayList<Pair<String, Boolean>>()
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
@@ -40,6 +40,9 @@ class TeamAdminFragment : Fragment() {
             if (isAdmin(currentUserUserName)) {
                 val desiredUserToBeAdmin = binding.editTextMakeUserAdmin.text.toString()
                 updateUserToAdmin(desiredUserToBeAdmin)
+
+                activity?.setResult(57)
+                activity?.finish()
             }
         }
 
@@ -71,8 +74,9 @@ class TeamAdminFragment : Fragment() {
     private fun updateUserToAdmin(userName : String) {
         FirebaseAuth.getInstance().currentUser?.getIdToken(false)?.addOnCompleteListener() { response ->
             if (response.isSuccessful) {
+                val teamName = requireActivity()?.intent?.getStringExtra("name")!!
                 val api = Api.createSafe()
-                val apiCall = api.makeTeamUserCoach(getFirebaseTokenId(), TEAM_NAME, userName, true)
+                val apiCall = api.makeTeamUserCoach(getFirebaseTokenId(), teamName, userName, true)
                 apiCall.enqueue(object: Callback<ResponseBody> {
                     override fun onResponse(
                         call: Call<ResponseBody>,
@@ -95,12 +99,13 @@ class TeamAdminFragment : Fragment() {
     {
         FirebaseAuth.getInstance().currentUser?.getIdToken(false)?.addOnCompleteListener() { response ->
             if (response.isSuccessful) {
+                val teamName = requireActivity()?.intent?.getStringExtra("name")!!
                 val api = Api.createSafe()
-                val apiCall = api.teamInfo(getFirebaseTokenId(), TEAM_NAME)
+                val apiCall = api.teamInfo(getFirebaseTokenId(), teamName)
                 apiCall.enqueue(object: Callback<TeamInfo>{
                     override fun onResponse(call: Call<TeamInfo>, response: Response<TeamInfo>) {
                         if (response.isSuccessful) {
-                            val userList = response.body()!!.users
+                            var userList = response.body()!!.users
                             for (user in userList) {
                                 teamList.add(Pair(user.userName, user.isAdmin))
                             }
