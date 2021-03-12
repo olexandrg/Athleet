@@ -2,8 +2,9 @@ package net.azurewebsites.athleet
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
 import android.widget.Button
+import androidx.annotation.RequiresApi
+import com.google.android.material.textfield.TextInputEditText
 
 class InviteTeamUser : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -15,8 +16,12 @@ class InviteTeamUser : AppCompatActivity() {
         }
     }
 
-    // TODO: this will require API calls to look up usernames
-    fun inviteUser() {
-        finish()
+    private fun inviteUser() {
+        var userName = findViewById<TextInputEditText>(R.id.add_user_name)
+        inviteUserToTeam(userName)
+    }
+
+    private fun inviteUserToTeam(userName : String) {
+
     }
 }
