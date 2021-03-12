@@ -45,6 +45,7 @@ class TeamDashboardFragment : Fragment() {
             R.layout.fragment_team_dashboard, container, false )
 
         teamName = requireActivity()?.intent?.getStringExtra("name")!!
+        binding.textViewTeamName.text = teamName
 
         val recyclerView: RecyclerView = binding.teamMemberListView
 

@@ -36,7 +36,7 @@
     <string name="search">Search</string>
     <string name="team_name">TeamName</string>
     <string name="team_desc">description</string>
-    <string name="teammates">List of users/teamates in team</string>
+    <string name="teammates">Team Members</string>
     <string name="team_dash">Cards of Team Dashboard stuff</string>
     <string name="delete_team">Delete Team</string>
     <string name="leave_team">Leave Team</string>
