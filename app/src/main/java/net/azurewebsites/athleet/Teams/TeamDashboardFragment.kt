@@ -26,6 +26,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
+// corresponding view model data is TeamInfoViewModel.kt
 
 class TeamDashboardFragment : Fragment() {
     private var teamList = ArrayList<String>()

@@ -5,6 +5,7 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import net.azurewebsites.athleet.ApiLib.TeamInfo
 import net.azurewebsites.athleet.exercise.Exercise
 import net.azurewebsites.athleet.Teams.Team
 import net.azurewebsites.athleet.Teams.TeamsList
@@ -14,9 +15,13 @@ import net.azurewebsites.athleet.workouts.WorkoutList
 // Handles operations on Live Data and holds details about it.
 class DataSource(resources: Resources) {
     @RequiresApi(Build.VERSION_CODES.O)
+    private var TeamInfoLiveData = MutableLiveData<TeamInfo>()
+
+    @RequiresApi(Build.VERSION_CODES.O)
     private var initialWorkoutList = WorkoutList(resources)
     @RequiresApi(Build.VERSION_CODES.O)
     private val WorkoutsLiveData = MutableLiveData(initialWorkoutList)
+
     @RequiresApi(Build.VERSION_CODES.O)
     private val initialTeamsList = TeamsList(resources)
     @RequiresApi(Build.VERSION_CODES.O)
@@ -32,6 +37,11 @@ class DataSource(resources: Resources) {
     @RequiresApi(Build.VERSION_CODES.O)
     fun getWorkoutList(): LiveData<List<Workout>> {
         return WorkoutsLiveData
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun getTeamInfo(): LiveData<TeamInfo> {
+        return TeamInfoLiveData
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
