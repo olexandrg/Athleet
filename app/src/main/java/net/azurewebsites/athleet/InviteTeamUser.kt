@@ -29,6 +29,9 @@ class InviteTeamUser : AppCompatActivity() {
     private fun inviteUser() {
         var userName = findViewById<TextInputEditText>(R.id.add_user_name).text.toString()
         inviteUserToTeam(userName)
+
+        // end intent and go back to user list
+        finish()
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
