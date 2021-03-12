@@ -15,6 +15,8 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class InviteTeamUser : AppCompatActivity() {
+    private val _activity = this
+
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,17 +48,15 @@ class InviteTeamUser : AppCompatActivity() {
                         call: Call<ResponseBody>,
                         response: Response<ResponseBody>
                     ) {
-                        // unable to show toast, this is not recognized, probably due to thread issue
-                        // Toast.makeText(this, "User is now added.", Toast.LENGTH_LONG).show()
+                        Toast.makeText(_activity, "User is now added.", Toast.LENGTH_LONG).show()
                     }
 
                     override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                        // unable to show toast, this is not recognized, probably due to thread issue
-                        // Toast.makeText(this, "Failed finding user name or team name.", Toast.LENGTH_LONG).show()
+                        Toast.makeText(_activity, "Failed finding user name or team name.", Toast.LENGTH_LONG).show()
                     }
                 })
             }
-            else { Toast.makeText(this, "Failed getting token of user", Toast.LENGTH_LONG).show() }
+            else { Toast.makeText(_activity, "Failed getting token of user", Toast.LENGTH_LONG).show() }
         }
     }
 }
