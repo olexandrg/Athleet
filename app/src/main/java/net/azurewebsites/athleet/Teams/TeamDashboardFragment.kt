@@ -64,6 +64,7 @@ class TeamDashboardFragment : Fragment() {
 
     private fun fabOnClick() {
         val intent = Intent(this.requireActivity(), InviteTeamUser::class.java)
+        intent.putExtra(TEAM_NAME, teamName)
         startActivityForResult(intent, 1)
     }
 
