@@ -139,7 +139,7 @@ interface Api {
         @Query("isAdmin") isAdmin: Boolean
     ): Call<ResponseBody>
 
-    @PUT("Team/{teamName}/{userName}")
+    @PUT("Team/invite/{teamName}/{userName}")
     fun inviteExistingUserToTeam(
         @Header("Authorization") token: String,
         @Path("teamName") teamName: String,
