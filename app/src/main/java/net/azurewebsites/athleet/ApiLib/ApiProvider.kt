@@ -153,6 +153,12 @@ interface Api {
         @Query("description") description: String
     ): Call<ResponseBody>
 
+    /*@POST("Team/insertteamworkout")
+    fun InsertTeamWorkout(
+        @Header("Authorization") token: String,
+
+    ): Call<ResponseBody>*/
+
     @GET("Team/list")
     fun listTeams(
         @Header("Authorization") token: String
