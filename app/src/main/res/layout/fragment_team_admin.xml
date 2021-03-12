@@ -24,15 +24,37 @@
             app:layout_constraintVertical_bias="0.064" />
 
         <Button
+            android:id="@+id/button_leaveTeam"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="@string/leave_team"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_aboutTeamAdmin" />
+
+        <Button
+            android:id="@+id/button_makeUserAdmin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="@string/make_admin"
+            app:layout_constraintBottom_toTopOf="@+id/button_leaveTeam"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_aboutTeamAdmin"
+            app:layout_constraintVertical_bias="0.625" />
+
+        <Button
             android:id="@+id/button_deleteTeam"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:text="@string/delete_team"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_aboutTeamAdmin" />
+            app:layout_constraintTop_toBottomOf="@+id/button_leaveTeam" />
 
         <TextView
             android:id="@+id/text_aboutTeamAdmin"
@@ -43,6 +65,19 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             tools:ignore="MissingConstraints" />
+
+        <EditText
+            android:id="@+id/editText_makeUserAdmin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="@string/username"
+            app:layout_constraintBottom_toTopOf="@+id/button_makeUserAdmin"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/text_aboutTeamAdmin"
+            app:layout_constraintVertical_bias="0.917" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

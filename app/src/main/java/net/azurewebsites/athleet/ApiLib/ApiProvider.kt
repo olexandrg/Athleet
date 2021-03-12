@@ -1,5 +1,8 @@
 package net.azurewebsites.athleet.ApiLib
 
+import net.azurewebsites.athleet.Teams.Team
+import net.azurewebsites.athleet.models.Exercise
+import net.azurewebsites.athleet.workouts.Workout
 import okhttp3.OkHttpClient
 import okhttp3.ResponseBody
 import okhttp3.logging.HttpLoggingInterceptor
@@ -11,50 +14,67 @@ import retrofit2.http.*
 
 
 interface Api {
-    // fetch a list of all users
-    @GET("Users")
-    fun getAllUsers(
-        @Header("Authorization") token: String
-    ): Call<List<UserItem>>
 
-   //  delete user by user id NOT firebaseID
-    @DELETE("Users/{userID}")
-    fun deleteUserByName(
-        @Header("Authorization") token: String,
-        @Path("userID") userID: Int?
-    ): Call<ResponseBody>
+    @GET("Users")
+    fun checkExistingUser(
+        @Header("Authorization") token: String
+    ):Call<ResponseBody>
 
     // insert new user
-    @POST("Users/InsertUser")
+    @POST("Users")
     fun addNewUser(
         @Header("Authorization") token: String,
         @Query("userName") userName:String,
-        @Query("headline") userHeadline:String?
+        @Query("description") description: String
     ): Call<ResponseBody>
 
-    // get all workouts
-    @GET("Workouts")
-    fun getAllWorkouts(
-        @Header("Authorization") token: String
-    ): Call<List<WorkoutItem>>
+    @POST("Workouts")
+    fun addNewWorkout(
+        @Header("Authorization")token:String,
+        @Query("Name") name:String,
+        @Query("Description") description: String
+    ):Call<ResponseBody>
+
+    @POST("Exercises")
+    fun addNewExercise(
+        @Header("Authorization")token:String,
+        @Query("Name") name:String,
+        @Query("Description") description: String,
+        @Query("DefaultReps") defaultReps:Int,
+        @Query("ExerciseSets") exerciseSets: Int,
+        @Query("MeasureUnits") measureUnits:String,
+        @Query("unitCount") unitCount: Float,
+        @Query("WorkoutID") workoutID: Int
+    ):Call<ResponseBody>
 
     // get all user workouts
-    @GET("UserWorkouts")
-    fun getAllUserWorkouts(
+//    @GET("UserWorkouts")
+//    fun getUserWorkouts(
+//        @Header("Authorization") token: String
+//    ): Call<List<UserWorkouts>>
+
+//    @GET("Workouts")
+//    fun getWorkout(
+//        @Header("Authorization") token: String,
+//        @Query("workoutID") workoutID:String
+//    ) : Call<Workout>
+
+    @GET("Workouts")
+    fun getWorkout(
         @Header("Authorization") token: String
-    ): Call<UserWorkout>
+    ) : Call<List<Workout>>
 
     // view all exercises
-    @GET("Exercises")
-    fun getAllExercises(
-        @Header("Authorization") token: String
-    ) : Call<Exercises>
+//    @GET("exercises")
+//    fun getAllExercises(
+//        @Header("Authorization") token: String
+//    ) : Call<Exercises>
 
     // get all workout exercises
-    @GET("WorkoutExercises")
-    fun getAllWorkoutExercises(
-        @Header("Authorization") token: String
-    ): Call<WorkoutExercises>
+//    @GET("WorkoutExercises")
+//    fun getAllWorkoutExercises(
+//        @Header("Authorization") token: String
+//    ): Call<WorkoutExercises>
 
     // insert a new workout
     // only returns a status code 201 on successful completion
@@ -74,17 +94,17 @@ interface Api {
     ): Call<ResponseBody>
 
     // view workouts procedure
-    @GET("ViewUserWorkouts")
-    fun viewUserWorkoutsByUser(
-        @Header("Authorization") token: String
-    ): Call<ViewUserWorkouts>
+//    @GET("ViewUserWorkouts")
+//    fun viewUserWorkoutsByUser(
+//        @Header("Authorization") token: String
+//    ): Call<ViewUserWorkouts>
 
     // view exercises within a workout
-    @GET("ViewExerciseInWorkout")
-    fun viewExerciseInWorkoutByUser(
-        @Header("Authorization") token: String,
-        @Query("WorkoutName") WorkoutName: String?
-    ): Call<ViewExercisesInWorkout>
+//    @GET("ViewExerciseInWorkout")
+//    fun viewExerciseInWorkoutByUser(
+//        @Header("Authorization") token: String,
+//        @Query("WorkoutName") WorkoutName: String?
+//    ): Call<ViewExercisesInWorkout>
 
     // delete a whole team
     @DELETE("Team")
@@ -93,16 +113,59 @@ interface Api {
         @Query("teamName") teamName: String
     ): Call<ResponseBody>
 
+
+    @GET("Team")
+    fun teamInfo(
+        @Header("Authorization") token: String,
+        @Query("teamName") teamName: String
+    ): Call<TeamInfo>
+
+    // leave a team
+    @DELETE("Team/leave")
+    fun leaveTeam(
+        @Header("Authorization") token: String,
+        @Query("userName") userName: String,
+        @Query("UID") UID: String,
+        @Query("description") description: String
+    )
+
+    // Update admin status of a team
+    // returns 200 upon proper execution of server-side procedure of updating userName within teamName to admin
+    @PUT("Team/{teamName}/{userName}")
+    fun makeTeamUserCoach(
+        @Header("Authorization") token: String,
+        @Path("teamName") teamName: String,
+        @Path("userName") userName: String,
+        @Query("isAdmin") isAdmin: Boolean
+    ): Call<ResponseBody>
+
+    @POST("Team")
+    fun createTeam(
+        @Header("Authorization") token: String,
+        @Query("teamName") teamName: String,
+        @Query("description") description: String
+    ): Call<ResponseBody>
+
+    @GET("Team/list")
+    fun listTeams(
+        @Header("Authorization") token: String
+    ): Call<List<Team>>
+
+    @GET("exercises/workout/{workoutID}")
+    suspend fun getExercisesForWorkout(
+        @Header("Authorization") token: String,
+        @Path("workoutID") workoutID: String):
+            List<Exercise>
+
     // factory method
     companion object {
-        fun createSafe(baseUrl: String): Api {
+        fun createSafe(baseUrl: String = "https://testapi.athleetapi.club/api/"): Api {
             // add interceptor to read raw JSON
             val interceptor = HttpLoggingInterceptor()
             interceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
 
             // create retrofit client
             val retrofit = Retrofit.Builder()
-
                     // here we set the base url of our API
                     .baseUrl(baseUrl)
                     // make OkHttpClient instance
