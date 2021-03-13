@@ -1,6 +1,6 @@
 package net.azurewebsites.athleet.ApiLib
 
-import com.firebase.ui.auth.data.model.User
+import net.azurewebsites.athleet.Teams.Team
 import net.azurewebsites.athleet.models.Exercise
 import net.azurewebsites.athleet.workouts.Workout
 import okhttp3.OkHttpClient
@@ -120,6 +120,35 @@ interface Api {
 //  ############## FACTORY METHOD FOR INSTANTIATING API #################
 //  #########################  NO TOUCH  ################################
 //  #####################################################################
+
+    // Update admin status of a team
+    // returns 200 upon proper execution of server-side procedure of updating userName within teamName to admin
+    @PUT("Team/{teamName}/{userName}")
+    fun makeTeamUserCoach(
+        @Header("Authorization") token: String,
+        @Path("teamName") teamName: String,
+        @Path("userName") userName: String,
+        @Query("isAdmin") isAdmin: Boolean
+    ): Call<ResponseBody>
+
+    @PUT("Team/invite/{teamName}/{userName}")
+    fun inviteExistingUserToTeam(
+        @Header("Authorization") token: String,
+        @Path("teamName") teamName: String,
+        @Path("userName") userName: String
+    ) : Call<ResponseBody>
+
+    @POST("Team")
+    fun createTeam(
+        @Header("Authorization") token: String,
+        @Query("teamName") teamName: String,
+        @Query("description") description: String
+    ): Call<ResponseBody>
+
+    @GET("Team/list")
+    fun listTeams(
+        @Header("Authorization") token: String
+    ): Call<List<Team>>
 
     // factory method
     companion object {

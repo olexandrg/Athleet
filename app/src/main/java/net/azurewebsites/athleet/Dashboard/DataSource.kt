@@ -39,6 +39,10 @@ class DataSource(resources: Resources) {
         return TeamsLiveData
     }
     @RequiresApi(Build.VERSION_CODES.O)
+    fun addTeams(list: List<Team>) {
+        TeamsLiveData.postValue(list)
+    }
+    @RequiresApi(Build.VERSION_CODES.O)
     fun addTeam(newTeam: Team) {
         val currentList = TeamsLiveData.value
         if (currentList == null) {

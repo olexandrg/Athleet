@@ -1,12 +1,8 @@
 package net.azurewebsites.athleet
-//import kotlinx.coroutines.test.TestCoroutineDispatcher
-//import kotlinx.coroutines.test.TestCoroutineScope
 import net.azurewebsites.athleet.ApiLib.*
-//import net.azurewebsites.athleet.models.AthleetApi
 import org.junit.Test
 import org.junit.Assert.*
 import java.nio.charset.Charset
-
 
 class ApiUnitTests {
 
@@ -74,7 +70,6 @@ class ApiUnitTests {
         assertNotEquals(originalUser.userHeadline, originalTestUserReturn.userHeadline)
         assertNotEquals(originalUser.userName, originalTestUserReturn.userName)
 
-
         // for good measure
         // change user info (where it's allowed) and update, making sure the request succeeds
         val editedTestUser = originalTestUserReturn.copy();     println("\nBeginning second edit to user data...\n")
@@ -107,22 +102,4 @@ class ApiUnitTests {
     // GET Api response tests
     // returns 200 for successful GET from the Api
     // returns 401 if not successful; will need to replace token or check if the api service is up
-
-
-    //@Test // Will break if test user's exercises gets cleared :(
-//    fun getExercisesForWorkoutById_shouldMatchFirstExercise() {
-//
-//        // Given
-//        val api = apiFactory()
-//        val expected = Exercise(2, "Test Exercise", "Test Exercise Description", "5")
-//
-//        // When
-//        testScope.launch {
-//            val response = api.getExercisesForWorkout(tokenFactory(), "6")
-//
-//            // Then
-//            assertEquals("GET /api/Exercises/workout/{workoutID}", expected, response[0])
-//        }
-//    }
-
 }
