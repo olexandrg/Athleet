@@ -28,6 +28,11 @@ interface Api {
         @Header("Authorization") token: String
     ):Call<List<UserItem>>
 
+    @GET("Users")
+    suspend fun retrieveExistingUserCoroutine(
+        @Header("Authorization") token: String
+    ): List<UserItem>
+
     @PUT("Users/{id}")
     fun updateExistingUser(
         @Header("Authorization") token: String,

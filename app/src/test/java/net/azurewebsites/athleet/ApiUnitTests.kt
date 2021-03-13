@@ -47,12 +47,32 @@ class ApiUnitTests {
     @Test
     fun checkRetrieveUser() {
         val api = apiFactory()
+        val expected = 5
         val response = api.retrieveExistingUser(tokenFactory()).execute().body()?.get(0)
 
         println(response!!.userId)
         println(response.userName)
         println(response.userHeadline)
         println(response.firebaseUID)
+
+        assertEquals(expected, response.userId)
+    }
+
+    @Test
+    fun checkRetrieveUserCoroutine() {
+        val api = apiFactory()
+        val expected = 5
+        testScope.launch {
+            val response = api.retrieveExistingUserCoroutine(tokenFactory())[0]
+
+            println(response.userId)
+            println(response.userName)
+            println(response.userHeadline)
+            println(response.firebaseUID)
+
+            assertEquals(expected, response.userId)
+        }
+
     }
 
     @Test
