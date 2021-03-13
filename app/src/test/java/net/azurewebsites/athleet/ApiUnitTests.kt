@@ -1,7 +1,5 @@
 package net.azurewebsites.athleet
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.test.TestCoroutineDispatcher
-import kotlinx.coroutines.test.TestCoroutineScope
+import kotlinx.coroutines.runBlocking
 import net.azurewebsites.athleet.ApiLib.*
 import net.azurewebsites.athleet.models.Exercise
 import org.junit.Test
@@ -9,9 +7,6 @@ import org.junit.Assert.*
 import java.nio.charset.Charset
 
 class ApiUnitTests {
-
-    private val dispatcher = TestCoroutineDispatcher()
-    private val testScope = TestCoroutineScope(dispatcher)
 
     private fun apiFactory(): Api {return Api.createSafe()}
 
@@ -24,13 +19,10 @@ class ApiUnitTests {
         // Given
         val api = apiFactory()
         val expected = Exercise(2, "Test Exercise", "Test Exercise Description", "5")
-
-        testScope.launch {
-            // When
-            val response = api.getExercisesForWorkout(tokenFactory(), "6")
-            // Then
-            assertEquals("GET /api/Exercises/workout/{workoutID}", expected, response[0])
-        }
+        // When
+        val response = runBlocking {  api.getExercisesForWorkout(tokenFactory(), "6")[0]}
+        // Then
+        assertEquals("GET /api/Exercises/workout/{workoutID}", expected, response)
     }
 
     @Test
@@ -50,29 +42,9 @@ class ApiUnitTests {
         val expected = 5
         val response = api.retrieveExistingUser(tokenFactory()).execute().body()?.get(0)
 
-        println(response!!.userId)
-        println(response.userName)
-        println(response.userHeadline)
-        println(response.firebaseUID)
-
-        assertEquals(expected, response.userId)
-    }
-
-    @Test
-    fun checkRetrieveUserCoroutine() {
-        val api = apiFactory()
-        val expected = 5
-        testScope.launch {
-            val response = api.retrieveExistingUserCoroutine(tokenFactory())[0]
-
-            println(response.userId)
-            println(response.userName)
-            println(response.userHeadline)
-            println(response.firebaseUID)
-
+        if (response != null) {
             assertEquals(expected, response.userId)
         }
-
     }
 
     @Test
