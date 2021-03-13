@@ -1,19 +1,38 @@
 package net.azurewebsites.athleet
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.test.TestCoroutineDispatcher
+import kotlinx.coroutines.test.TestCoroutineScope
 import net.azurewebsites.athleet.ApiLib.*
+import net.azurewebsites.athleet.models.Exercise
 import org.junit.Test
 import org.junit.Assert.*
 import java.nio.charset.Charset
 
 class ApiUnitTests {
 
-    //private val dispatcher = TestCoroutineDispatcher()
-    //private val testScope = TestCoroutineScope(dispatcher)
+    private val dispatcher = TestCoroutineDispatcher()
+    private val testScope = TestCoroutineScope(dispatcher)
 
     private fun apiFactory(): Api {return Api.createSafe()}
 
     private fun tokenFactory(): String {
         return tokenMaster.tokenFactory()
     }
+
+    @Test
+    fun getExercisesForWorkoutById_shouldMatchFirstExercise() {
+        // Given
+        val api = apiFactory()
+        val expected = Exercise(2, "Test Exercise", "Test Exercise Description", "5")
+
+        testScope.launch {
+            // When
+            val response = api.getExercisesForWorkout(tokenFactory(), "6")
+            // Then
+            assertEquals("GET /api/Exercises/workout/{workoutID}", expected, response[0])
+        }
+    }
+
     @Test
     fun checkExistingUser() {
         val api = apiFactory()
