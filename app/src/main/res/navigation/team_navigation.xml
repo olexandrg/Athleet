@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/team_navigation"
+    app:startDestination="@id/teamDashboardFragment">
+
+    <fragment
+        android:id="@+id/teamDashboardFragment"
+        android:name="net.azurewebsites.athleet.Teams.TeamDashboardFragment"
+        android:label="TeamDashboardFragment" >
+        <action
+            android:id="@+id/action_teamDashboardFragment_to_teamAdminFragment"
+            app:destination="@id/teamAdminFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/teamAdminFragment"
+        android:name="net.azurewebsites.athleet.Teams.TeamAdminFragment"
+        android:label="fragment_team_admin"
+        tools:layout="@layout/fragment_team_admin" />
+</navigation>

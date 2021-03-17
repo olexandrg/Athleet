@@ -1,74 +1,71 @@
 package net.azurewebsites.athleet.Dashboard
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
+import android.view.Menu
+import android.view.MenuItem
+import android.widget.ImageView
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
-import androidx.lifecycle.observe
-import androidx.recyclerview.widget.RecyclerView
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_dashboard.*
 import net.azurewebsites.athleet.R
-import net.azurewebsites.athleet.Workouts.Workout
-import net.azurewebsites.athleet.Workouts.WorkoutDetailActivity
-import net.azurewebsites.athleet.Workouts.WorkoutListAdapter
-
+import net.azurewebsites.athleet.fragments.TeamsListFragment
+import net.azurewebsites.athleet.fragments.WorkoutsListFragment
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentPagerAdapter
+import com.google.firebase.auth.FirebaseAuth
+import net.azurewebsites.athleet.ApiLib.Api
+import net.azurewebsites.athleet.user.UserProfilePageActivity
+import net.azurewebsites.athleet.workouts.WorkoutDetailActivity
+import net.azurewebsites.athleet.workouts.WorkoutsListViewModel
+import net.azurewebsites.athleet.workouts.WorkoutsListViewModelFactory
+import okhttp3.ResponseBody
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import java.nio.charset.Charset
+import java.util.ArrayList
 
 class DashboardActivity : AppCompatActivity() {
     private val newWorkoutActivityRequestCode = 1
-    private val workoutListViewModel by viewModels<WorkoutsListViewModel> { WorkoutsListViewModelFactory(this) }
+    val workoutListViewModel by viewModels<WorkoutsListViewModel> { WorkoutsListViewModelFactory(this) }
+    val api = Api.createSafe()
     private lateinit var linearLayoutManager: LinearLayoutManager
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dashboard)
+        setUpTabs()
+        findViewById<ImageView>(R.id.imageView_userProfilePicture).setOnClickListener { goToUserProfilePage() }
         linearLayoutManager = LinearLayoutManager(this)
-        recyclerView.layoutManager = linearLayoutManager
-        val workoutAdapter = WorkoutListAdapter { workout -> adapterOnClick(workout) }
-        val recyclerView: RecyclerView = findViewById(R.id.recyclerView)
-        recyclerView.adapter = workoutAdapter
-
-        workoutListViewModel.workoutsLiveData.observe(this , {
-            it?.let {
-                workoutAdapter.submitList(it as MutableList<Workout>)
-
-            }
-        })
-
-        val fab: View = findViewById(R.id.fab)
-        fab.setOnClickListener {
-            fabOnClick()
-
-        }
     }
-    private fun adapterOnClick(Workout: Workout) {
-        val intent = Intent(this, WorkoutDetailActivity()::class.java)
-        intent.putExtra(WORKOUT_NAME, Workout.name)
+    private fun setUpTabs()
+    {
+        var adapter = ViewPagerAdapter(this.supportFragmentManager)
+        adapter.addFragment(WorkoutsListFragment(), "Workouts")
+        adapter.addFragment(TeamsListFragment(), "Teams")
+        viewPager.adapter = adapter;
+        tabLayout.setupWithViewPager(viewPager)
+        tabLayout.getTabAt(0)!!.setIcon(R.drawable.weightlifting_icon)
+        tabLayout.getTabAt(1)!!.setIcon(R.drawable.teams_tab_icon)
+    }
+
+    private fun goToUserProfilePage() {
+        val intent = Intent(this, UserProfilePageActivity()::class.java)
         startActivity(intent)
     }
+}
 
-    /* Adds Workout to WorkoutList when FAB is clicked. */
-    private fun fabOnClick() {
-        val intent = Intent(this, AddWorkoutActivity::class.java)
-        startActivityForResult(intent, newWorkoutActivityRequestCode)
-    }
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    override fun onActivityResult(requestCode: Int, resultCode: Int, intentData: Intent?) {
-        super.onActivityResult(requestCode, resultCode, intentData)
-
-        /* Inserts Workout into viewModel. */
-        if (requestCode == newWorkoutActivityRequestCode && resultCode == Activity.RESULT_OK) {
-            intentData?.let { data ->
-                val WorkoutName = data.getStringExtra(WORKOUT_NAME)
-                val WorkoutDescription = data.getStringExtra(WORKOUT_DESCRIPTION)
-
-                workoutListViewModel.insertWorkout(WorkoutName, WorkoutDescription)
-            }
-        }
-    }
+class ViewPagerAdapter(supportFragmentManager: FragmentManager):FragmentPagerAdapter(supportFragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
+    private var mFragmentList = ArrayList<Fragment>();
+    private var mFragmentTitleList = ArrayList<String>();
+    override fun getCount(): Int { return mFragmentList.size }
+    override fun getItem(position: Int): Fragment { return  mFragmentList[position] }
+    fun addFragment(fragment:Fragment,title:String){ mFragmentList.add(fragment); mFragmentTitleList.add(title); }
 }
 

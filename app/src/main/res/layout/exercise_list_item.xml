@@ -1,0 +1,43 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <import type="android.view.View"/>
+        <variable
+            name="exercise"
+            type="net.azurewebsites.athleet.models.Exercise" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="150dp">
+
+        <TextView
+            android:id="@+id/exercise_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{exercise.exerciseName}"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.168" />
+
+        <TextView
+            android:id="@+id/exercise_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{exercise.description}"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.093"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/exercise_name"
+            app:layout_constraintVertical_bias="0.345" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
+

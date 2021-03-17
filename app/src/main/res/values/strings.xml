@@ -31,7 +31,21 @@
     <string name="workout_name_edit_text">Enter name for workout</string>
     <string name="team_name_edit_text">Enter name for team</string>
     <string name="add_workout">Add Workout</string>
+    <string name="add_team">Add Team</string>
     <string name="workout_string" />
     <string name="fab_content_description">floating action button</string>
     <string name="search">Search</string>
+    <string name="team_name">TeamName</string>
+    <string name="team_desc">description</string>
+    <string name="teammates">Team Members</string>
+    <string name="team_dash">Cards of Team Dashboard stuff</string>
+    <string name="delete_team">Delete Team</string>
+    <string name="leave_team">Leave Team</string>
+    <string name="team_admin">Team Admin</string>
+    <string name="cancel_button_text">Cancel</string>
+    <string name="user">Username</string>
+    <string name="headline">Headline</string>
+    <string name="e_mail">E-mail</string>
+    <string name="make_admin">Make Admin</string>
+    <string name="username">Enter User Name</string>
 </resources>

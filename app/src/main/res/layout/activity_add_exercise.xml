@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
+        android:text="Add Exercise"
+        android:textAlignment="center"
+        android:textAppearance="?attr/textAppearanceHeadline4" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:hint="Enter a name to give the exercise"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/add_exercise_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:hint="Enter an explanation for the exercise"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/add_exercise_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textMultiLine" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <LinearLayout
+        android:layout_width="375dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|left"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|right"
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/add_exercise_repetitions"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Repetitions"
+                    android:inputType="number" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|left"
+
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/add_exercise_sets"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:hint="Sets"
+                    android:inputType="number" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <Switch
+                android:id="@+id/switch_use_units"
+                android:layout_width="107dp"
+                android:layout_height="77dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="6dp"
+                android:text="Use unit of measurement" />
+
+        </LinearLayout>
+
+        <RadioGroup
+            android:id="@+id/radio_button_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            android:textAlignment="inherit"
+            tools:visibility="visible">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/radioButton_mi"
+                        android:layout_width="55dp"
+                        android:layout_height="45dp"
+                        android:layout_gravity="center"
+                        android:layout_margin="3dp"
+                        android:onClick="radio_button_click"
+                        android:text="mi" />
+
+                    <RadioButton
+                        android:id="@+id/radioButton_lbs"
+                        android:layout_width="55dp"
+                        android:layout_height="45dp"
+                        android:layout_gravity="center"
+                        android:layout_margin="3dp"
+                        android:onClick="radio_button_click"
+                        android:text="lbs" />
+
+                    <RadioButton
+                        android:id="@+id/radioButton_kg"
+                        android:layout_width="55dp"
+                        android:layout_height="45dp"
+                        android:layout_gravity="center"
+                        android:layout_margin="3dp"
+                        android:onClick="radio_button_click"
+                        android:text="kg" />
+
+                    <RadioButton
+                        android:id="@+id/radioButton_km"
+                        android:layout_width="55dp"
+                        android:layout_height="45dp"
+                        android:layout_gravity="center"
+                        android:layout_margin="3dp"
+                        android:onClick="radio_button_click"
+                        android:text="km" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_marginRight="10dp"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/radioButton_yen"
+                        android:layout_width="55dp"
+                        android:layout_height="45dp"
+                        android:layout_gravity="center"
+                        android:layout_margin="3dp"
+                        android:onClick="radio_button_click"
+                        android:text="¥" />
+
+                    <RadioButton
+                        android:id="@+id/radioButton_psi"
+                        android:layout_width="55dp"
+                        android:layout_height="45dp"
+                        android:layout_gravity="center"
+                        android:layout_margin="3dp"
+                        android:onClick="radio_button_click"
+                        android:text="psi" />
+
+                    <RadioButton
+                        android:id="@+id/radioButton_kCal"
+                        android:layout_width="65dp"
+                        android:layout_height="45dp"
+                        android:layout_gravity="center"
+                        android:layout_margin="3dp"
+                        android:onClick="radio_button_click"
+                        android:text="kCal" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|left"
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/add_exercise_unit_count"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:hint="# of units"
+                    android:inputType="numberDecimal" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </RadioGroup>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/done_button"
+        style="?attr/materialButtonOutlinedStyle"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center"
+        android:layout_marginTop="80dp"
+        android:text="@string/done_button_text" />
+
+</LinearLayout>

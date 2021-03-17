@@ -11,9 +11,23 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Athleet">
+<<<<<<< HEAD
         <activity android:name=".Dashboard.CreateTeam"></activity>
         <activity android:name=".Workouts.WorkoutDetailActivity" />
+=======
+        <!-- android:theme="@style/Theme.AppCompat.DarkTheme">-->
+
+        <activity android:name=".InviteTeamUser"></activity>
+        <activity android:name=".TeamMemberListView" />
+        <activity android:name=".Dashboard.AddTeamActivity" />
+
+        <activity android:name=".workouts.WorkoutDetailActivity" />
+        <activity android:name=".exercise.AddExerciseActivity" />
+        <activity android:name=".user.UserProfilePageActivity"/>
+        <activity android:name=".Teams.TeamDetailActivity" />
+>>>>>>> develop
         <activity android:name=".MainActivity">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

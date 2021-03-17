@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/workout"
+    app:startDestination="@id/workoutFragment">
+
+    <fragment
+        android:id="@+id/workoutFragment"
+        android:name="net.azurewebsites.athleet.workouts.WorkoutFragment"
+        android:label="fragment_workout"
+        tools:layout="@layout/fragment_workout" >
+        <action
+            android:id="@+id/action_workoutFragment_to_addExerciseActivity"
+            app:destination="@id/addExerciseActivity" />
+        <action
+            android:id="@+id/action_workoutFragment_to_exerciseFragment"
+            app:destination="@id/exerciseFragment" />
+    </fragment>
+    <activity
+        android:id="@+id/addExerciseActivity"
+        android:name="net.azurewebsites.athleet.exercise.AddExerciseActivity"
+        android:label="AddExerciseActivity" >
+        <argument
+            android:name="workoutId"
+            app:argType="integer" />
+    </activity>
+
+    <fragment
+        android:id="@+id/exerciseFragment"
+        android:name="net.azurewebsites.athleet.exercise.ExerciseFragment"
+        android:label="ExerciseFragment" >
+        <argument
+            android:name="selectedExercise"
+            app:argType="net.azurewebsites.athleet.models.Exercise"/>
+
+    </fragment>
+
+
+</navigation>
