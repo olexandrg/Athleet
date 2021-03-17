@@ -9,7 +9,6 @@
     <string name="not_signed_in">"Not yet signed in."</string>
     <string name="log_msg_succ">"Successfully signed in user ${FirebaseAuth.getInstance().currentUser?.displayName}!"</string>
     <string name="log_msg_err">""Sign in unsuccessful ${response?.error?.errorCode}"</string>
-    <string name="add_team">Add Team</string>
 
 
     <!--Shared Preference Keys -->
