@@ -12,12 +12,12 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.google.firebase.auth.FirebaseAuth
 import net.azurewebsites.athleet.ApiLib.Api
 import net.azurewebsites.athleet.Dashboard.WORKOUT_NAME
 import net.azurewebsites.athleet.R
 import net.azurewebsites.athleet.databinding.FragmentWorkoutBinding
 import net.azurewebsites.athleet.exercise.*
+import net.azurewebsites.athleet.getFirebaseTokenId
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
@@ -26,7 +26,6 @@ import retrofit2.Response
 
 class WorkoutFragment : Fragment() {
     val api = Api.createSafe()
-    private lateinit var token:String
     private lateinit var workoutName: String
     var workoutId:Int = 0
     private val viewModel: WorkoutViewModel by lazy { ViewModelProvider(this).get(WorkoutViewModel::class.java) }
@@ -45,7 +44,6 @@ class WorkoutFragment : Fragment() {
         binding.exercisesListRecView.adapter = ExerciseListAdapter(ExerciseListAdapter.OnClickListener {
             viewModel.displayExerciseDetails(it)
         })
-        FirebaseAuth.getInstance().currentUser?.getIdToken(false)?.addOnCompleteListener { response -> if(response.isSuccessful) { token = "Bearer " + response.result?.token.toString()}}
         viewModel.navigateToSelectedExercise.observe(viewLifecycleOwner, Observer {
             if ( null != it ) {
                 this.findNavController().navigate(
@@ -83,7 +81,7 @@ class WorkoutFragment : Fragment() {
     }
     fun insertExercise(eName:String, eDesc:String, eReps:Int, eSets:Int, eUnitType:String, eUnitCount:Float)
     {
-        val call = api.addNewExercise(token, eName, eDesc, eReps, eSets, eUnitType, eUnitCount, workoutId)
+        val call = api.addNewExercise(getFirebaseTokenId(), eName, eDesc, eReps, eSets, eUnitType, eUnitCount, workoutId)
         call.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 if(response.isSuccessful) {
