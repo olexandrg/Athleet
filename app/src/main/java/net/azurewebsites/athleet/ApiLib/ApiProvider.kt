@@ -4,7 +4,7 @@ import net.azurewebsites.athleet.models.Team
 import net.azurewebsites.athleet.models.Exercise
 import net.azurewebsites.athleet.models.TeamInfo
 import net.azurewebsites.athleet.models.UserItem
-import net.azurewebsites.athleet.workouts.Workout
+import net.azurewebsites.athleet.models.Workout
 import okhttp3.OkHttpClient
 import okhttp3.ResponseBody
 import okhttp3.logging.HttpLoggingInterceptor

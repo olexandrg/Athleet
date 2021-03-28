@@ -7,7 +7,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import net.azurewebsites.athleet.exercise.Exercise
 import net.azurewebsites.athleet.Teams.TeamsList
-import net.azurewebsites.athleet.workouts.Workout
 import net.azurewebsites.athleet.workouts.WorkoutList
 
 // Handles operations on Live Data and holds details about it.
@@ -20,7 +19,7 @@ class DataSource(resources: Resources) {
     private val initialTeamsList = TeamsList(resources)
     @RequiresApi(Build.VERSION_CODES.O)
     private val TeamsLiveData = MutableLiveData(initialTeamsList)
-    var currentWorkout:Workout? = null
+    var currentWorkout: Workout? = null
     private var ExercisesLiveData:MutableLiveData<List<Exercise>> = MutableLiveData(listOf(Exercise(null,null,null,null,null,null)))
 
     @RequiresApi(Build.VERSION_CODES.O)

@@ -14,13 +14,12 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.auth.FirebaseAuth
 import net.azurewebsites.athleet.ApiLib.*
 import net.azurewebsites.athleet.Dashboard.*
 import net.azurewebsites.athleet.workouts.WorkoutsListViewModelFactory
 import net.azurewebsites.athleet.R
 import net.azurewebsites.athleet.getFirebaseTokenId
-import net.azurewebsites.athleet.workouts.Workout
+import net.azurewebsites.athleet.models.Workout
 import net.azurewebsites.athleet.workouts.WorkoutDetailActivity
 import net.azurewebsites.athleet.workouts.WorkoutListAdapter
 import net.azurewebsites.athleet.workouts.WorkoutsListViewModel

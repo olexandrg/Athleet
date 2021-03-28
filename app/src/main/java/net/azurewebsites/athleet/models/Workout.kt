@@ -1,4 +1,4 @@
-package net.azurewebsites.athleet.workouts
+package net.azurewebsites.athleet.models
 import net.azurewebsites.athleet.exercise.Exercise
 
 data class Workout(
