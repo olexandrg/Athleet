@@ -16,7 +16,6 @@ class ViewWorkoutStatisticsTests {
 
         val response = api.getWorkout(tokenFactory()).execute()
         val responseCode = response.code()
-        val workoutsList = response.body()
 
         assertEquals(200, responseCode)
         println(response)
