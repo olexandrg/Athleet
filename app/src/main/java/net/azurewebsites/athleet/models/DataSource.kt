@@ -1,4 +1,4 @@
-package net.azurewebsites.athleet.Dashboard
+package net.azurewebsites.athleet.models
 
 import android.content.res.Resources
 import android.os.Build
@@ -77,7 +77,8 @@ class DataSource(resources: Resources) {
 
         fun getDataSource(resources: Resources): DataSource {
             return synchronized(DataSource::class) {
-                val newInstance = INSTANCE ?: DataSource(resources)
+                val newInstance = INSTANCE
+                    ?: DataSource(resources)
                 INSTANCE = newInstance
                 newInstance
             }
