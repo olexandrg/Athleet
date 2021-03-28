@@ -2,19 +2,19 @@ package net.azurewebsites.athleet.Teams
 
 import android.os.Build
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 import net.azurewebsites.athleet.ApiLib.Api
-import net.azurewebsites.athleet.models.TeamInfo
 import net.azurewebsites.athleet.R
 import net.azurewebsites.athleet.databinding.FragmentTeamAdminBinding
 import net.azurewebsites.athleet.getFirebaseTokenId
+import net.azurewebsites.athleet.models.TeamInfo
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback

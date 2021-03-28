@@ -1,8 +1,8 @@
 package net.azurewebsites.athleet
 
+import org.junit.Assert.assertEquals
 import org.junit.Test
 import java.nio.charset.Charset
-import org.junit.Assert.*
 
 class UserProfilePageTests {
 

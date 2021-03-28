@@ -5,8 +5,8 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import net.azurewebsites.athleet.exercise.Exercise
 import net.azurewebsites.athleet.Teams.TeamsList
+import net.azurewebsites.athleet.exercise.Exercise
 import net.azurewebsites.athleet.workouts.WorkoutList
 
 // Handles operations on Live Data and holds details about it.

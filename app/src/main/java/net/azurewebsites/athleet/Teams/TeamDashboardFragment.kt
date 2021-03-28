@@ -6,15 +6,14 @@ import android.os.Bundle
 import android.view.*
 import android.widget.Toast
 import androidx.annotation.RequiresApi
-import androidx.fragment.app.Fragment
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.TeamMemberListAdapter
 import net.azurewebsites.athleet.ApiLib.Api
-import net.azurewebsites.athleet.models.TeamInfo
 import net.azurewebsites.athleet.Dashboard.TEAM_DESCRIPTION
 import net.azurewebsites.athleet.Dashboard.TEAM_NAME
 import net.azurewebsites.athleet.InviteTeamUser
@@ -22,6 +21,7 @@ import net.azurewebsites.athleet.R
 import net.azurewebsites.athleet.databinding.FragmentTeamDashboardBinding
 import net.azurewebsites.athleet.getFirebaseTokenId
 import net.azurewebsites.athleet.models.Team
+import net.azurewebsites.athleet.models.TeamInfo
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

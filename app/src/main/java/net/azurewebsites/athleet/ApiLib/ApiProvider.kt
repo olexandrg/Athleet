@@ -1,10 +1,6 @@
 package net.azurewebsites.athleet.ApiLib
 
-import net.azurewebsites.athleet.models.Team
-import net.azurewebsites.athleet.models.Exercise
-import net.azurewebsites.athleet.models.TeamInfo
-import net.azurewebsites.athleet.models.UserItem
-import net.azurewebsites.athleet.models.Workout
+import net.azurewebsites.athleet.models.*
 import okhttp3.OkHttpClient
 import okhttp3.ResponseBody
 import okhttp3.logging.HttpLoggingInterceptor

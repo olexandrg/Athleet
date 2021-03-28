@@ -10,9 +10,9 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
 import net.azurewebsites.athleet.ApiLib.Api
-import net.azurewebsites.athleet.models.UserItem
 import net.azurewebsites.athleet.R
 import net.azurewebsites.athleet.getFirebaseTokenId
+import net.azurewebsites.athleet.models.UserItem
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback

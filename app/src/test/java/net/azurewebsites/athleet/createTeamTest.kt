@@ -1,7 +1,7 @@
 package net.azurewebsites.athleet
 
+import org.junit.Assert.assertEquals
 import org.junit.Test
-import org.junit.Assert.*
 
 class leaveTeamTests {
 

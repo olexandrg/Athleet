@@ -1,23 +1,23 @@
 package net.azurewebsites.athleet.Dashboard
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ImageView
 import androidx.activity.viewModels
-import androidx.recyclerview.widget.LinearLayoutManager
-import kotlinx.android.synthetic.main.activity_dashboard.*
-import net.azurewebsites.athleet.R
-import net.azurewebsites.athleet.fragments.TeamsListFragment
-import net.azurewebsites.athleet.fragments.WorkoutsListFragment
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
+import androidx.recyclerview.widget.LinearLayoutManager
+import kotlinx.android.synthetic.main.activity_dashboard.*
 import net.azurewebsites.athleet.ApiLib.Api
+import net.azurewebsites.athleet.R
+import net.azurewebsites.athleet.fragments.TeamsListFragment
+import net.azurewebsites.athleet.fragments.WorkoutsListFragment
 import net.azurewebsites.athleet.user.UserProfilePageActivity
 import net.azurewebsites.athleet.workouts.WorkoutsListViewModel
 import net.azurewebsites.athleet.workouts.WorkoutsListViewModelFactory
-import java.util.ArrayList
+import java.util.*
 
 class DashboardActivity : AppCompatActivity() {
     private val newWorkoutActivityRequestCode = 1
