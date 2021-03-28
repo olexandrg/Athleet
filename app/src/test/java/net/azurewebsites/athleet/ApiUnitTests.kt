@@ -6,11 +6,6 @@ import java.nio.charset.Charset
 
 class ApiUnitTests {
 
-    private fun apiFactory(): Api {return Api.createSafe()}
-
-    private fun tokenFactory(): String {
-        return tokenMaster.tokenFactory()
-    }
     @Test
     fun checkExistingUser() {
         val api = apiFactory()

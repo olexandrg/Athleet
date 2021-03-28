@@ -6,11 +6,6 @@ import java.nio.charset.Charset
 import org.junit.Assert.*
 
 class UserProfilePageTests {
-    private fun apiFactory(): Api {return Api.createSafe()}
-
-    private fun tokenFactory(): String {
-        return tokenMaster.tokenFactory()
-    }
 
     @Test
     fun checkExistingUser() {

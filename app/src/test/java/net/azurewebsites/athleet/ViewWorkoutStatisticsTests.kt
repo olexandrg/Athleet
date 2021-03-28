@@ -4,11 +4,6 @@ import org.junit.Test
 import org.junit.Assert.*
 
 class ViewWorkoutStatisticsTests {
-    private fun apiFactory(): Api {return Api.createSafe()}
-
-    private fun tokenFactory(): String {
-        return tokenMaster.tokenFactory()
-    }
 
     @Test
     fun searchUserWorkout() {
