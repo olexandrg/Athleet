@@ -1,6 +1,5 @@
 package net.azurewebsites.athleet
 
-import net.azurewebsites.athleet.ApiLib.Api
 import org.junit.Test
 import java.nio.charset.Charset
 import org.junit.Assert.*

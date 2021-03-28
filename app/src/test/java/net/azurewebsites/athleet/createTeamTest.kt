@@ -1,6 +1,5 @@
 package net.azurewebsites.athleet
 
-import net.azurewebsites.athleet.ApiLib.*
 import org.junit.Test
 import org.junit.Assert.*
 

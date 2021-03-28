@@ -1,7 +1,6 @@
 package net.azurewebsites.athleet
 
 import junit.framework.Assert.assertEquals
-import net.azurewebsites.athleet.ApiLib.Api
 import org.junit.Test
 
 // feature 22
