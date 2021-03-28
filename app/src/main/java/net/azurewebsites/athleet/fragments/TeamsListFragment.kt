@@ -16,11 +16,11 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.fragment_workouts_list.*
 import net.azurewebsites.athleet.ApiLib.Api
 import net.azurewebsites.athleet.Dashboard.*
 import net.azurewebsites.athleet.Teams.*
+import net.azurewebsites.athleet.getFirebaseTokenId
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
@@ -31,7 +31,6 @@ class TeamsListFragment : Fragment() {
     private val teamsListViewModel by viewModels<TeamsListViewModel> { TeamsListViewModelFactory(requireContext()) }
     private lateinit var linearLayoutManager: LinearLayoutManager
     private lateinit var fab: View
-    private lateinit var token: String
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,23 +50,18 @@ class TeamsListFragment : Fragment() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun getTeams() {
-        FirebaseAuth.getInstance().currentUser?.getIdToken(false)?.addOnCompleteListener { response ->
-            if(response.isSuccessful) {
-                token = "Bearer " + response.result?.token.toString()
-                val callGetWorkouts = api.listTeams(token)
+        val callGetWorkouts = api.listTeams(getFirebaseTokenId())
 
-                callGetWorkouts.enqueue(object: Callback<List<Team>> {
-                    override fun onResponse(call: Call<List<Team>>, response: Response<List<Team>>) {
-                        if(response.isSuccessful) {
-                            teamsListViewModel.insertTeams(response.body()!!.toList())
-                        }
-                    }
-                    override fun onFailure(call: Call<List<Team>>, t: Throwable) {
-                        TODO("Not yet implemented")
-                    }
-                })
+        callGetWorkouts.enqueue(object: Callback<List<Team>> {
+            override fun onResponse(call: Call<List<Team>>, response: Response<List<Team>>) {
+                if(response.isSuccessful) {
+                    teamsListViewModel.insertTeams(response.body()!!.toList())
+                }
             }
-        }
+            override fun onFailure(call: Call<List<Team>>, t: Throwable) {
+                TODO("Not yet implemented")
+            }
+        })
     }
 
     override fun onCreateView(
@@ -117,22 +111,17 @@ class TeamsListFragment : Fragment() {
             val teamName = intentData?.getStringExtra(TEAM_NAME).toString()
             val teamDescription = intentData?.getStringExtra(TEAM_DESCRIPTION).toString()
 
-            FirebaseAuth.getInstance().currentUser?.getIdToken(false)?.addOnCompleteListener { response ->
-                if(response.isSuccessful) {
-                    token = "Bearer " + response.result?.token.toString()
-                    val callCreateTeam = api.createTeam(token, teamName, teamDescription)
-                    callCreateTeam.enqueue(object: Callback<ResponseBody> {
-                        override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
-                            if(response.isSuccessful) {
-                                Toast.makeText(activity, "Created team", Toast.LENGTH_LONG).show()
-                            }
-                        }
-                        override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                            TODO("Not yet implemented")
-                            }
-                        })
+            val callCreateTeam = api.createTeam(getFirebaseTokenId(), teamName, teamDescription)
+            callCreateTeam.enqueue(object: Callback<ResponseBody> {
+                override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                    if(response.isSuccessful) {
+                        Toast.makeText(activity, "Created team", Toast.LENGTH_LONG).show()
                     }
                 }
+                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                    TODO("Not yet implemented")
+                    }
+                })
         }
         if(requestCode == 58) {
             Toast.makeText(activity, "Successfully deleted Team", Toast.LENGTH_LONG).show()
