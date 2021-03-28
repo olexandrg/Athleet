@@ -2,33 +2,26 @@ package net.azurewebsites.athleet.user
 
 import android.os.Build
 import android.os.Bundle
-import android.text.Editable
 import android.view.KeyEvent
 import android.view.View
-import android.widget.NumberPicker
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.get
 import com.google.android.material.textfield.TextInputEditText
-import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.auth.FirebaseAuth
 import net.azurewebsites.athleet.ApiLib.Api
-import net.azurewebsites.athleet.ApiLib.UserItem
+import net.azurewebsites.athleet.models.UserItem
 import net.azurewebsites.athleet.R
 import net.azurewebsites.athleet.getFirebaseTokenId
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.nio.charset.Charset
-import java.security.Key
-import java.util.Observer
 
 class UserProfilePageActivity : AppCompatActivity() {
     // store user data locally
     val api = Api.createSafe()
-    private lateinit var user:UserItem
+    private lateinit var user: UserItem
     private var userEmail = FirebaseAuth.getInstance().currentUser?.email
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -91,7 +84,12 @@ class UserProfilePageActivity : AppCompatActivity() {
                 userHeadlineField.setText(userHeadlineField.text.toString().trim())
                 user.userHeadline = userHeadlineField.text.toString()
 
-                val updatedUser = UserItem(getFirebaseTokenId(), user.userHeadline, user.userId, user.userName)
+                val updatedUser = UserItem(
+                    getFirebaseTokenId(),
+                    user.userHeadline,
+                    user.userId,
+                    user.userName
+                )
                 api.updateExistingUser(getFirebaseTokenId(), user.userId.toString(), updatedUser ).enqueue(object:Callback<ResponseBody>{
                     override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                         if(response.isSuccessful){

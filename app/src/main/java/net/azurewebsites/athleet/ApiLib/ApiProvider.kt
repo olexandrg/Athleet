@@ -3,6 +3,7 @@ package net.azurewebsites.athleet.ApiLib
 import net.azurewebsites.athleet.Teams.Team
 import net.azurewebsites.athleet.models.Exercise
 import net.azurewebsites.athleet.models.TeamInfo
+import net.azurewebsites.athleet.models.UserItem
 import net.azurewebsites.athleet.workouts.Workout
 import okhttp3.OkHttpClient
 import okhttp3.ResponseBody
