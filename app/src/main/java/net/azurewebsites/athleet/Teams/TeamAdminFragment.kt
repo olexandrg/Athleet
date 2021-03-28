@@ -11,8 +11,7 @@ import androidx.annotation.RequiresApi
 import androidx.databinding.DataBindingUtil
 import com.google.firebase.auth.FirebaseAuth
 import net.azurewebsites.athleet.ApiLib.Api
-import net.azurewebsites.athleet.ApiLib.TeamInfo
-import net.azurewebsites.athleet.Dashboard.TEAM_NAME
+import net.azurewebsites.athleet.models.TeamInfo
 import net.azurewebsites.athleet.R
 import net.azurewebsites.athleet.databinding.FragmentTeamAdminBinding
 import net.azurewebsites.athleet.getFirebaseTokenId

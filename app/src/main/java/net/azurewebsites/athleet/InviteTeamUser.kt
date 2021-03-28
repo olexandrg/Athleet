@@ -9,7 +9,7 @@ import androidx.annotation.RequiresApi
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
 import net.azurewebsites.athleet.ApiLib.Api
-import net.azurewebsites.athleet.ApiLib.TeamInfo
+import net.azurewebsites.athleet.models.TeamInfo
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback

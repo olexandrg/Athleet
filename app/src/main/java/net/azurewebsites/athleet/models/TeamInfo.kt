@@ -1,4 +1,6 @@
-package net.azurewebsites.athleet.ApiLib
+package net.azurewebsites.athleet.models
+
+import net.azurewebsites.athleet.ApiLib.TeamUser
 
 data class TeamInfo(
     var teamName: String,

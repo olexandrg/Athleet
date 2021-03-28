@@ -1,9 +1,7 @@
 package net.azurewebsites.athleet.Teams
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import net.azurewebsites.athleet.ApiLib.TeamInfo
 import net.azurewebsites.athleet.R
 
 class TeamDetailActivity : AppCompatActivity() {
