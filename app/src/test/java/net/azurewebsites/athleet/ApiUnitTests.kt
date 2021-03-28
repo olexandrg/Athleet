@@ -6,9 +6,6 @@ import java.nio.charset.Charset
 
 class ApiUnitTests {
 
-    //private val dispatcher = TestCoroutineDispatcher()
-    //private val testScope = TestCoroutineScope(dispatcher)
-
     private fun apiFactory(): Api {return Api.createSafe()}
 
     private fun tokenFactory(): String {
