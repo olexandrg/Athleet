@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import net.azurewebsites.athleet.R
+import net.azurewebsites.athleet.models.Team
 
 class TeamsListAdapter(private val onClick: (Team) -> Unit) :
     ListAdapter<Team, TeamsListAdapter.TeamsViewHolder>(TeamsDiffCallback) {

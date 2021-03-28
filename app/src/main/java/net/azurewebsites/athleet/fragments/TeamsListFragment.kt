@@ -10,7 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import net.azurewebsites.athleet.R
-import net.azurewebsites.athleet.Teams.Team
+import net.azurewebsites.athleet.models.Team
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe

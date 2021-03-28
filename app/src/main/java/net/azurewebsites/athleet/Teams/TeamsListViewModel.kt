@@ -6,6 +6,7 @@ import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import net.azurewebsites.athleet.models.DataSource
+import net.azurewebsites.athleet.models.Team
 
 class TeamsListViewModel(val dataSource: DataSource) : ViewModel() {
 

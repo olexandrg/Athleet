@@ -6,7 +6,6 @@ import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import net.azurewebsites.athleet.exercise.Exercise
-import net.azurewebsites.athleet.Teams.Team
 import net.azurewebsites.athleet.Teams.TeamsList
 import net.azurewebsites.athleet.workouts.Workout
 import net.azurewebsites.athleet.workouts.WorkoutList
