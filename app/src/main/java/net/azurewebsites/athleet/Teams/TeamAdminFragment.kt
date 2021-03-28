@@ -71,52 +71,42 @@ class TeamAdminFragment : Fragment() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun updateUserToAdmin(userName : String) {
-        FirebaseAuth.getInstance().currentUser?.getIdToken(false)?.addOnCompleteListener() { response ->
-            if (response.isSuccessful) {
-                val teamName = requireActivity()?.intent?.getStringExtra("name")!!
-                val api = Api.createSafe()
-                val apiCall = api.makeTeamUserCoach(getFirebaseTokenId(), teamName, userName, true)
-                apiCall.enqueue(object: Callback<ResponseBody> {
-                    override fun onResponse(
-                        call: Call<ResponseBody>,
-                        response: Response<ResponseBody>
-                    ) {
-                        Toast.makeText(activity, "User is now admin.", Toast.LENGTH_LONG).show()
-                    }
-
-                    override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                        Toast.makeText(activity, "Failed finding user name. User may not be part of team.", Toast.LENGTH_LONG).show()
-                    }
-                })
+        val teamName = requireActivity()?.intent?.getStringExtra("name")!!
+        val api = Api.createSafe()
+        val apiCall = api.makeTeamUserCoach(getFirebaseTokenId(), teamName, userName, true)
+        apiCall.enqueue(object: Callback<ResponseBody> {
+            override fun onResponse(
+                call: Call<ResponseBody>,
+                response: Response<ResponseBody>
+            ) {
+                Toast.makeText(activity, "User is now admin.", Toast.LENGTH_LONG).show()
             }
-            else { Toast.makeText(activity, "Failed getting token of user.", Toast.LENGTH_LONG).show() }
-        }
+
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                Toast.makeText(activity, "Failed finding user name. User may not be part of team.", Toast.LENGTH_LONG).show()
+            }
+        })
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun getTeamUsers()
     {
-        FirebaseAuth.getInstance().currentUser?.getIdToken(false)?.addOnCompleteListener() { response ->
-            if (response.isSuccessful) {
-                val teamName = requireActivity()?.intent?.getStringExtra("name")!!
-                val api = Api.createSafe()
-                val apiCall = api.teamInfo(getFirebaseTokenId(), teamName)
-                apiCall.enqueue(object: Callback<TeamInfo>{
-                    override fun onResponse(call: Call<TeamInfo>, response: Response<TeamInfo>) {
-                        if (response.isSuccessful) {
-                            var userList = response.body()!!.users
-                            for (user in userList) {
-                                teamList.add(Pair(user.userName, user.isAdmin))
-                            }
-                        }
+        val teamName = requireActivity()?.intent?.getStringExtra("name")!!
+        val api = Api.createSafe()
+        val apiCall = api.teamInfo(getFirebaseTokenId(), teamName)
+        apiCall.enqueue(object: Callback<TeamInfo>{
+            override fun onResponse(call: Call<TeamInfo>, response: Response<TeamInfo>) {
+                if (response.isSuccessful) {
+                    var userList = response.body()!!.users
+                    for (user in userList) {
+                        teamList.add(Pair(user.userName, user.isAdmin))
                     }
-                    override fun onFailure(call: Call<TeamInfo>, t: Throwable) {
-                        Toast.makeText(activity, "Failed getting the team users", Toast.LENGTH_LONG).show()
-                    }
-                })
+                }
             }
-            else { Toast.makeText(activity, "Failed getting token of user", Toast.LENGTH_LONG).show() }
-        }
+            override fun onFailure(call: Call<TeamInfo>, t: Throwable) {
+                Toast.makeText(activity, "Failed getting the team users", Toast.LENGTH_LONG).show()
+            }
+        })
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
