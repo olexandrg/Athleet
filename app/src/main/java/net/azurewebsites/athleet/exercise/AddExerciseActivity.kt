@@ -72,16 +72,6 @@ class AddExerciseActivity : AppCompatActivity() {
             val sets = addExerciseSets.text.toString()
             var unitType:String = radioButtonSelected.text.toString()
             val unitCount = addExerciseUnitCount.text.toString()
-//            if(switch.isChecked)
-//                when(radioButtons.checkedRadioButtonId){
-//                    0->unitType="lbs"
-//                    1->unitType="kg"
-//                    2->unitType="mi"
-//                    3->unitType="km"
-//                    4->unitType="kCal"
-//                    5->unitType="psi"
-//                    6->unitType="¥"
-//                }
 
             resultIntent.putExtra(EXERCISE_NAME, name)
             resultIntent.putExtra(EXERCISE_DESCRIPTION, description)
