@@ -34,8 +34,6 @@ class UserProfilePageActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_user_detail)
-        val userNameField = findViewById<TextInputEditText>(R.id.userName)
-        val userHeadlineField = findViewById<TextInputEditText>(R.id.userHeadline)
         // populate menu with retrieved user data
         getUserMenuData()
         setupEnterKeyListeners()
