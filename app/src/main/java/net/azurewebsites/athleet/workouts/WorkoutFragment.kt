@@ -2,23 +2,18 @@ package net.azurewebsites.athleet.workouts
 
 import android.app.Activity
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.RequiresApi
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import net.azurewebsites.athleet.ApiLib.Api
-import net.azurewebsites.athleet.Dashboard.AddWorkoutActivity
-import net.azurewebsites.athleet.Dashboard.WORKOUT_DESCRIPTION
 import net.azurewebsites.athleet.Dashboard.WORKOUT_NAME
 import net.azurewebsites.athleet.R
 import net.azurewebsites.athleet.databinding.FragmentWorkoutBinding
