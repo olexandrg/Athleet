@@ -42,52 +42,42 @@ class InviteTeamUser : AppCompatActivity() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun inviteUserToTeam(userName : String) {
-        FirebaseAuth.getInstance().currentUser?.getIdToken(false)?.addOnCompleteListener() { response ->
-            if (response.isSuccessful) {
-                val api = Api.createSafe()
-                val teamName = intent?.getStringExtra("name")!!
-                val apiCall = api.inviteExistingUserToTeam(getFirebaseTokenId(), teamName, userName)
-                apiCall.enqueue(object: Callback<ResponseBody> {
-                    override fun onResponse(
-                        call: Call<ResponseBody>,
-                        response: Response<ResponseBody>
-                    ) {
-                        Toast.makeText(_activity, "User is now added.", Toast.LENGTH_LONG).show()
-                    }
-
-                    override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                        Toast.makeText(_activity, "Failed finding user name or team name.", Toast.LENGTH_LONG).show()
-                    }
-                })
+        val api = Api.createSafe()
+        val teamName = intent?.getStringExtra("name")!!
+        val apiCall = api.inviteExistingUserToTeam(getFirebaseTokenId(), teamName, userName)
+        apiCall.enqueue(object: Callback<ResponseBody> {
+            override fun onResponse(
+                call: Call<ResponseBody>,
+                response: Response<ResponseBody>
+            ) {
+                Toast.makeText(_activity, "User is now added.", Toast.LENGTH_LONG).show()
             }
-            else { Toast.makeText(_activity, "Failed getting token of user", Toast.LENGTH_LONG).show() }
-        }
+
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                Toast.makeText(_activity, "Failed finding user name or team name.", Toast.LENGTH_LONG).show()
+            }
+        })
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun getTeamUsers()
     {
-        FirebaseAuth.getInstance().currentUser?.getIdToken(false)?.addOnCompleteListener() { response ->
-            if (response.isSuccessful) {
-                val teamName = _activity?.intent?.getStringExtra("name")!!
-                val api = Api.createSafe()
-                val apiCall = api.teamInfo(getFirebaseTokenId(), teamName)
-                apiCall.enqueue(object: Callback<TeamInfo>{
-                    override fun onResponse(call: Call<TeamInfo>, response: Response<TeamInfo>) {
-                        if (response.isSuccessful) {
-                            val userList = response.body()!!.users
-                            for (user in userList) {
-                                teamList.add(Pair(user.userName, user.isAdmin))
-                            }
-                        }
+        val teamName = _activity?.intent?.getStringExtra("name")!!
+        val api = Api.createSafe()
+        val apiCall = api.teamInfo(getFirebaseTokenId(), teamName)
+        apiCall.enqueue(object: Callback<TeamInfo>{
+            override fun onResponse(call: Call<TeamInfo>, response: Response<TeamInfo>) {
+                if (response.isSuccessful) {
+                    val userList = response.body()!!.users
+                    for (user in userList) {
+                        teamList.add(Pair(user.userName, user.isAdmin))
                     }
-                    override fun onFailure(call: Call<TeamInfo>, t: Throwable) {
-                        Toast.makeText(_activity, "Failed getting the team users", Toast.LENGTH_LONG).show()
-                    }
-                })
+                }
             }
-            else { Toast.makeText(_activity, "Failed getting token of user", Toast.LENGTH_LONG).show() }
-        }
+            override fun onFailure(call: Call<TeamInfo>, t: Throwable) {
+                Toast.makeText(_activity, "Failed getting the team users", Toast.LENGTH_LONG).show()
+            }
+        })
     }
 
     private fun isAdmin(userName: String) : Boolean {
