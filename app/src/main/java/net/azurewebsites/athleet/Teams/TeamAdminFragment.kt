@@ -2,20 +2,19 @@ package net.azurewebsites.athleet.Teams
 
 import android.os.Build
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 import net.azurewebsites.athleet.ApiLib.Api
-import net.azurewebsites.athleet.ApiLib.TeamInfo
-import net.azurewebsites.athleet.Dashboard.TEAM_NAME
 import net.azurewebsites.athleet.R
 import net.azurewebsites.athleet.databinding.FragmentTeamAdminBinding
 import net.azurewebsites.athleet.getFirebaseTokenId
+import net.azurewebsites.athleet.models.TeamInfo
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
@@ -72,52 +71,42 @@ class TeamAdminFragment : Fragment() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun updateUserToAdmin(userName : String) {
-        FirebaseAuth.getInstance().currentUser?.getIdToken(false)?.addOnCompleteListener() { response ->
-            if (response.isSuccessful) {
-                val teamName = requireActivity()?.intent?.getStringExtra("name")!!
-                val api = Api.createSafe()
-                val apiCall = api.makeTeamUserCoach(getFirebaseTokenId(), teamName, userName, true)
-                apiCall.enqueue(object: Callback<ResponseBody> {
-                    override fun onResponse(
-                        call: Call<ResponseBody>,
-                        response: Response<ResponseBody>
-                    ) {
-                        Toast.makeText(activity, "User is now admin.", Toast.LENGTH_LONG).show()
-                    }
-
-                    override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                        Toast.makeText(activity, "Failed finding user name. User may not be part of team.", Toast.LENGTH_LONG).show()
-                    }
-                })
+        val teamName = requireActivity()?.intent?.getStringExtra("name")!!
+        val api = Api.createSafe()
+        val apiCall = api.makeTeamUserCoach(getFirebaseTokenId(), teamName, userName, true)
+        apiCall.enqueue(object: Callback<ResponseBody> {
+            override fun onResponse(
+                call: Call<ResponseBody>,
+                response: Response<ResponseBody>
+            ) {
+                Toast.makeText(activity, "User is now admin.", Toast.LENGTH_LONG).show()
             }
-            else { Toast.makeText(activity, "Failed getting token of user.", Toast.LENGTH_LONG).show() }
-        }
+
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                Toast.makeText(activity, "Failed finding user name. User may not be part of team.", Toast.LENGTH_LONG).show()
+            }
+        })
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun getTeamUsers()
     {
-        FirebaseAuth.getInstance().currentUser?.getIdToken(false)?.addOnCompleteListener() { response ->
-            if (response.isSuccessful) {
-                val teamName = requireActivity()?.intent?.getStringExtra("name")!!
-                val api = Api.createSafe()
-                val apiCall = api.teamInfo(getFirebaseTokenId(), teamName)
-                apiCall.enqueue(object: Callback<TeamInfo>{
-                    override fun onResponse(call: Call<TeamInfo>, response: Response<TeamInfo>) {
-                        if (response.isSuccessful) {
-                            var userList = response.body()!!.users
-                            for (user in userList) {
-                                teamList.add(Pair(user.userName, user.isAdmin))
-                            }
-                        }
+        val teamName = requireActivity()?.intent?.getStringExtra("name")!!
+        val api = Api.createSafe()
+        val apiCall = api.teamInfo(getFirebaseTokenId(), teamName)
+        apiCall.enqueue(object: Callback<TeamInfo>{
+            override fun onResponse(call: Call<TeamInfo>, response: Response<TeamInfo>) {
+                if (response.isSuccessful) {
+                    var userList = response.body()!!.users
+                    for (user in userList) {
+                        teamList.add(Pair(user.userName, user.isAdmin))
                     }
-                    override fun onFailure(call: Call<TeamInfo>, t: Throwable) {
-                        Toast.makeText(activity, "Failed getting the team users", Toast.LENGTH_LONG).show()
-                    }
-                })
+                }
             }
-            else { Toast.makeText(activity, "Failed getting token of user", Toast.LENGTH_LONG).show() }
-        }
+            override fun onFailure(call: Call<TeamInfo>, t: Throwable) {
+                Toast.makeText(activity, "Failed getting the team users", Toast.LENGTH_LONG).show()
+            }
+        })
     }
 
     @RequiresApi(Build.VERSION_CODES.O)

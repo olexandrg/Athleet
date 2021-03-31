@@ -1,36 +1,23 @@
 package net.azurewebsites.athleet.Dashboard
 
 import android.content.Intent
-import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.annotation.RequiresApi
-import androidx.core.content.ContentProviderCompat.requireContext
-import androidx.recyclerview.widget.LinearLayoutManager
-import kotlinx.android.synthetic.main.activity_dashboard.*
-import net.azurewebsites.athleet.R
-import net.azurewebsites.athleet.fragments.TeamsListFragment
-import net.azurewebsites.athleet.fragments.WorkoutsListFragment
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
-import com.google.firebase.auth.FirebaseAuth
+import androidx.recyclerview.widget.LinearLayoutManager
+import kotlinx.android.synthetic.main.activity_dashboard.*
 import net.azurewebsites.athleet.ApiLib.Api
+import net.azurewebsites.athleet.R
+import net.azurewebsites.athleet.fragments.TeamsListFragment
+import net.azurewebsites.athleet.fragments.WorkoutsListFragment
 import net.azurewebsites.athleet.user.UserProfilePageActivity
-import net.azurewebsites.athleet.workouts.WorkoutDetailActivity
 import net.azurewebsites.athleet.workouts.WorkoutsListViewModel
 import net.azurewebsites.athleet.workouts.WorkoutsListViewModelFactory
-import okhttp3.ResponseBody
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import java.nio.charset.Charset
-import java.util.ArrayList
+import java.util.*
 
 class DashboardActivity : AppCompatActivity() {
     private val newWorkoutActivityRequestCode = 1

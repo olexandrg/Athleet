@@ -1,19 +1,11 @@
 package net.azurewebsites.athleet
-import net.azurewebsites.athleet.ApiLib.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotEquals
 import org.junit.Test
-import org.junit.Assert.*
 import java.nio.charset.Charset
 
 class ApiUnitTests {
 
-    //private val dispatcher = TestCoroutineDispatcher()
-    //private val testScope = TestCoroutineScope(dispatcher)
-
-    private fun apiFactory(): Api {return Api.createSafe()}
-
-    private fun tokenFactory(): String {
-        return tokenMaster.tokenFactory()
-    }
     @Test
     fun checkExistingUser() {
         val api = apiFactory()

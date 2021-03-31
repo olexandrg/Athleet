@@ -1,16 +1,10 @@
 package net.azurewebsites.athleet
 
-import net.azurewebsites.athleet.ApiLib.Api
+import org.junit.Assert.assertEquals
 import org.junit.Test
 import java.nio.charset.Charset
-import org.junit.Assert.*
 
 class UserProfilePageTests {
-    private fun apiFactory(): Api {return Api.createSafe()}
-
-    private fun tokenFactory(): String {
-        return tokenMaster.tokenFactory()
-    }
 
     @Test
     fun checkExistingUser() {

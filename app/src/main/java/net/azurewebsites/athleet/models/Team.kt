@@ -1,4 +1,4 @@
-package net.azurewebsites.athleet.Teams
+package net.azurewebsites.athleet.models
 
 data class Team (
     val teamId: Int?,

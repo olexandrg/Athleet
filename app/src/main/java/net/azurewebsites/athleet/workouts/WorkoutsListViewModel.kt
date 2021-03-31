@@ -5,23 +5,14 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import net.azurewebsites.athleet.Dashboard.DataSource
+import net.azurewebsites.athleet.models.DataSource
+import net.azurewebsites.athleet.models.Workout
 
 class WorkoutsListViewModel(val dataSource: DataSource) : ViewModel() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     val workoutsLiveData = dataSource.getWorkoutList()
 
-    // If the name and description are present, create new Workout and add it to the datasource
-//        @RequiresApi(Build.VERSION_CODES.O)
-//        fun insertWorkout(Workout:Workout) {
-//            if (Workout.workoutName == null || Workout.description == null)
-//            {
-//                Log.i("InsertWorkout", "Error: name or description null")
-//                return
-//            }
-//            dataSource.addWorkout(Workout)
-//        }
     @RequiresApi(Build.VERSION_CODES.O)
     fun insertWorkouts(list:List<Workout>) {
         dataSource.addWorkouts(list)
