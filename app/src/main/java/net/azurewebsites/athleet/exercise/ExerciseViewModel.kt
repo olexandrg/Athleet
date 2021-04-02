@@ -14,5 +14,7 @@ class ExerciseViewModel(exercise: Exercise, app: Application) : AndroidViewModel
 
     init {
         _selectedExercise.value = exercise
+
+        
     }
 }
