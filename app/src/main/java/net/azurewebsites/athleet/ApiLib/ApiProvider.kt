@@ -86,6 +86,13 @@ interface Api {
         @Path("workoutID") workoutID: String):
             List<Exercise>
 
+    @PUT("exercises/{exerciseId}")
+    fun updateExercise(
+        @Header("Authorization") token: String,
+        @Path("exerciseId") exerciseId: Int,
+        @Body exercise: Exercise
+    ):Call<ResponseBody>
+
 //  ############################################
 //  ############## TEAMS STUFF #################
 //  ############################################
