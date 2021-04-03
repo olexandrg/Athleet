@@ -9,10 +9,10 @@ data class Exercise (
     val exerciseId: Int,
     val exerciseName: String,
     val description: String,
-    val measureUnits: String,
-    val defaultReps: Int,
-    val exerciseSets: Int,
-    val unitCount: Int
+    val measureUnits: String?,
+    val defaultReps: Int?,
+    val exerciseSets: Int?,
+    val unitCount: Int?
 ) : Parcelable
 
 
