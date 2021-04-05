@@ -14,6 +14,7 @@ import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.fragment_exercise.*
 import net.azurewebsites.athleet.databinding.FragmentExerciseBinding
 import net.azurewebsites.athleet.models.Exercise
+import net.azurewebsites.athleet.workouts.WorkoutViewModel
 
 
 class ExerciseFragment : Fragment() {
@@ -33,6 +34,9 @@ class ExerciseFragment : Fragment() {
         binding.viewModel = ViewModelProvider(
             this, viewModelFactory
         ).get(ExerciseViewModel::class.java)
+
+       val vm = binding.viewModel
+
 
         var edit = false
         isEditing(edit, binding)
@@ -59,8 +63,17 @@ class ExerciseFragment : Fragment() {
 
         binding.btnSaveEdit.setOnClickListener {
             unmarkAllFields(binding)
-            // TODO: Update the view model with the new values
-            // TODO: Send the updated exercise to the DB with the updateExercise() api method
+
+            vm?.updateExercise(
+                binding.exerciseDetailName.text.toString(),
+                binding.exerciseDetailDesc.text.toString(),
+                binding.exerciseDetailUnit.text.toString(),
+                binding.exerciseDetailReps.text.toString().toInt(),
+                binding.exerciseDetailSets.text.toString().toInt(),
+                binding.exerciseUnitCount.text.toString().toInt())
+
+
+
             binding.btnCancelEdit.visibility = View.GONE
             binding.btnSaveEdit.visibility = View.GONE
             binding.fabEditExercise.visibility = View.VISIBLE

@@ -111,20 +111,12 @@
             android:hint="Unit Name"
             app:errorEnabled="true">
 
-            <!--            This part is for selecting from a list of options.-->
-            <!--            Not working after I adding padding?-->
-            <!--            <AutoCompleteTextView-->
-            <!--                android:id="@+id/exercise_detail_unit"-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:inputType="none" />-->
-
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/exercise_detail_unit"
                 android:tag="exerciseProperty"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{viewModel.selectedExercise.measureUnits.toString()}" />
+                android:text="@{viewModel.selectedExercise.measureUnits}" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
