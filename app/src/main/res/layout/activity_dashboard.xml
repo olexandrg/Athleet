@@ -43,8 +43,8 @@
 
     <ImageView
         android:id="@+id/imageView_userProfilePicture"
-        android:layout_width="154dp"
-        android:layout_height="151dp"
+        android:layout_width="210dp"
+        android:layout_height="192dp"
         android:layout_centerHorizontal="true"
         android:contentDescription="@string/the_user_s_profile_picture"
         android:onClick="goToUserProfilePage()"
@@ -54,8 +54,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.06"
-        app:srcCompat="@mipmap/default_profile_pic_round"
-        tools:srcCompat="@mipmap/default_profile_pic_round" />
+        app:srcCompat="@mipmap/default_profile_pic_foreground"
+        tools:srcCompat="@mipmap/default_profile_pic_foreground" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
