@@ -22,10 +22,15 @@ class ExerciseViewModel(exercise: Exercise, app: Application) : AndroidViewModel
 
     private var id: Int
     private val api = Api.createSafe()
+    private val startExercise = exercise
 
     init {
         _selectedExercise.value = exercise
         id = exercise.exerciseId
+    }
+
+    fun reset() {
+        _selectedExercise.value = startExercise
     }
 
     fun updateExercise(
@@ -55,5 +60,7 @@ class ExerciseViewModel(exercise: Exercise, app: Application) : AndroidViewModel
 
 
     }
+
+
 
 }

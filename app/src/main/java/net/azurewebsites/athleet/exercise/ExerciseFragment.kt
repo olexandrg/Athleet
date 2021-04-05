@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
@@ -50,6 +51,9 @@ class ExerciseFragment : Fragment() {
 
         binding.btnCancelEdit.setOnClickListener {
             unmarkAllFields(binding)
+
+            vm?.reset()
+
             binding.btnCancelEdit.visibility = View.GONE
             binding.btnSaveEdit.visibility = View.GONE
             binding.fabEditExercise.visibility = View.VISIBLE
@@ -67,7 +71,8 @@ class ExerciseFragment : Fragment() {
                 binding.exerciseDetailUnit.text.toString(),
                 binding.exerciseDetailReps.text.toString().toInt(),
                 binding.exerciseDetailSets.text.toString().toInt(),
-                binding.exerciseUnitCount.text.toString().toInt())
+                binding.exerciseUnitCount.text.toString().toInt()
+            )
 
             binding.btnCancelEdit.visibility = View.GONE
             binding.btnSaveEdit.visibility = View.GONE
@@ -106,11 +111,13 @@ class ExerciseFragment : Fragment() {
                 }
 
                 override fun beforeTextChanged(
-                    s: CharSequence, start: Int, count: Int, after: Int) {
+                    s: CharSequence, start: Int, count: Int, after: Int
+                ) {
                 }
 
                 override fun afterTextChanged(
-                    s: Editable) {
+                    s: Editable
+                ) {
                     checkValues(editText)
                 }
             })
@@ -165,6 +172,10 @@ class ExerciseFragment : Fragment() {
         binding.tilQuantity.setError(null)
         binding.tilReps.setError(null)
         binding.tilSets.setError(null)
+    }
+
+    private fun somehting() {
+
     }
 
 }
