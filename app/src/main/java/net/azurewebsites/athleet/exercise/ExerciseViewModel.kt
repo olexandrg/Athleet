@@ -39,7 +39,7 @@ class ExerciseViewModel(exercise: Exercise, app: Application) : AndroidViewModel
         val exercise: Exercise = Exercise(id, exerciseName, description, measureUnits, defaultReps, exerciseSets, unitCount)
         Log.i("updateExercise", "this function got called")
         Log.i("updateExercise", exercise.toString())
-        
+
         api.updateExercise(getFirebaseTokenId(), id, exercise).enqueue(object : Callback<ResponseBody> {
 
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {

@@ -1,6 +1,5 @@
 package net.azurewebsites.athleet.exercise
 
-import android.R.attr.button
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -11,10 +10,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
-import kotlinx.android.synthetic.main.fragment_exercise.*
 import net.azurewebsites.athleet.databinding.FragmentExerciseBinding
 import net.azurewebsites.athleet.models.Exercise
-import net.azurewebsites.athleet.workouts.WorkoutViewModel
 
 
 class ExerciseFragment : Fragment() {
@@ -71,8 +68,6 @@ class ExerciseFragment : Fragment() {
                 binding.exerciseDetailReps.text.toString().toInt(),
                 binding.exerciseDetailSets.text.toString().toInt(),
                 binding.exerciseUnitCount.text.toString().toInt())
-
-
 
             binding.btnCancelEdit.visibility = View.GONE
             binding.btnSaveEdit.visibility = View.GONE
