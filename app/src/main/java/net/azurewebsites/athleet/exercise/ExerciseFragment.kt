@@ -4,8 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import net.azurewebsites.athleet.R
 import net.azurewebsites.athleet.databinding.FragmentExerciseBinding
 import net.azurewebsites.athleet.models.Exercise
 
@@ -27,6 +30,10 @@ class ExerciseFragment : Fragment() {
         binding.viewModel = ViewModelProvider(
             this, viewModelFactory).get(ExerciseViewModel::class.java)
 
+
+        val items = listOf("lbs", "km", "mi", "¥", "psi", "kCal", "Android")
+        val adapter = ArrayAdapter(requireContext(), R.layout.measureunit_list_item, items)
+        binding.exerciseDetailUnit.setAdapter(adapter)
 
         return binding.root
     }

@@ -2,7 +2,10 @@
 <layout xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    tools:context="net.azurewebsites.athleet.exercise.ExerciseFragment">
+    tools:context="net.azurewebsites.athleet.exercise.ExerciseFragment"
+    android:clickable="true"
+    android:focusableInTouchMode="true"
+    android:focusable="true">
 
     <data>
         <variable
@@ -10,88 +13,108 @@
             type="net.azurewebsites.athleet.exercise.ExerciseViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/exercise_detail_name"
-            android:layout_width="wrap_content"
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Exercise name:"
-            android:text="@{viewModel.selectedExercise.exerciseName}"
-            android:textSize="24sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.156" />
+            android:hint="Name">
 
-        <TextView
-            android:id="@+id/exercise_detail_desc"
-            android:layout_width="wrap_content"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/exercise_detail_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.selectedExercise.exerciseName}"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:hint="Description:"
-            android:text="@{viewModel.selectedExercise.description}"
-            android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/exercise_detail_name" />
+            android:hint="Description">
 
-        <TextView
-            android:id="@+id/exercise_detail_reps"
-            android:layout_width="wrap_content"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/exercise_detail_desc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.selectedExercise.description}"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Reps:"
-            android:text="@{viewModel.selectedExercise.defaultReps}"
-            android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.343"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/exercise_detail_desc"
-            app:layout_constraintVertical_bias="0.432" />
-        <!--            app:layout_constraintBottom_toTopOf="@+id/exercise_detail_sets"-->
+            android:hint="Sets">
 
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/exercise_detail_sets"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:text="@{viewModel.selectedExercise.exerciseSets.toString()}"
+                />
 
-<!--
-        <TextView
-            android:id="@+id/exercise_detail_unit_count"
-            android:layout_width="wrap_content"
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@{viewModel.selectedExercise.unitCount.toString()}"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="@+id/exercise_detail_reps"
-            app:layout_constraintEnd_toStartOf="@+id/exercise_detail_unit_type"
-            app:layout_constraintStart_toEndOf="@+id/exercise_detail_reps"
-            app:layout_constraintTop_toTopOf="@+id/exercise_detail_reps" />
+            android:hint="Reps">
 
-        <TextView
-            android:id="@+id/exercise_detail_unit_type"
-            android:layout_width="wrap_content"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/exercise_detail_reps"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:text="@{viewModel.selectedExercise.defaultReps.toString()}"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="80dp"
-            android:text="@{viewModel.selectedExercise.unitType}"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="@+id/exercise_detail_reps"
-            app:layout_constraintStart_toEndOf="@+id/exercise_detail_reps"
-            app:layout_constraintTop_toTopOf="@+id/exercise_detail_reps" />
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+            android:hint="Units">
 
-        <TextView
-            android:id="@+id/exercise_detail_sets"
-            android:layout_width="wrap_content"
+            <AutoCompleteTextView
+                android:id="@+id/exercise_detail_unit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:hint="Sets:"
-            android:text="@{viewModel.selectedExercise.sets}"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.338"
-            app:layout_constraintStart_toStartOf="parent" />-->
+            android:hint="Unit Count">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/exercise_unitCount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:text="@{viewModel.selectedExercise.unitCount.toString()}"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+
+
+
+
+
+
+
+
+
+    </LinearLayout>
 </layout>
