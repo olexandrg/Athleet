@@ -166,7 +166,8 @@ class TeamsListFragment : Fragment() {
         else if(resultCode == 59) {
             Toast.makeText(activity, "Successfully left Team", Toast.LENGTH_LONG).show()
             val api: Api = Api.createSafe()
-            val teamName = activity?.intent?.getStringExtra(TEAM_NAME).toString()
+            //val teamName = activity?.intent?.getStringExtra(TEAM_NAME).toString()
+            val teamName = intentData?.getStringExtra(TEAM_NAME).toString()
             val call = api.leaveTeam(getFirebaseTokenId(), teamName)
 
             call.enqueue(object : Callback<ResponseBody> {
