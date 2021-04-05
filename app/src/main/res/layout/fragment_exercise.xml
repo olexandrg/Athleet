@@ -14,106 +14,164 @@
     </data>
 
     <LinearLayout
+        android:id="@+id/exercise_prop_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingTop="16dp">
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_name"
+            style="@style/ExerciseListItemStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Name">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/exercise_detail_name"
+                android:tag="exerciseProperty"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{viewModel.selectedExercise.exerciseName}"
-                />
+                android:text="@{viewModel.selectedExercise.exerciseName}" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_description"
+            style="@style/ExerciseListItemStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Description">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/exercise_detail_desc"
+                android:tag="exerciseProperty"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{viewModel.selectedExercise.description}"
-                />
+                android:text="@{viewModel.selectedExercise.description}" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_sets"
+            style="@style/ExerciseListItemStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Sets">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/exercise_detail_sets"
+                android:tag="exerciseProperty"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="number"
-                android:text="@{viewModel.selectedExercise.exerciseSets.toString()}"
-                />
+                android:text="@{viewModel.selectedExercise.exerciseSets.toString()}" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_reps"
+            style="@style/ExerciseListItemStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Reps">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/exercise_detail_reps"
+                android:tag="exerciseProperty"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="number"
-                android:text="@{viewModel.selectedExercise.defaultReps.toString()}"
-                />
+                android:text="@{viewModel.selectedExercise.defaultReps.toString()}" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_Quantity"
+            style="@style/ExerciseListItemStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
-            android:hint="Units">
-
-            <AutoCompleteTextView
-                android:id="@+id/exercise_detail_unit"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="none"
-                />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Unit Count">
+            android:hint="Quantity">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/exercise_unitCount"
+                android:tag="exerciseProperty"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="number"
-                android:text="@{viewModel.selectedExercise.unitCount.toString()}"
-                />
+                android:text="@{viewModel.selectedExercise.unitCount.toString()}" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_unitName"
+            style="@style/ExerciseListItemStyle"
+            android:layout_width="match_parent"
+            android:layout_height="73dp"
+            android:hint="Unit Name"
+            app:errorEnabled="true">
 
+            <!--            This part is for selecting from a list of options.-->
+            <!--            Not working after I adding padding?-->
+            <!--            <AutoCompleteTextView-->
+            <!--                android:id="@+id/exercise_detail_unit"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:inputType="none" />-->
 
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/exercise_detail_unit"
+                android:tag="exerciseProperty"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.selectedExercise.measureUnits.toString()}" />
 
+        </com.google.android.material.textfield.TextInputLayout>
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="252dp">
 
+            <Button
+                android:id="@+id/btn_cancel_edit"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="4dp"
+                android:text="@string/cancel_button_text"
+                android:visibility="invisible"
+                app:layout_constraintEnd_toStartOf="@+id/btn_save_edit"
+                app:layout_constraintHorizontal_bias="0.949"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
+            <Button
+                android:id="@+id/btn_save_edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="16dp"
+                android:text="SAVE"
+                android:visibility="invisible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fab_edit_exercise"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:clickable="true"
+                android:src="@drawable/ic_baseline_edit_24"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="1.0" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     </LinearLayout>
