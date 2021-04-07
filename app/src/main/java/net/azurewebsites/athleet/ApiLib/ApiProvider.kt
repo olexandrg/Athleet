@@ -86,6 +86,19 @@ interface Api {
         @Path("workoutID") workoutID: String):
             List<Exercise>
 
+    @GET("exercises/{exerciseId}")
+    suspend fun getExercise(
+        @Header("Authorization") token: String,
+        @Path("exerciseId") exerciseId: Int
+    ):Exercise
+
+    @PUT("exercises/{exerciseId}")
+    fun updateExercise(
+        @Header("Authorization") token: String,
+        @Path("exerciseId") exerciseId: Int,
+        @Body exercise: Exercise
+    ):Call<ResponseBody>
+
 //  ############################################
 //  ############## TEAMS STUFF #################
 //  ############################################

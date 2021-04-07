@@ -22,6 +22,12 @@
         <item name="android:visibility">visible</item>
     </style>
 
+    <style name="ExerciseListItemStyle">
+        <item name="android:paddingBottom">16dp</item>
+        <item name="android:paddingRight">16dp</item>
+        <item name="android:paddingLeft">16dp</item>
+    </style>
+
     <style name="Widget.Theme.Athleet.MyView" parent="">
         <item name="android:background">@color/gray_400</item>
         <item name="exampleColor">@color/light_blue_400</item>
