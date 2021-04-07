@@ -45,6 +45,7 @@ class AddExerciseActivity : AppCompatActivity() {
         radioButtons.isVisible=false;
         switch = findViewById(R.id.switch_use_units)
         switch.setOnClickListener { showRadioButtons() }
+        radioButtonSelected = findViewById(R.id.radioButton_blank)
         // Get radio group selected status and text using button click event
     }
     fun radio_button_click(view: View){
@@ -71,7 +72,15 @@ class AddExerciseActivity : AppCompatActivity() {
             val reps = addExerciseReps.text.toString()
             val sets = addExerciseSets.text.toString()
             var unitType:String = radioButtonSelected.text.toString()
-            val unitCount = addExerciseUnitCount.text.toString()
+
+            var unitCount:String = "0"
+            if (addExerciseUnitCount.text.isNullOrEmpty()) {
+                unitCount = "0"
+            }
+            else{
+                unitCount = addExerciseUnitCount.text.toString()
+            }
+
 
             resultIntent.putExtra(EXERCISE_NAME, name)
             resultIntent.putExtra(EXERCISE_DESCRIPTION, description)

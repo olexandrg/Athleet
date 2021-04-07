@@ -195,6 +195,16 @@
                         android:layout_margin="3dp"
                         android:onClick="radio_button_click"
                         android:text="kCal" />
+
+                    <RadioButton
+                        android:id="@+id/radioButton_blank"
+                        android:layout_width="65dp"
+                        android:layout_height="45dp"
+                        android:layout_gravity="center"
+                        android:layout_margin="3dp"
+                        android:onClick="radio_button_click"
+                        android:text="none"
+                        android:visibility="invisible"/>
                 </LinearLayout>
             </LinearLayout>
 
