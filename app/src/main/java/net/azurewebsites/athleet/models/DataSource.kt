@@ -5,12 +5,15 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import net.azurewebsites.athleet.Teams.TeamMembersList
 import net.azurewebsites.athleet.Teams.TeamsList
 import net.azurewebsites.athleet.exercise.Exercise
 import net.azurewebsites.athleet.workouts.WorkoutList
 
 // Handles operations on Live Data and holds details about it.
 class DataSource(resources: Resources) {
+    private var initialTeamMembersList = TeamMembersList(resources)
+
     @RequiresApi(Build.VERSION_CODES.O)
     private var initialWorkoutList = WorkoutList(resources)
     @RequiresApi(Build.VERSION_CODES.O)
@@ -65,10 +68,13 @@ class DataSource(resources: Resources) {
                 ExercisesLiveData.postValue(updatedList)
         }
     }
-    fun clearExerciseList(){
-        currentWorkout!!.exercises = ExercisesLiveData.value;
-        ExercisesLiveData.postValue(null)
+
+    private val TeamMembersLiveData = MutableLiveData(initialTeamMembersList)
+    fun setTeamList(list: List<TeamUser>) {
+        TeamMembersLiveData.postValue(list)
     }
+
+    fun getTeamMembersList(): LiveData<List<TeamUser>> { return TeamMembersLiveData }
 
     companion object {
         private var INSTANCE: DataSource? = null
