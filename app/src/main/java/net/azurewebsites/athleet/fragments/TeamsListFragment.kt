@@ -73,7 +73,6 @@ class TeamsListFragment : Fragment() {
         linearLayoutManager = LinearLayoutManager(context)
         val teamsAdapter = TeamsListAdapter { team -> adapterOnClick(team) }
 
-        // workoutListViewModel.workoutsLiveData.observe(this.viewLifecycleOwner , { it.let { if(workoutListViewModel.workoutsLiveData.value!!.size != 0) workoutAdapter.submitList(it as MutableList<Workout>) } })
         teamsListViewModel.teamsLiveData.observe(this.viewLifecycleOwner , { it?.let { if(teamsListViewModel.teamsLiveData.value!!.size != 0) teamsAdapter.submitList(it as MutableList<Team>) } })
         val rootView = inflater!!.inflate(R.layout.fragment_teams_list, container, false)
         val recyclerView = rootView.findViewById<RecyclerView>(R.id.recyclerView_Teams) as RecyclerView
@@ -93,7 +92,7 @@ class TeamsListFragment : Fragment() {
     }
 
     private fun adapterOnClick(team: Team) {
-        val intent = Intent(requireContext(), TeamDetailActivity()::class.java)  // THIS WILL BECOME TeamDetailActivity()
+        val intent = Intent(requireContext(), TeamDetailActivity()::class.java)
         intent.putExtra(TEAM_NAME, team.teamName)
         intent.putExtra(TEAM_DESCRIPTION, team.teamDescription)
         startActivityForResult(intent, 2)
@@ -125,7 +124,7 @@ class TeamsListFragment : Fragment() {
                     }
                 })
         }
-        if(requestCode == 58) {
+        else if(requestCode == 58) {
             Toast.makeText(activity, "Successfully deleted Team", Toast.LENGTH_LONG).show()
             /*val api: Api = Api.createSafe()
             FirebaseAuth.getInstance().currentUser?.getIdToken(false)
@@ -161,42 +160,8 @@ class TeamsListFragment : Fragment() {
                     }
                 }*/
         }
-
         else if(resultCode == 59) {
             Toast.makeText(activity, "Successfully deleted Team", Toast.LENGTH_LONG).show()
-            /*val api: Api = Api.createSafe()
-            FirebaseAuth.getInstance().currentUser?.getIdToken(false)
-                ?.addOnCompleteListener { response ->
-                    if (response.isSuccessful) {
-                        val teamName = activity?.intent?.getStringExtra(TEAM_NAME).toString()
-                        val call = api.deleteTeam(response.result?.token.toString(), teamName)
-
-                        call.enqueue(object : Callback<ResponseBody> {
-                            override fun onFailure(
-                                call: retrofit2.Call<ResponseBody>,
-                                t: Throwable
-                            ) {
-                                Toast.makeText(activity, "Failed to leave Team", Toast.LENGTH_LONG)
-                                    .show()
-                            }
-
-                            override fun onResponse(
-                                call: retrofit2.Call<ResponseBody>,
-                                response: retrofit2.Response<ResponseBody>
-                            ) {
-                                Toast.makeText(
-                                    activity,
-                                    "Successfully left Team",
-                                    Toast.LENGTH_LONG
-                                ).show()
-                            }
-
-                        })
-                    } else {
-                        Toast.makeText(activity, "Couldn't get user token", Toast.LENGTH_LONG)
-                            .show()
-                    }
-                }*/
         }
     }
 }
