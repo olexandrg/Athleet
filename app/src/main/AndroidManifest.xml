@@ -13,7 +13,8 @@
         android:theme="@style/Theme.Athleet">
         <!-- android:theme="@style/Theme.AppCompat.DarkTheme">-->
 
-        <activity android:name=".InviteTeamUser"></activity>
+        <activity android:name=".InviteTeamUser"/>
+        <activity android:name=".Teams.TeamAdminActivity"/>
         <activity android:name=".TeamMemberListView" />
         <activity android:name=".Dashboard.AddTeamActivity" />
 
