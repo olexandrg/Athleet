@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.lifecycle.observe
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
@@ -38,10 +39,7 @@ class TeamDashboardFragment : Fragment() {
     private lateinit var dataSource:DataSource
     private lateinit var teamInfo: TeamInfo
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         val binding =inflater.inflate(R.layout.fragment_team_dashboard, container, false )
         teamName = requireActivity().intent?.getStringExtra(TEAM_NAME)!!
@@ -67,7 +65,6 @@ class TeamDashboardFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        getTeamInfo()
         fab.setOnClickListener { fabOnClick() }
     }
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -81,7 +78,7 @@ class TeamDashboardFragment : Fragment() {
         {
             val intent = Intent(requireActivity(), TeamAdminActivity::class.java)
             intent.putExtra(TEAM_NAME, teamName)
-            startActivity(intent)
+            startActivityForResult(intent, UPDATED_ADMINS_STATUS)
         }
         return false;
     }
@@ -89,14 +86,10 @@ class TeamDashboardFragment : Fragment() {
     private fun adapterOnClick(teamMember: TeamUser) {
         Toast.makeText(activity, "Opening user page...", Toast.LENGTH_LONG).show()
     }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if(resultCode == UPDATED_ADMINS_STATUS)
-            api.makeTeamUserCoach(getFirebaseTokenId(), data!!.getStringExtra("TeamToPromoteWithin")!!, data!!.getStringExtra("UserToPromote")!!,true)
-                .enqueue(object: Callback<ResponseBody> {
-                    override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) { if (response.isSuccessful) { getTeamInfo()}}
-                    override fun onFailure(call: Call<ResponseBody>, t: Throwable) { Toast.makeText( context, "Failed getting the team users", Toast.LENGTH_LONG).show() } }
-                    )
+        getTeamInfo()
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -105,7 +98,7 @@ class TeamDashboardFragment : Fragment() {
         if(!teamName.isBlank()){
             val apiCall = api.teamInfo(getFirebaseTokenId(),  teamName)
             apiCall.enqueue(object: Callback<TeamInfo>{
-                override fun onResponse(call: Call<TeamInfo>, response: Response<TeamInfo>) { if (response.isSuccessful) { teamMembersListViewModel.insertTeamMembers(response.body()!!.users); teamInfo = response.body()!! ; }}
+                override fun onResponse(call: Call<TeamInfo>, response: Response<TeamInfo>) { if (response.isSuccessful) { teamMemberListAdapter.submitList(response.body()!!.users); teamInfo = response.body()!! ; }}
                 override fun onFailure(call: Call<TeamInfo>, t: Throwable) { Toast.makeText(activity, "Failed getting the team users", Toast.LENGTH_LONG).show() }
             })
         }

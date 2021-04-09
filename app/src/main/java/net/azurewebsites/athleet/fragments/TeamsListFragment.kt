@@ -66,6 +66,7 @@ class TeamsListFragment : Fragment() {
         })
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -73,7 +74,11 @@ class TeamsListFragment : Fragment() {
         linearLayoutManager = LinearLayoutManager(context)
         val teamsAdapter = TeamsListAdapter { team -> adapterOnClick(team) }
 
-        teamsListViewModel.teamsLiveData.observe(this.viewLifecycleOwner , { it?.let { if(teamsListViewModel.teamsLiveData.value!!.size != 0) teamsAdapter.submitList(it as MutableList<Team>) } })
+        teamsListViewModel.teamsLiveData.observe(this.viewLifecycleOwner) {
+            if(teamsListViewModel.teamsLiveData.value!!.count() != 0 && !teamsListViewModel.teamsLiveData.value.isNullOrEmpty()) {
+                it.let { teamsAdapter.submitList(it as MutableList<Team>) }
+            }
+        }
         val rootView = inflater!!.inflate(R.layout.fragment_teams_list, container, false)
         val recyclerView = rootView.findViewById<RecyclerView>(R.id.recyclerView_Teams) as RecyclerView
 
