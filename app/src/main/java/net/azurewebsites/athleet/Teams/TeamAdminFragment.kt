@@ -49,12 +49,18 @@ class TeamAdminFragment : Fragment() {
     private lateinit var currentUser: UserItem
     private lateinit var currentTeam:TeamInfo
 
-
+    private fun getCurrentUser(){
+        val apiCall = api.retrieveExistingUser(getFirebaseTokenId())
+        apiCall.enqueue(object: Callback<List<UserItem>> {
+            override fun onResponse(call: Call<List<UserItem>>, response: Response<List<UserItem>>) { currentUser=response.body()!![0]; getTeam() }
+            override fun onFailure(call: Call<List<UserItem>>, t: Throwable) { Toast.makeText(activity, "Failed finding user name. User may not be part of team.", Toast.LENGTH_LONG).show() }
+        })
+    }
     private fun getTeam(){
-        teamName
+
         val getTeamInfo = api.teamInfo(getFirebaseTokenId(), teamName)
         getTeamInfo.enqueue(object: Callback<TeamInfo> {
-            override fun onResponse(call: Call<TeamInfo>, response: Response<TeamInfo>) { currentTeam = response.body()!! }
+            override fun onResponse(call: Call<TeamInfo>, response: Response<TeamInfo>) { currentTeam = response.body()!!; makeAdminButton.isActivated = true;  userInput.isActivated = true; }
             override fun onFailure(call: Call<TeamInfo>, t: Throwable) { Toast.makeText(activity, "Failed finding user name. User may not be part of team.", Toast.LENGTH_LONG).show() }
         })
     }
@@ -67,46 +73,17 @@ class TeamAdminFragment : Fragment() {
         activity?.finishActivity(58)
         activity?.finish()
     }
-    private fun getCurrentUser(){
-        val apiCall = api.retrieveExistingUser(getFirebaseTokenId())
-        apiCall.enqueue(object: Callback<List<UserItem>> {
-            override fun onResponse(call: Call<List<UserItem>>, response: Response<List<UserItem>>) { currentUser=response.body()!![0] }
-            override fun onFailure(call: Call<List<UserItem>>, t: Throwable) { Toast.makeText(activity, "Failed finding user name. User may not be part of team.", Toast.LENGTH_LONG).show() }
-        })
-    }
 
-    private fun updateUserToAdmin() {
-        val apiCall = api.makeTeamUserCoach(getFirebaseTokenId(), currentTeam.teamName, userInput.text.toString(), true)
-        apiCall.enqueue(object: Callback<ResponseBody> {
-            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
-                Toast.makeText(requireContext(), "User '" + userName + "' is now admin.", Toast.LENGTH_LONG).show()
-
-            }
-            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                Toast.makeText(requireContext(), "Failed finding user name. User may not be part of team.", Toast.LENGTH_LONG).show()
-
-            }
-        })
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        userInput.isActivated = false
         getCurrentUser()
-        getTeam()
 
     }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         val rootView = inflater.inflate(R.layout.fragment_team_admin, container, false)
-        userInput = rootView.findViewById(R.id.editText_makeUserAdmin)
-        makeAdminButton = rootView.findViewById(R.id.button_makeUserAdmin)
-        buttonDeleteTeam = rootView.findViewById(R.id.button_leaveTeam)
-        buttonLeaveTeam = rootView.findViewById(R.id.button_deleteTeam)
-
-        makeAdminButton.setOnClickListener { updateUserToAdmin(); }
-        buttonDeleteTeam.setOnClickListener { deleteTeam() }
-        buttonLeaveTeam.setOnClickListener { leaveTeam() }
-
         return rootView
     }
 
