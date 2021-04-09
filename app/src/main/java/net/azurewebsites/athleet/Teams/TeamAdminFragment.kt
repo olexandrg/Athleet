@@ -12,6 +12,7 @@ import androidx.annotation.RequiresApi
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.android.synthetic.main.fragment_team_admin.*
 import net.azurewebsites.athleet.ApiLib.Api
 import net.azurewebsites.athleet.Dashboard.TEAM_NAME
 import net.azurewebsites.athleet.R
@@ -45,6 +46,23 @@ class TeamAdminFragment : Fragment() {
 
                 activity?.setResult(57)
                 activity?.finish()
+            }
+        }
+
+        getTeamUsers()
+
+        if (!isAdmin(currentUserUserName)) {
+            button_leaveTeam.isEnabled = true
+        }
+        else {
+            var count = 0
+            for (user in teamList) {
+                if (user.second)
+                    count++
+                if (count >= 2) {
+                    button_leaveTeam.isEnabled = true
+                    break
+                }
             }
         }
 
