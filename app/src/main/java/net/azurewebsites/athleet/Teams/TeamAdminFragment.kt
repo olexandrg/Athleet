@@ -52,7 +52,7 @@ class TeamAdminFragment : Fragment() {
         getTeamUsers()
 
         if (!isAdmin(currentUserUserName)) {
-            button_leaveTeam.isEnabled = true
+            binding.buttonLeaveTeam.isEnabled = true
         }
         else {
             var count = 0
@@ -60,7 +60,7 @@ class TeamAdminFragment : Fragment() {
                 if (user.second)
                     count++
                 if (count >= 2) {
-                    button_leaveTeam.isEnabled = true
+                    binding.buttonLeaveTeam.isEnabled = true
                     break
                 }
             }
