@@ -19,7 +19,7 @@ class MessagingActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_messaging)
         try {
-            mSocket = IO.socket("10.0.2.2:3000")
+            mSocket = IO.socket("http://10.0.2.2:3000")
             mSocket!!.connect()
         }
         catch (e: URISyntaxException)

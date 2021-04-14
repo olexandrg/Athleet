@@ -20,6 +20,7 @@ let numUsers = 0;
 
 io.on('connection', (socket) => {
   let addedUser = false;
+  console.log('client connected to the server!');
 
   // when the client emits 'new message', this listens and executes
   socket.on('new message', (data) => {
@@ -28,6 +29,8 @@ io.on('connection', (socket) => {
       username: socket.username,
       message: data
     });
+	
+	console.log('message: %s', data);
   });
 
   // when the client emits 'add user', this listens and executes
