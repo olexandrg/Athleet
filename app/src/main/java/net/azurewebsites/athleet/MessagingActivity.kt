@@ -24,26 +24,13 @@ class MessagingActivity : AppCompatActivity() {
         }
         catch (e: URISyntaxException)
         {
-        //do nothing
+        // do nothing
         }
 
         // send the message when the button is clicked
         send_message_button.setOnClickListener {
             sendMessage()
         }
-        /*
-        private EditText mInputMessageView;
-
-private void attemptSend() {
-    String message = mInputMessageView.getText().toString().trim();
-    if (TextUtils.isEmpty(message)) {
-        return;
-    }
-
-    mInputMessageView.setText("");
-    mSocket.emit("new message", message);
-}
-         */
     }
 
     private fun sendMessage() {
