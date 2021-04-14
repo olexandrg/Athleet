@@ -8,7 +8,7 @@ import java.net.URISyntaxException
 
 class MessagingActivity : AppCompatActivity() {
     private var mSocket: Socket? = null
-
+    private var message: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
