@@ -2,13 +2,15 @@ package net.azurewebsites.athleet
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.textfield.TextInputEditText
 import io.socket.client.Socket
 import io.socket.client.IO;
+import kotlinx.android.synthetic.main.activity_messaging.*
 import java.net.URISyntaxException
 
 class MessagingActivity : AppCompatActivity() {
     private var mSocket: Socket? = null
-    private var message: String
+    private lateinit var message: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,5 +23,10 @@ class MessagingActivity : AppCompatActivity() {
         {
         //do nothing
         }
+
+        // nice gift from Simeon and Ryan
+        message = message_input.text?.toString().toString()
+
+
     }
 }
