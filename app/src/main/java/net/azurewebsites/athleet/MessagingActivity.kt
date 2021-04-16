@@ -27,7 +27,6 @@ class MessagingActivity : AppCompatActivity() {
 
             mSocket.on(Socket.EVENT_CONNECT, onConnectEvent)
             mSocket.on(Socket.EVENT_DISCONNECT, onDisconnectEvent)
-
             mSocket.on("new message", onNewMessageEvent)
             mSocket.on("user joined", onUserJoinedEvent)
 
