@@ -20,6 +20,7 @@ import net.azurewebsites.athleet.Dashboard.TEAM_NAME
 import net.azurewebsites.athleet.InviteTeamUser
 import net.azurewebsites.athleet.MessagingActivity
 import net.azurewebsites.athleet.R
+import net.azurewebsites.athleet.chat.ChatRoomActivity
 import net.azurewebsites.athleet.databinding.FragmentTeamDashboardBinding
 import net.azurewebsites.athleet.getFirebaseTokenId
 import net.azurewebsites.athleet.models.Team
@@ -77,8 +78,9 @@ class TeamDashboardFragment : Fragment() {
     }
 
     private fun onTeamChatButtonClick() {
-        val intent = Intent(this.requireActivity(), MessagingActivity::class.java)
-        intent.putExtra(TEAM_NAME, teamName)
+        val intent = Intent(this.requireActivity(), ChatRoomActivity::class.java)
+        intent.putExtra("roomName", teamName)
+        intent.putExtra("userName", "testUser")
         startActivity(intent)
     }
 
