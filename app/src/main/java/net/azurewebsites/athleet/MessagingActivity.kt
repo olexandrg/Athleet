@@ -6,6 +6,7 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
 import com.google.gson.Gson
@@ -16,6 +17,7 @@ import kotlinx.android.synthetic.main.activity_chatroom.*
 import kotlinx.android.synthetic.main.activity_messaging.*
 import kotlinx.android.synthetic.main.activity_messaging.send_message_button
 import net.azurewebsites.athleet.Dashboard.TEAM_NAME
+import net.azurewebsites.athleet.chat.ChatRoomAdapter
 import net.azurewebsites.athleet.chat.Message
 import net.azurewebsites.athleet.chat.MessageType
 import org.json.JSONException
@@ -27,6 +29,8 @@ class MessagingActivity : AppCompatActivity() {
     private lateinit var message: String
     private lateinit var userName: String
     private lateinit var teamName: String
+    val chatList: ArrayList<Message> = arrayListOf()
+    lateinit var chatRoomAdapter: ChatRoomAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,6 +42,7 @@ class MessagingActivity : AppCompatActivity() {
             mSocket.on(Socket.EVENT_DISCONNECT, onDisconnectEvent)
             mSocket.on("new message", onNewMessageEvent)
             mSocket.on("user joined", onUserJoinedEvent)
+            mSocket.on("updateChat", onUpdateChat)
 
             mSocket.connect()
         }
@@ -49,6 +54,14 @@ class MessagingActivity : AppCompatActivity() {
         userName = intent.getStringExtra("userName").toString()
         teamName = intent.getStringExtra(TEAM_NAME).toString()
 
+        //Set Chatroom adapter
+
+        chatRoomAdapter = ChatRoomAdapter(this, chatList);
+        recyclerView.adapter = chatRoomAdapter;
+
+        val layoutManager = LinearLayoutManager(this)
+        recyclerView.layoutManager = layoutManager
+
         // send the message when the button is clicked
         send_message_button.setOnClickListener {
             sendMessage()
@@ -59,7 +72,7 @@ class MessagingActivity : AppCompatActivity() {
         // nice gift from Simeon and Ryan
         val text = findViewById<EditText>(R.id.editText).text?.toString().toString()
         val message = Message(userName, text, teamName, MessageType.CHAT_MINE.index)
-        //addItemToRecyclerView(message)
+        addItemToRecyclerView(message)
         if (TextUtils.isEmpty(text)) {
             Toast.makeText(this, "Cannot send text message that is empty!", Toast.LENGTH_LONG).show()
             return;
@@ -83,6 +96,25 @@ class MessagingActivity : AppCompatActivity() {
 
     private var onUserJoinedEvent = Emitter.Listener {
 
+    }
+
+    var onUpdateChat = Emitter.Listener {
+        val gson = Gson()
+        val chat: Message = gson.fromJson(it[0].toString(), Message::class.java)
+        chat.viewType = MessageType.CHAT_PARTNER.index
+        addItemToRecyclerView(chat)
+    }
+
+    private fun addItemToRecyclerView(message: Message) {
+
+        //Since this function is inside of the listener,
+        // You need to do it on UIThread!
+        runOnUiThread {
+            chatList.add(message)
+            chatRoomAdapter.notifyItemInserted(chatList.size)
+            editText.setText("")
+            recyclerView.scrollToPosition(chatList.size - 1) //move focus on last message
+        }
     }
 
     /*private fun thing() {
