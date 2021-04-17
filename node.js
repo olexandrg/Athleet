@@ -1,112 +1,80 @@
-/**
- * @author Joyce Hong
- * @email soja0524@gmail.com
- * @create date 2019-09-02 20:51:10
- * @modify date 2019-09-02 20:51:10
- * @desc socket.io server !
- */
 
+// Setup basic express server
 const express = require('express');
-const bodyParser = require('body-parser');
+const app = express();
+const path = require('path');
+const server = require('http').createServer(app);
+const io = require('socket.io')(server);
+const port = process.env.PORT || 3000;
 
+server.listen(port, () => {
+  console.log('Server listening at port %d', port);
+});
 
-const socketio = require('socket.io')
-var app = express();
+// Routing
+app.use(express.static(path.join(__dirname, 'public')));
 
-// parse application/x-www-form-urlencoded
-// { extended: true } : support nested object
-// Returns middleware that ONLY parses url-encoded bodies and 
-// This object will contain key-value pairs, where the value can be a 
-// string or array(when extended is false), or any type (when extended is true)
-app.use(bodyParser.urlencoded({ extended: true }));
+// Chatroom
 
-//This return middleware that only parses json and only looks at requests where the Content-type
-//header matched the type option. 
-//When you use req.body -> this is using body-parser cause it is going to parse 
-// the request body to the form we want
-app.use(bodyParser.json());
+let numUsers = 0;
 
+io.on('connection', (socket) => {
+  let addedUser = false;
+  console.log('client connected to the server!');
 
-var server = app.listen(3000,()=>{
-    console.log('Server is running on port number 3000')
-})
-
-
-//Chat Server
-
-var io = socketio.listen(server)
-
-io.on('connection',function(socket) {
-
-    //The moment one of your client connected to socket.io server it will obtain socket id
-    //Let's print this out.
-    console.log(`Connection : SocketId = ${socket.id}`)
-    //Since we are going to use userName through whole socket connection, Let's make it global.   
-    var userName = '';
-    
-    socket.on('subscribe', function(data) {
-        console.log('subscribe trigged')
-        const room_data = JSON.parse(data)
-        userName = room_data.userName;
-        const roomName = room_data.roomName;
-    
-        socket.join(`${roomName}`)
-        console.log(`Username : ${userName} joined Room Name : ${roomName}`)
-        
-       
-        // Let the other user get notification that user got into the room;
-        // It can be use to indicate that person has read the messages. (Like turns "unread" into "read")
-
-        //TODO: need to chose
-        //io.to : User who has joined can get a event;
-        //socket.broadcast.to : all the users except the user who has joined will get the message
-        // socket.broadcast.to(`${roomName}`).emit('newUserToChatRoom',userName);
-        io.to(`${roomName}`).emit('newUserToChatRoom',userName);
-
-    })
-
-    socket.on('unsubscribe',function(data) {
-        console.log('unsubscribe trigged')
-        const room_data = JSON.parse(data)
-        const userName = room_data.userName;
-        const roomName = room_data.roomName;
-    
-        console.log(`Username : ${userName} leaved Room Name : ${roomName}`)
-        socket.broadcast.to(`${roomName}`).emit('userLeftChatRoom',userName)
-        socket.leave(`${roomName}`)
-    })
-
-    socket.on('newMessage',function(data) {
-        console.log('newMessage triggered')
-
-        const messageData = JSON.parse(data)
-        const messageContent = messageData.messageContent
-        const roomName = messageData.roomName
-
-        console.log(`[Room Number ${roomName}] ${userName} : ${messageContent}`)
-        // Just pass the data that has been passed from the writer socket
-
-        const chatData = {
-            userName : userName,
-            messageContent : messageContent,
-            roomName : roomName
-        }
-        socket.broadcast.to(`${roomName}`).emit('updateChat',JSON.stringify(chatData)) // Need to be parsed into Kotlin object in Kotlin
-    })
-
-    // socket.on('typing',function(roomNumber){ //Only roomNumber is needed here
-    //     console.log('typing triggered')
-    //     socket.broadcast.to(`${roomNumber}`).emit('typing')
-    // })
-
-    // socket.on('stopTyping',function(roomNumber){ //Only roomNumber is needed here
-    //     console.log('stopTyping triggered')
-    //     socket.broadcast.to(`${roomNumber}`).emit('stopTyping')
-    // })
-
-    socket.on('disconnect', function () {
-        console.log("One of sockets disconnected from our server.")
+  // when the client emits 'new message', this listens and executes
+  socket.on('new message', (data) => {
+    // we tell the client to execute 'new message'
+    socket.broadcast.emit('new message', {
+      username: socket.username,
+      message: data
     });
-})
+	
+	console.log('message: %s', data);
+  });
 
-module.exports = server; //Exporting for test
+  // when the client emits 'add user', this listens and executes
+  socket.on('add user', (username) => {
+    if (addedUser) return;
+
+    // we store the username in the socket session for this client
+    socket.username = username;
+    ++numUsers;
+    addedUser = true;
+    socket.emit('login', {
+      numUsers: numUsers
+    });
+    // echo globally (all clients) that a person has connected
+    socket.broadcast.emit('user joined', {
+      username: socket.username,
+      numUsers: numUsers
+    });
+  });
+
+  // when the client emits 'typing', we broadcast it to others
+  socket.on('typing', () => {
+    socket.broadcast.emit('typing', {
+      username: socket.username
+    });
+  });
+
+  // when the client emits 'stop typing', we broadcast it to others
+  socket.on('stop typing', () => {
+    socket.broadcast.emit('stop typing', {
+      username: socket.username
+    });
+  });
+
+  // when the user disconnects.. perform this
+  socket.on('disconnect', () => {
+    if (addedUser) {
+      --numUsers;
+
+      // echo globally that this client has left
+      socket.broadcast.emit('user left', {
+        username: socket.username,
+        numUsers: numUsers
+      });
+    }
+  });
+});
