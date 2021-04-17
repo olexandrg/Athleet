@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
+import com.google.gson.Gson
 import io.socket.client.Socket
 import io.socket.client.IO;
 import io.socket.emitter.Emitter
@@ -64,7 +65,8 @@ class MessagingActivity : AppCompatActivity() {
             return;
         }
 
-        mSocket.emit("new message", message)
+        val gson = Gson()
+        mSocket.emit("new message", gson.toJson(message))
     }
 
     private var onConnectEvent = Emitter.Listener {
