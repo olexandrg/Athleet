@@ -78,7 +78,8 @@ class TeamDashboardFragment : Fragment() {
     }
 
     private fun onTeamChatButtonClick() {
-        val intent = Intent(this.requireActivity(), ChatRoomActivity::class.java)
+        val intent = Intent(this.requireActivity(), MessagingActivity::class.java)
+        intent.putExtra(TEAM_NAME, teamName)
         intent.putExtra("roomName", teamName)
         intent.putExtra("userName", "testUser")
         startActivity(intent)
