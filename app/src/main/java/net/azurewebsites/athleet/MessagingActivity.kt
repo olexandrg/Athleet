@@ -2,6 +2,7 @@ package net.azurewebsites.athleet
 
 import android.os.Bundle
 import android.text.TextUtils
+import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -10,7 +11,12 @@ import com.google.firebase.auth.FirebaseAuth
 import io.socket.client.Socket
 import io.socket.client.IO;
 import io.socket.emitter.Emitter
+import kotlinx.android.synthetic.main.activity_chatroom.*
 import kotlinx.android.synthetic.main.activity_messaging.*
+import kotlinx.android.synthetic.main.activity_messaging.send_message_button
+import net.azurewebsites.athleet.Dashboard.TEAM_NAME
+import net.azurewebsites.athleet.chat.Message
+import net.azurewebsites.athleet.chat.MessageType
 import org.json.JSONException
 import org.json.JSONObject
 import java.net.URISyntaxException
@@ -18,10 +24,12 @@ import java.net.URISyntaxException
 class MessagingActivity : AppCompatActivity() {
     private lateinit var mSocket: Socket
     private lateinit var message: String
+    private lateinit var userName: String
+    private lateinit var teamName: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_messaging)
+        setContentView(R.layout.activity_chatroom)
         try {
             mSocket = IO.socket("http://10.0.2.2:3000")
 
@@ -37,6 +45,9 @@ class MessagingActivity : AppCompatActivity() {
         // do nothing
         }
 
+        userName = intent.getStringExtra("userName").toString()
+        teamName = intent.getStringExtra(TEAM_NAME).toString()
+
         // send the message when the button is clicked
         send_message_button.setOnClickListener {
             sendMessage()
@@ -45,8 +56,10 @@ class MessagingActivity : AppCompatActivity() {
 
     private fun sendMessage() {
         // nice gift from Simeon and Ryan
-        message = message_input.text?.toString().toString()
-        if (TextUtils.isEmpty(message)) {
+        val text = findViewById<EditText>(R.id.editText).text?.toString().toString()
+        val message = Message(userName, text, teamName, MessageType.CHAT_MINE.index)
+        //addItemToRecyclerView(message)
+        if (TextUtils.isEmpty(text)) {
             Toast.makeText(this, "Cannot send text message that is empty!", Toast.LENGTH_LONG).show()
             return;
         }
@@ -69,4 +82,14 @@ class MessagingActivity : AppCompatActivity() {
     private var onUserJoinedEvent = Emitter.Listener {
 
     }
+
+    /*private fun thing() {
+        val content = editText.text.toString()
+        val sendData = SendMessage(userName, content, roomName)
+        val jsonData = gson.toJson(sendData)
+        mSocket.emit("newMessage", jsonData)
+
+        val message = Message(userName, content, roomName, MessageType.CHAT_MINE.index)
+        addItemToRecyclerView(message)
+    }*/
 }
