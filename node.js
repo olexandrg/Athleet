@@ -7,6 +7,10 @@ const server = require('http').createServer(app);
 const io = require('socket.io')(server);
 const port = process.env.PORT || 3000;
 
+const bodyParser = require('body-parser');
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
 server.listen(port, () => {
   console.log('Server listening at port %d', port);
 });
@@ -19,17 +23,33 @@ app.use(express.static(path.join(__dirname, 'public')));
 let numUsers = 0;
 
 io.on('connection', (socket) => {
+
+  var userName = '';
+
   let addedUser = false;
   console.log('client connected to the server!');
 
   // when the client emits 'new message', this listens and executes
   socket.on('new message', (data) => {
+    
+    const messageData = JSON.parse(data)
+    const messageContent = messageData.messageContent
+    const roomName = messageData.roomName
+
+    const chatData = {
+      userName : userName,
+      messageContent : messageContent,
+      roomName : roomName
+    }
+
+    socket.broadcast.emit('updateChat',JSON.stringify(chatData))
+
     // we tell the client to execute 'new message'
-    socket.broadcast.emit('updateChat', JSON.stringify({
-      username: data.username,
-      message: data.messageContent,
-      roomName: data.roomName
-    }));
+    // socket.broadcast.emit('updateChat',{
+    //   username: data.username,
+    //   message: data.messageContent,
+    //   roomName: data.roomName
+    // });
 	
 	console.log('message: %s', data);
   });

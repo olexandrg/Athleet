@@ -29,8 +29,11 @@ class MessagingActivity : AppCompatActivity() {
     private lateinit var message: String
     private lateinit var userName: String
     private lateinit var teamName: String
+
     val chatList: ArrayList<Message> = arrayListOf()
     lateinit var chatRoomAdapter: ChatRoomAdapter
+
+    private lateinit var editText: EditText
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,6 +56,7 @@ class MessagingActivity : AppCompatActivity() {
 
         userName = intent.getStringExtra("userName").toString()
         teamName = intent.getStringExtra(TEAM_NAME).toString()
+        editText = findViewById(R.id.editText)
 
         //Set Chatroom adapter
 
