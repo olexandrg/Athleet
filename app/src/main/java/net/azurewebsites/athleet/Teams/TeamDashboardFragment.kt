@@ -20,7 +20,7 @@ import net.azurewebsites.athleet.Dashboard.TEAM_NAME
 import net.azurewebsites.athleet.InviteTeamUser
 import net.azurewebsites.athleet.MessagingActivity
 import net.azurewebsites.athleet.R
-import net.azurewebsites.athleet.chat.ChatRoomActivity
+//import net.azurewebsites.athleet.chat.ChatRoomActivity
 import net.azurewebsites.athleet.databinding.FragmentTeamDashboardBinding
 import net.azurewebsites.athleet.getFirebaseTokenId
 import net.azurewebsites.athleet.models.Team

@@ -1,4 +1,4 @@
-package net.azurewebsites.athleet.chat
+/*package net.azurewebsites.athleet.chat
 
 import android.os.Bundle
 import android.util.Log
@@ -138,3 +138,4 @@ class ChatRoomActivity : AppCompatActivity(), View.OnClickListener {
     }
 
 }
+*/
