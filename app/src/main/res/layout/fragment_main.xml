@@ -15,7 +15,7 @@
             android:layout_height="match_parent"
             android:visibility="visible">
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/auth_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -39,29 +39,47 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="44dp"
-                android:layout_marginTop="95dp"
+                android:layout_marginTop="15dp"
                 android:layout_marginEnd="44dp"
-                android:layout_marginBottom="39dp"
+                android:layout_marginBottom="16dp"
+                android:fontFamily="@font/andada"
                 android:textAlignment="center"
-                android:textSize="36sp"
+                android:textSize="30sp"
                 app:layout_constraintBottom_toTopOf="@+id/auth_button"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageView2"
                 tools:text="Welcome to Athleet!" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_Dashboard"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="105dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="102dp"
+                android:layout_marginBottom="97dp"
+                android:backgroundTint="#283593"
+                android:fontFamily="sans-serif-medium"
                 android:text="@string/go_to_my_dashboard"
+                android:textColor="#FFFFFF"
                 android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/auth_button" />
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="7dp"
+                app:layout_constraintBottom_toTopOf="@+id/welcome_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/logo" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
