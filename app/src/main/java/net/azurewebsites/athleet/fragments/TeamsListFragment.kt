@@ -19,6 +19,7 @@ import net.azurewebsites.athleet.ApiLib.Api
 import net.azurewebsites.athleet.Dashboard.AddTeamActivity
 import net.azurewebsites.athleet.Dashboard.TEAM_DESCRIPTION
 import net.azurewebsites.athleet.Dashboard.TEAM_NAME
+import net.azurewebsites.athleet.Dashboard.WORKOUT_NAME
 import net.azurewebsites.athleet.R
 import net.azurewebsites.athleet.Teams.*
 import net.azurewebsites.athleet.getFirebaseTokenId
@@ -127,39 +128,31 @@ class TeamsListFragment : Fragment() {
         }
         if(requestCode == 58) {
             Toast.makeText(activity, "Successfully deleted Team", Toast.LENGTH_LONG).show()
-            /*val api: Api = Api.createSafe()
-            FirebaseAuth.getInstance().currentUser?.getIdToken(false)
-                ?.addOnCompleteListener { response ->
-                    if (response.isSuccessful) {
-                        //ask taylor how to get the team name
-                        val teamName = intentData?.getStringExtra(WORKOUT_NAME).toString()
-                        val call = api.deleteTeam(response.result?.token.toString(), teamName)
-                        call.enqueue(object : Callback<ResponseBody> {
-                            override fun onFailure(
-                                call: retrofit2.Call<ResponseBody>,
-                                t: Throwable
-                            ) {
-                                Toast.makeText(activity, "Failed to delete Team", Toast.LENGTH_LONG)
-                                    .show()
-                            }
+            val api: Api = Api.createSafe()
+            //ask taylor how to get the team name
+            val teamName = intentData?.getStringExtra(TEAM_NAME).toString()
+            val call = api.deleteTeam(getFirebaseTokenId(), teamName)
+            call.enqueue(object : Callback<ResponseBody> {
+                override fun onFailure(
+                    call: retrofit2.Call<ResponseBody>,
+                    t: Throwable
+                ) {
+                    Toast.makeText(activity, "Failed to delete Team", Toast.LENGTH_LONG)
+                        .show()
+                }
 
-                            override fun onResponse(
-                                call: retrofit2.Call<ResponseBody>,
-                                response: retrofit2.Response<ResponseBody>
-                            ) {
-                                Toast.makeText(
-                                    activity,
-                                    "Successfully deleted Team",
-                                    Toast.LENGTH_LONG
-                                ).show()
-                            }
+                override fun onResponse(
+                    call: retrofit2.Call<ResponseBody>,
+                    response: retrofit2.Response<ResponseBody>
+                ) {
+                    Toast.makeText(
+                        activity,
+                        "Successfully deleted Team",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
 
-                        })
-                    } else {
-                        Toast.makeText(activity, "Couldn't get user token", Toast.LENGTH_LONG)
-                            .show()
-                    }
-                }*/
+            })
         }
 
         else if(resultCode == 59) {
