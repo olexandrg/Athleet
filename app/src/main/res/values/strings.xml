@@ -47,4 +47,9 @@
     <string name="e_mail">E-mail</string>
     <string name="make_admin">Make Admin</string>
     <string name="username">Enter User Name</string>
+    <string name="team_chat_room">Team Chat</string>
+    <string name="message_output"></string>
+    <string name="send_message">Send</string>
+    <string name="send_message_button">Send</string>
+
 </resources>

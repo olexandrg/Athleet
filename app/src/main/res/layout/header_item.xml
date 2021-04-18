@@ -11,8 +11,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:fontFamily="@font/athleetmain"
+        android:lineSpacingExtra="36sp"
         android:text="@string/app_name"
-        android:textAppearance="?attr/textAppearanceHeadline3" />
+        android:textAppearance="?attr/textAppearanceHeadline3"
+        android:textColor="#0277BD"
+        android:textSize="36sp" />
 
     <TextView
         android:id="@+id/workout_number_text"

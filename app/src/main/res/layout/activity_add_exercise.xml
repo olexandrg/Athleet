@@ -11,17 +11,20 @@
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/andada"
         android:paddingTop="16dp"
         android:paddingBottom="16dp"
         android:text="Add Exercise"
         android:textAlignment="center"
-        android:textAppearance="?attr/textAppearanceHeadline4" />
+        android:textAppearance="?attr/textAppearanceHeadline4"
+        android:textColor="#131313"
+        android:textStyle="bold|italic" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:hint="Enter a name to give the exercise"
+        android:hint="Exercise Name"
         android:paddingTop="16dp"
         android:paddingBottom="16dp">
 
@@ -37,7 +40,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:hint="Enter an explanation for the exercise"
+        android:hint="Exercise Description"
         android:paddingTop="16dp"
         android:paddingBottom="16dp">
 
@@ -227,13 +230,14 @@
         </RadioGroup>
     </LinearLayout>
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/done_button"
-        style="?attr/materialButtonOutlinedStyle"
         android:layout_width="240dp"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center"
         android:layout_marginTop="80dp"
-        android:text="@string/done_button_text" />
+        android:backgroundTint="#283593"
+        android:text="Add Exercise"
+        android:textColor="#FFFFFF" />
 
 </LinearLayout>

@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.view.*
+import android.widget.Button
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.databinding.DataBindingUtil
@@ -17,7 +18,9 @@ import net.azurewebsites.athleet.ApiLib.Api
 import net.azurewebsites.athleet.Dashboard.TEAM_DESCRIPTION
 import net.azurewebsites.athleet.Dashboard.TEAM_NAME
 import net.azurewebsites.athleet.InviteTeamUser
+import net.azurewebsites.athleet.MessagingActivity
 import net.azurewebsites.athleet.R
+//import net.azurewebsites.athleet.chat.ChatRoomActivity
 import net.azurewebsites.athleet.databinding.FragmentTeamDashboardBinding
 import net.azurewebsites.athleet.getFirebaseTokenId
 import net.azurewebsites.athleet.models.Team
@@ -33,7 +36,8 @@ class TeamDashboardFragment : Fragment() {
 
     private lateinit var teamMemberListAdapter : TeamMemberListAdapter
     private lateinit var linearLayoutManager: LinearLayoutManager
-    private lateinit var fab: View
+
+    private lateinit var teamChatButton: Button
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
@@ -53,6 +57,10 @@ class TeamDashboardFragment : Fragment() {
             fabOnClick()
         }
 
+        binding.button.setOnClickListener {
+            onTeamChatButtonClick()
+        }
+
         teamMemberListAdapter = TeamMemberListAdapter(teamList)
         linearLayoutManager = LinearLayoutManager(activity)
         recyclerView.adapter = teamMemberListAdapter
@@ -67,6 +75,14 @@ class TeamDashboardFragment : Fragment() {
         val intent = Intent(this.requireActivity(), InviteTeamUser::class.java)
         intent.putExtra(TEAM_NAME, teamName)
         startActivityForResult(intent, 1)
+    }
+
+    private fun onTeamChatButtonClick() {
+        val intent = Intent(this.requireActivity(), MessagingActivity::class.java)
+        intent.putExtra(TEAM_NAME, teamName)
+        intent.putExtra("roomName", teamName)
+        intent.putExtra("userName", "testUser")
+        startActivity(intent)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
