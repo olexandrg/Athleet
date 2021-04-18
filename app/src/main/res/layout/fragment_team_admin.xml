@@ -15,7 +15,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
-            android:text="Team Admin Page"
+            android:text="coach view"
             android:textSize="24sp"
             app:layout_constraintBottom_toTopOf="@+id/text_aboutTeamAdmin"
             app:layout_constraintEnd_toEndOf="parent"
@@ -23,35 +23,41 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.064" />
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/button_leaveTeam"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
+            android:background="#F11010"
             android:text="@string/leave_team"
+            android:textColor="#FFFFFF"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/text_aboutTeamAdmin" />
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/button_makeUserAdmin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
+            android:backgroundTint="#283593"
             android:text="@string/make_admin"
+            android:textColor="#FFFFFF"
             app:layout_constraintBottom_toTopOf="@+id/button_leaveTeam"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/text_aboutTeamAdmin"
             app:layout_constraintVertical_bias="0.625" />
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/button_deleteTeam"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
+            android:background="#F11010"
             android:text="@string/delete_team"
+            android:textColor="#FFFFFF"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/button_leaveTeam" />
@@ -60,7 +66,7 @@
             android:id="@+id/text_aboutTeamAdmin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Edit team info etc."
+            android:text="Team Info"
             android:textSize="30sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

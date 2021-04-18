@@ -49,5 +49,7 @@
     <string name="username">Enter User Name</string>
     <string name="team_chat_room">Team Chat</string>
     <string name="message_output"></string>
-    <string name="send_message">Send Message!</string>
+    <string name="send_message">Send</string>
+    <string name="send_message_button">Send</string>
+
 </resources>
