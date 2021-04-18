@@ -20,13 +20,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@+id/imageView_userProfilePicture"
-            app:tabBackground="@color/colorPrimaryDark"
+            app:tabBackground="@drawable/default_profile_pic_background"
             app:tabGravity="fill"
+            app:tabIndicatorColor="#FFFFFF"
             app:tabInlineLabel="true"
             app:tabMode="fixed"
             app:tabTextAppearance="@style/CustomTabStyle"
-            app:tabTextColor="@android:color/white"
-            >
+            app:tabTextColor="@android:color/white">
 
         </com.google.android.material.tabs.TabLayout>
 
@@ -47,7 +47,6 @@
         android:layout_height="192dp"
         android:layout_centerHorizontal="true"
         android:contentDescription="@string/the_user_s_profile_picture"
-        android:onClick="goToUserProfilePage()"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -57,12 +56,15 @@
         app:srcCompat="@mipmap/default_profile_pic_foreground"
         tools:srcCompat="@mipmap/default_profile_pic_foreground" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignEnd="@id/viewPager"
         android:layout_alignBottom="@id/viewPager"
+        android:backgroundTint="#283593"
+        android:textColor="#EAE0E0"
+        android:text="Add Workout"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
