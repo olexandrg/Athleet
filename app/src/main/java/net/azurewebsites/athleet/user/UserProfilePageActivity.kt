@@ -7,10 +7,13 @@ import android.view.View
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.android.synthetic.main.blocked_user_list_item.*
 import net.azurewebsites.athleet.ApiLib.Api
 import net.azurewebsites.athleet.R
+import net.azurewebsites.athleet.blockedUsersList
 import net.azurewebsites.athleet.getFirebaseTokenId
 import net.azurewebsites.athleet.models.UserItem
 import okhttp3.ResponseBody
@@ -21,6 +24,8 @@ import retrofit2.Response
 class UserProfilePageActivity : AppCompatActivity() {
     // store user data locally
     val api = Api.createSafe()
+    val blockedUserListAdapter = BlockedUserListAdapter({ user->blockedUsersList.remove(user)})
+    private lateinit var rv:RecyclerView
     private lateinit var user: UserItem
     private var userEmail = FirebaseAuth.getInstance().currentUser?.email
     @RequiresApi(Build.VERSION_CODES.O)
@@ -32,6 +37,9 @@ class UserProfilePageActivity : AppCompatActivity() {
         setupEnterKeyListeners()
         val emailField = findViewById<TextView>(R.id.userEmail)
         emailField.setText(userEmail)
+        rv = findViewById(R.id.recyclerView_blockedUsers)
+        rv.adapter = blockedUserListAdapter.
+        blockedUserListAdapter.submitList(blockedUsersList)
     }
 
     // retrieve user data
@@ -106,3 +114,4 @@ class UserProfilePageActivity : AppCompatActivity() {
         })
     }
 }
+

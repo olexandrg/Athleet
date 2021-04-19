@@ -21,7 +21,11 @@
         <item name="android:scaleY">4</item>
         <item name="android:visibility">visible</item>
     </style>
-
+    <style name="BlockedUserListItem">
+        <item name="android:background">@drawable/fui_idp_button_background_email</item>
+        <item name="android:textColor">@color/common_google_signin_btn_text_light_default</item>
+        <item name="android:textViewStyle">@color/common_google_signin_btn_text_light_default</item>
+    </style>
     <style name="Widget.Theme.Athleet.MyView" parent="">
         <item name="android:background">@color/gray_400</item>
         <item name="exampleColor">@color/light_blue_400</item>
