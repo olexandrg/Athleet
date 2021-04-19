@@ -23,6 +23,7 @@ import net.azurewebsites.athleet.getFirebaseTokenId
 import net.azurewebsites.athleet.models.DataSource
 import net.azurewebsites.athleet.models.TeamInfo
 import net.azurewebsites.athleet.models.TeamUser
+import net.azurewebsites.athleet.user.OtherUserProfilePageActivity
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
@@ -84,7 +85,10 @@ class TeamDashboardFragment : Fragment() {
     }
 
     private fun adapterOnClick(teamMember: TeamUser) {
-        Toast.makeText(activity, "Opening user page...", Toast.LENGTH_LONG).show()
+        Toast.makeText(activity, "Opening user page...", Toast.LENGTH_SHORT).show()
+        val intent = Intent(requireActivity(), OtherUserProfilePageActivity()::class.java)
+        intent.putExtra("userName", teamMember.userName)
+        startActivity(intent)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
