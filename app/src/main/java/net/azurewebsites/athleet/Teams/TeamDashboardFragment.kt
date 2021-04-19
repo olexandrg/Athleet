@@ -25,6 +25,7 @@ import net.azurewebsites.athleet.databinding.FragmentTeamDashboardBinding
 import net.azurewebsites.athleet.getFirebaseTokenId
 import net.azurewebsites.athleet.models.Team
 import net.azurewebsites.athleet.models.TeamInfo
+import net.azurewebsites.athleet.models.UserItem
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -33,6 +34,8 @@ import retrofit2.Response
 class TeamDashboardFragment : Fragment() {
     private var teamList = ArrayList<String>()
     private var teamName : String = ""
+    private val api = Api.createSafe()
+    private lateinit var currentUser: UserItem
 
     private lateinit var teamMemberListAdapter : TeamMemberListAdapter
     private lateinit var linearLayoutManager: LinearLayoutManager
@@ -44,6 +47,8 @@ class TeamDashboardFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        getCurrentUser()
+
         // Inflate the layout for this fragment
         val binding = DataBindingUtil.inflate<FragmentTeamDashboardBinding>(inflater,
             R.layout.fragment_team_dashboard, container, false )
@@ -78,10 +83,11 @@ class TeamDashboardFragment : Fragment() {
     }
 
     private fun onTeamChatButtonClick() {
+
         val intent = Intent(this.requireActivity(), MessagingActivity::class.java)
         intent.putExtra(TEAM_NAME, teamName)
         intent.putExtra("roomName", teamName)
-        intent.putExtra("userName", "testUser")
+        intent.putExtra("userName", currentUser.userName)
         startActivity(intent)
     }
 
@@ -94,6 +100,14 @@ class TeamDashboardFragment : Fragment() {
         return NavigationUI.
         onNavDestinationSelected(item,requireView().findNavController())
                 || super.onOptionsItemSelected(item)
+    }
+
+    private fun getCurrentUser(){
+
+        api.retrieveExistingUser(getFirebaseTokenId()).enqueue(object: Callback<List<UserItem>> {
+            override fun onResponse(call: Call<List<UserItem>>, response: Response<List<UserItem>>) { currentUser=response.body()!![0]; }
+            override fun onFailure(call: Call<List<UserItem>>, t: Throwable) {  }
+        })
     }
 
     private fun adapterOnClick(team: Team) {
