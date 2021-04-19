@@ -19,7 +19,6 @@ import net.azurewebsites.athleet.ApiLib.Api
 import net.azurewebsites.athleet.Dashboard.AddTeamActivity
 import net.azurewebsites.athleet.Dashboard.TEAM_DESCRIPTION
 import net.azurewebsites.athleet.Dashboard.TEAM_NAME
-import net.azurewebsites.athleet.Dashboard.WORKOUT_NAME
 import net.azurewebsites.athleet.R
 import net.azurewebsites.athleet.Teams.*
 import net.azurewebsites.athleet.getFirebaseTokenId
@@ -126,7 +125,7 @@ class TeamsListFragment : Fragment() {
                     }
                 })
         }
-        if(requestCode == 58) {
+        if(resultCode == 58) {
             Toast.makeText(activity, "Successfully deleted Team", Toast.LENGTH_LONG).show()
             val api: Api = Api.createSafe()
             //ask taylor how to get the team name
