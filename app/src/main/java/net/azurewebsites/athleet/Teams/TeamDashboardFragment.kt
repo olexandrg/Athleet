@@ -85,7 +85,7 @@ class TeamDashboardFragment : Fragment() {
     }
 
     private fun adapterOnClick(teamMember: TeamUser) {
-        Toast.makeText(activity, "Opening user page...", Toast.LENGTH_SHORT).show()
+
         val intent = Intent(requireActivity(), OtherUserProfilePageActivity()::class.java)
         intent.putExtra("userName", teamMember.userName)
         startActivity(intent)
