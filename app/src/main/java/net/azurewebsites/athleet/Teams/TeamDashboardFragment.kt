@@ -14,6 +14,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.textfield.TextInputEditText
 import kotlinx.android.synthetic.main.fragment_team_dashboard.view.*
 import net.azurewebsites.athleet.ApiLib.Api
 import net.azurewebsites.athleet.Dashboard.TEAM_NAME
@@ -23,7 +24,9 @@ import net.azurewebsites.athleet.getFirebaseTokenId
 import net.azurewebsites.athleet.models.DataSource
 import net.azurewebsites.athleet.models.TeamInfo
 import net.azurewebsites.athleet.models.TeamUser
+import net.azurewebsites.athleet.models.UserItem
 import net.azurewebsites.athleet.user.OtherUserProfilePageActivity
+import net.azurewebsites.athleet.user.UserProfilePageActivity
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
@@ -39,6 +42,7 @@ class TeamDashboardFragment : Fragment() {
     private lateinit var fab: View
     private lateinit var dataSource:DataSource
     private lateinit var teamInfo: TeamInfo
+    private lateinit var currentUser:UserItem
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
@@ -54,6 +58,7 @@ class TeamDashboardFragment : Fragment() {
         recyclerView.adapter = teamMemberListAdapter
         recyclerView.layoutManager = linearLayoutManager
         getTeamInfo()
+        getUser()
         setHasOptionsMenu(true)
         return binding
     }
@@ -85,8 +90,12 @@ class TeamDashboardFragment : Fragment() {
     }
 
     private fun adapterOnClick(teamMember: TeamUser) {
+        var intent:Intent
+        if(teamMember.userName != currentUser.userName)
+            intent = Intent(requireActivity(), OtherUserProfilePageActivity()::class.java)
+        else
+            intent = Intent(requireActivity(), UserProfilePageActivity()::class.java)
 
-        val intent = Intent(requireActivity(), OtherUserProfilePageActivity()::class.java)
         intent.putExtra("userName", teamMember.userName)
         startActivity(intent)
     }
@@ -95,7 +104,17 @@ class TeamDashboardFragment : Fragment() {
         super.onActivityResult(requestCode, resultCode, data)
         getTeamInfo()
     }
-
+    private fun getUser() {
+        val callGetUser = api.retrieveExistingUser(getFirebaseTokenId())
+        callGetUser.enqueue(object: Callback<List<UserItem>> {
+            override fun onResponse(call: Call<List<UserItem>>, response: Response<List<UserItem>>) {
+                if(response.isSuccessful) { currentUser = response.body()!![0] }
+            }
+            override fun onFailure(call: Call<List<UserItem>>, t: Throwable) {
+                TODO("Not yet implemented")
+            }
+        })
+    }
     @RequiresApi(Build.VERSION_CODES.O)
     fun getTeamInfo()
     {
