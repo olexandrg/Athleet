@@ -2,6 +2,7 @@ package net.azurewebsites.athleet
 
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
@@ -39,10 +40,11 @@ class MessagingActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chatroom)
         try {
-            mSocket = IO.socket("http://10.0.2.2:3000")
+            mSocket = IO.socket("https://thing34343.herokuapp.com")
 
             mSocket.on(Socket.EVENT_CONNECT, onConnectEvent)
             mSocket.on(Socket.EVENT_DISCONNECT, onDisconnectEvent)
+            mSocket.on(Socket.EVENT_CONNECT_ERROR, onError)
             mSocket.on("new message", onNewMessageEvent)
             mSocket.on("user joined", onUserJoinedEvent)
             mSocket.on("updateChat", onUpdateChat)
@@ -100,6 +102,10 @@ class MessagingActivity : AppCompatActivity() {
 
     private var onUserJoinedEvent = Emitter.Listener {
 
+    }
+
+    private var onError = Emitter.Listener {
+        Log.e("Socket.IO", "Connect Error")
     }
 
     var onUpdateChat = Emitter.Listener {
