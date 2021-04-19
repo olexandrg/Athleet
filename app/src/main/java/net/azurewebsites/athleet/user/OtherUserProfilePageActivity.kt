@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.textfield.TextInputEditText
 import net.azurewebsites.athleet.ApiLib.Api
 import net.azurewebsites.athleet.R
+import net.azurewebsites.athleet.blockedUsersList
 import net.azurewebsites.athleet.models.UserItem
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -23,16 +24,44 @@ class OtherUserProfilePageActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.other_user_detail_page)
+        setShitUp()
+    }
+
+    private fun setShitUp() {
         teamMemberUsername = intent!!.extras?.get("userName").toString()
+
         usernameField = findViewById(R.id.userName)
         headlineField = findViewById(R.id.userHeadline)
+
+        blockUserButton = findViewById(R.id.block_user_button)
+        blockUserButton.setOnClickListener { blockUserButtonOnClick() }
+
+        if (blockedUsersList.contains(teamMemberUsername))
+            blockUserButton.setText("Unblock User")
+        else
+            blockUserButton.setText("Block User")
+
+
         sendMessageButton = findViewById(R.id.send_message_button)
         sendMessageButton.setOnClickListener{ Toast.makeText(this, "Opening direct message room...", Toast.LENGTH_SHORT).show() }
-        blockUserButton = findViewById(R.id.block_user_button)
-        blockUserButton.setOnClickListener{ Toast.makeText(this, "Blocking user...", Toast.LENGTH_SHORT).show() }
+
         usernameField.setText(teamMemberUsername)
         headlineField.setText("< This will be the user's headline once we implement API calls to make them retrievable >")
+    }
 
+    private fun blockUserButtonOnClick() {
+        if (blockedUsersList.contains(teamMemberUsername))
+        {
+            Toast.makeText(this, "Unblocked user: "+ teamMemberUsername, Toast.LENGTH_SHORT).show();
+            blockedUsersList.remove(teamMemberUsername)
+            blockUserButton.setText("Block User")
+        }
+        else
+        {
+            Toast.makeText(this, "Blocked user: "+teamMemberUsername, Toast.LENGTH_SHORT).show();
+            blockedUsersList.add(teamMemberUsername);
+            blockUserButton.setText("Unblock User")
+        }
     }
 
 }
