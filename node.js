@@ -42,7 +42,7 @@ io.on('connection', (socket) => {
       roomName : roomName
     }
 
-    socket.broadcast.emit('updateChat',JSON.stringify(chatData))
+    socket.to(roomName).emit('updateChat',JSON.stringify(chatData))
 
     // we tell the client to execute 'new message'
     // socket.broadcast.emit('updateChat',{
@@ -55,11 +55,12 @@ io.on('connection', (socket) => {
   });
 
   // when the client emits 'add user', this listens and executes
-  socket.on('add user', (username) => {
+  socket.on('add user', (username, roomName) => {
     if (addedUser) return;
 
     // we store the username in the socket session for this client
     socket.username = username;
+    socket.join(roomName);
     ++numUsers;
     addedUser = true;
     socket.emit('login', {

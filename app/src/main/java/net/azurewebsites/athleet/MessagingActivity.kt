@@ -89,7 +89,7 @@ class MessagingActivity : AppCompatActivity() {
     }
 
     private var onConnectEvent = Emitter.Listener {
-        mSocket.emit("add user", FirebaseAuth.getInstance().currentUser!!.displayName!!)
+        mSocket.emit("add user", FirebaseAuth.getInstance().currentUser!!.displayName!!, teamName)
     }
 
     private var onDisconnectEvent = Emitter.Listener {
