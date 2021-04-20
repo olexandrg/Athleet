@@ -65,11 +65,13 @@ class ChatRoomAdapter(val context : Context, val chatList : ArrayList<Message>) 
         val userName = messageData.userName;
         val content = messageData.messageContent;
         val viewType = messageData.viewType;
+        val messageTime = messageData.messageTime;
 
         when(viewType) {
 
             CHAT_MINE -> {
                 holder.message.setText(content)
+                holder.messageTime.setText(messageTime)
             }
             CHAT_PARTNER ->{
                 holder.userName.setText(userName)
@@ -90,6 +92,7 @@ class ChatRoomAdapter(val context : Context, val chatList : ArrayList<Message>) 
         val userName = itemView.findViewById<TextView>(R.id.username)
         val message = itemView.findViewById<TextView>(R.id.message)
         val text = itemView.findViewById<TextView>(R.id.text)
+        val messageTime = itemView.findViewById<TextView>(R.id.messageTime)
     }
 
 }
