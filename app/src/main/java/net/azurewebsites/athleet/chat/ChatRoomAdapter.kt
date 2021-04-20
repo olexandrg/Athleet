@@ -83,7 +83,7 @@ class ChatRoomAdapter(val context : Context, val chatList : ArrayList<Message>) 
                 holder.text.setText(text)
             }
             USER_LEAVE -> {
-                val text = "${userName} has leaved the room..."
+                val text = "${userName} has left the room..."
                 holder.text.setText(text)
             }
         }

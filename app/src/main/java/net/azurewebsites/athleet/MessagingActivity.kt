@@ -50,6 +50,7 @@ class MessagingActivity : AppCompatActivity() {
             mSocket.on(Socket.EVENT_CONNECT_ERROR, onError)
             mSocket.on("new message", onNewMessageEvent)
             mSocket.on("user joined", onUserJoinedEvent)
+            mSocket.on("user left", onUserLeftEvent)
             mSocket.on("updateChat", onUpdateChat)
 
             mSocket.connect()
@@ -77,6 +78,12 @@ class MessagingActivity : AppCompatActivity() {
         }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+
+        mSocket.disconnect()
+    }
+
     private fun sendMessage() {
         // nice gift from Simeon and Ryan
         val text = findViewById<EditText>(R.id.editText).text?.toString().toString()
@@ -101,7 +108,7 @@ class MessagingActivity : AppCompatActivity() {
     }
 
     private var onDisconnectEvent = Emitter.Listener {
-
+        mSocket.emit("disconnect", FirebaseAuth.getInstance().currentUser!!.displayName!!, teamName)
     }
 
     private var onNewMessageEvent = Emitter.Listener {
@@ -109,7 +116,17 @@ class MessagingActivity : AppCompatActivity() {
     }
 
     private var onUserJoinedEvent = Emitter.Listener {
+        val gson = Gson()
+        val chat: Message = gson.fromJson(it[0].toString(), Message::class.java)
+        chat.viewType = MessageType.USER_JOIN.index
+        addItemToRecyclerView(chat)
+    }
 
+    private var onUserLeftEvent = Emitter.Listener {
+        val gson = Gson()
+        val chat: Message = gson.fromJson(it[0].toString(), Message::class.java)
+        chat.viewType = MessageType.USER_LEAVE.index
+        addItemToRecyclerView(chat)
     }
 
     private var onError = Emitter.Listener {

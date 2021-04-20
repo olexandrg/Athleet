@@ -95,6 +95,8 @@ io.on('connection', (socket) => {
     if (addedUser) {
       --numUsers;
 
+	console.log('client disconnected from the server!');
+
       // echo globally that this client has left
       socket.broadcast.emit('user left', {
         username: socket.username,
