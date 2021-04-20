@@ -76,13 +76,14 @@ class ChatRoomAdapter(val context : Context, val chatList : ArrayList<Message>) 
             CHAT_PARTNER ->{
                 holder.userName.setText(userName)
                 holder.message.setText(content)
+                holder.messageTime.setText(messageTime)
             }
             USER_JOIN -> {
-                val text = "${userName} has entered the room"
+                val text = "${userName} has entered the room..."
                 holder.text.setText(text)
             }
             USER_LEAVE -> {
-                val text = "${userName} has leaved the room"
+                val text = "${userName} has leaved the room..."
                 holder.text.setText(text)
             }
         }
