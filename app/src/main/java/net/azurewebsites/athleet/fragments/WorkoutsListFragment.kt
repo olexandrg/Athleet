@@ -14,6 +14,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.android.synthetic.main.activity_dashboard.*
 import net.azurewebsites.athleet.ApiLib.Api
 import net.azurewebsites.athleet.Dashboard.AddWorkoutActivity
 import net.azurewebsites.athleet.Dashboard.WORKOUT_DESCRIPTION
@@ -37,15 +38,29 @@ class WorkoutsListFragment() : Fragment() {
     private lateinit var fab:View
     private lateinit var workoutListAdapter: WorkoutListAdapter
     private lateinit var token:String
-    @RequiresApi(Build.VERSION_CODES.O)
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         linearLayoutManager = LinearLayoutManager(activity)
         workoutListAdapter = WorkoutListAdapter { workout -> adapterOnClick(workout) }
         getWorkouts()
 
-        fab = requireActivity().findViewById(R.id.fab)
+        fab = requireActivity().fab
+        fab.setOnClickListener {
+            fabOnClick()
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    override fun onStart() {
+        super.onStart()
+
+        linearLayoutManager = LinearLayoutManager(activity)
+        workoutListAdapter = WorkoutListAdapter { workout -> adapterOnClick(workout) }
+        getWorkouts()
+
+        fab = requireActivity().fab
         fab.setOnClickListener {
             fabOnClick()
         }
