@@ -80,7 +80,6 @@ class MessagingActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-
         mSocket.disconnect()
     }
 
