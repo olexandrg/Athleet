@@ -35,11 +35,13 @@ io.on('connection', (socket) => {
     const messageData = JSON.parse(data)
     const messageContent = messageData.messageContent
     const roomName = messageData.roomName
+	const messageTime = messageData.messageTime
 
     const chatData = {
       userName : userName,
       messageContent : messageContent,
-      roomName : roomName
+      roomName : roomName,
+	  messageTime : messageTime
     }
 
     socket.to(roomName).emit('updateChat',JSON.stringify(chatData))
@@ -52,6 +54,7 @@ io.on('connection', (socket) => {
     // });
 	
 	console.log('message: %s', data);
+	console.log('message time: %s', messageTime);
   });
 
   // when the client emits 'add user', this listens and executes

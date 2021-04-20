@@ -1,5 +1,7 @@
 package net.azurewebsites.athleet
 
+import java.text.SimpleDateFormat
+import java.util.*
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
@@ -40,7 +42,8 @@ class MessagingActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chatroom)
         try {
-            mSocket = IO.socket("https://thing34343.herokuapp.com")
+            // mSocket = IO.socket("https://thing34343.herokuapp.com")
+            mSocket = IO.socket("http://10.0.2.2:3000")
 
             mSocket.on(Socket.EVENT_CONNECT, onConnectEvent)
             mSocket.on(Socket.EVENT_DISCONNECT, onDisconnectEvent)
@@ -77,7 +80,12 @@ class MessagingActivity : AppCompatActivity() {
     private fun sendMessage() {
         // nice gift from Simeon and Ryan
         val text = findViewById<EditText>(R.id.editText).text?.toString().toString()
-        val message = Message(userName, text, teamName, MessageType.CHAT_MINE.index)
+
+        // get the current time
+        val currentTime = SimpleDateFormat("HH:mm")
+        val currentTimeString: String = currentTime.format(Date())
+
+        val message = Message(userName, text, teamName, currentTimeString, MessageType.CHAT_MINE.index)
         addItemToRecyclerView(message)
         if (TextUtils.isEmpty(text)) {
             Toast.makeText(this, "Cannot send text message that is empty!", Toast.LENGTH_LONG).show()
