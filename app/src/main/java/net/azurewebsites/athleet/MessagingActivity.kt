@@ -46,7 +46,6 @@ class MessagingActivity : AppCompatActivity() {
             mSocket = IO.socket("http://10.0.2.2:3000")
 
             mSocket.on(Socket.EVENT_CONNECT, onConnectEvent)
-            mSocket.on(Socket.EVENT_DISCONNECT, onDisconnectEvent)
             mSocket.on(Socket.EVENT_CONNECT_ERROR, onError)
             mSocket.on("new message", onNewMessageEvent)
             mSocket.on("user joined", onUserJoinedEvent)
@@ -104,10 +103,6 @@ class MessagingActivity : AppCompatActivity() {
 
     private var onConnectEvent = Emitter.Listener {
         mSocket.emit("add user", FirebaseAuth.getInstance().currentUser!!.displayName!!, teamName)
-    }
-
-    private var onDisconnectEvent = Emitter.Listener {
-        mSocket.emit("disconnect", FirebaseAuth.getInstance().currentUser!!.displayName!!, teamName)
     }
 
     private var onNewMessageEvent = Emitter.Listener {
