@@ -74,9 +74,9 @@ class ChatRoomAdapter(val context : Context, val chatList : ArrayList<Message>) 
                 holder.messageTime.setText(messageTime)
             }
             CHAT_PARTNER ->{
-                holder.userName.setText(userName)
                 holder.message.setText(content)
                 holder.messageTime.setText(messageTime)
+                holder.userName.setText(userName)
             }
             USER_JOIN -> {
                 val text = "${userName} has entered the room..."
@@ -90,7 +90,7 @@ class ChatRoomAdapter(val context : Context, val chatList : ArrayList<Message>) 
 
     }
     inner class ViewHolder(itemView : View):  RecyclerView.ViewHolder(itemView) {
-        val userName = itemView.findViewById<TextView>(R.id.username)
+        val userName = itemView.findViewById<TextView>(R.id.partnerUserName)
         val message = itemView.findViewById<TextView>(R.id.message)
         val text = itemView.findViewById<TextView>(R.id.text)
         val messageTime = itemView.findViewById<TextView>(R.id.messageTime)
