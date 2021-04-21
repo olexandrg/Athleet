@@ -70,7 +70,7 @@ io.on('connection', (socket) => {
       numUsers: numUsers
     });
     // echo globally (all clients) that a person has connected
-    socket.broadcast.emit('user joined', {
+    socket.to(roomName).emit('user joined', {
       userName: socket.username,
       numUsers: numUsers
     });
