@@ -38,7 +38,7 @@ class UserProfilePageActivity : AppCompatActivity() {
         val emailField = findViewById<TextView>(R.id.userEmail)
         emailField.setText(userEmail)
         rv = findViewById(R.id.recyclerView_blockedUsers)
-        rv.adapter = blockedUserListAdapter.
+        rv.adapter = blockedUserListAdapter
         blockedUserListAdapter.submitList(blockedUsersList)
     }
 
