@@ -3,6 +3,7 @@ package net.azurewebsites.athleet.Teams
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +12,7 @@ import androidx.annotation.RequiresApi
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.android.synthetic.main.fragment_team_admin.*
 import net.azurewebsites.athleet.ApiLib.Api
 import net.azurewebsites.athleet.Dashboard.TEAM_NAME
 import net.azurewebsites.athleet.R
@@ -52,6 +54,21 @@ class TeamAdminFragment : Fragment() {
 
         getTeamUsers()
 
+        if (!isAdmin(currentUserUserName)) {
+            binding.buttonLeaveTeam.isEnabled = true
+        }
+        else {
+            var count = 0
+            for (user in teamList) {
+                if (user.second)
+                    count++
+                if (count >= 2) {
+                    binding.buttonLeaveTeam.isEnabled = true
+                    break
+                }
+            }
+        }
+
         binding.buttonDeleteTeam.setOnClickListener {
             deleteTeam()
             // Need to redirect to Users Dashboard after this.
@@ -66,7 +83,10 @@ class TeamAdminFragment : Fragment() {
     }
 
     private fun leaveTeam() {
-        activity?.setResult(59)
+        var intent = Intent()
+        Log.e("thing", requireActivity().intent?.getStringExtra(TEAM_NAME).toString())
+        intent.putExtra(TEAM_NAME, requireActivity().intent?.getStringExtra(TEAM_NAME).toString())
+        activity?.setResult(59, intent)
         activity?.finish()
     }
 

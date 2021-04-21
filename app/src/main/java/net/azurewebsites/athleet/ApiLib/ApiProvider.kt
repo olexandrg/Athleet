@@ -118,13 +118,11 @@ interface Api {
     ): Call<TeamInfo>
 
     // leave a team
-    @DELETE("Team/leave")
+    @GET("Team/leave")
     fun leaveTeam(
         @Header("Authorization") token: String,
-        @Query("userName") userName: String,
-        @Query("UID") UID: String,
-        @Query("description") description: String
-    )
+        @Query("teamName") teamName: String
+    ): Call<ResponseBody>
 
 //  #####################################################################
 //  ############## FACTORY METHOD FOR INSTANTIATING API #################
