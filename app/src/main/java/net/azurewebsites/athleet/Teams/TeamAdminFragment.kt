@@ -1,6 +1,7 @@
 package net.azurewebsites.athleet.Teams
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -53,21 +54,6 @@ class TeamAdminFragment : Fragment() {
         }
 
         getTeamUsers()
-
-        if (!isAdmin(currentUserUserName)) {
-            binding.buttonLeaveTeam.isEnabled = true
-        }
-        else {
-            var count = 0
-            for (user in teamList) {
-                if (user.second)
-                    count++
-                if (count >= 2) {
-                    binding.buttonLeaveTeam.isEnabled = true
-                    break
-                }
-            }
-        }
 
         binding.buttonDeleteTeam.setOnClickListener {
             deleteTeam()
@@ -135,6 +121,21 @@ class TeamAdminFragment : Fragment() {
                     if(isAdmin(userName))
                     {
                         binding.buttonDeleteTeam.visibility = View.VISIBLE
+                        var count = 0
+                        for (user in teamList) {
+                            if (user.second)
+                                count++
+                            if (count >= 2) {
+                                binding.buttonLeaveTeam.isEnabled = true
+                                binding.buttonLeaveTeam.setBackgroundColor(Color.RED)
+                                break
+                            }
+                        }
+                    }
+                    else
+                    {
+                        binding.buttonLeaveTeam.isEnabled = true
+                        binding.buttonLeaveTeam.setBackgroundColor(Color.RED)
                     }
                 }
             }
