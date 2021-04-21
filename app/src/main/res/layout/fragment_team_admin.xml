@@ -57,6 +57,7 @@
             android:layout_marginTop="4dp"
             android:background="#F11010"
             android:text="@string/delete_team"
+            android:visibility="invisible"
             android:textColor="#FFFFFF"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

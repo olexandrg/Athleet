@@ -25,6 +25,8 @@ import retrofit2.Response
 class TeamAdminFragment : Fragment() {
     // username, isAdmin
     private var teamList = ArrayList<Pair<String, Boolean>>()
+    private lateinit var userName: String
+    private lateinit var binding:FragmentTeamAdminBinding
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
@@ -32,10 +34,11 @@ class TeamAdminFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val binding = DataBindingUtil.inflate<FragmentTeamAdminBinding>(inflater,
+        binding = DataBindingUtil.inflate<FragmentTeamAdminBinding>(inflater,
             R.layout.fragment_team_admin, container, false )
 
         val currentUserUserName = FirebaseAuth.getInstance().currentUser!!.displayName!!
+        userName = currentUserUserName
 
         binding.buttonMakeUserAdmin.setOnClickListener {
             if (isAdmin(currentUserUserName)) {
@@ -46,6 +49,8 @@ class TeamAdminFragment : Fragment() {
                 activity?.finish()
             }
         }
+
+        getTeamUsers()
 
         binding.buttonDeleteTeam.setOnClickListener {
             deleteTeam()
@@ -105,6 +110,12 @@ class TeamAdminFragment : Fragment() {
                     for (user in userList) {
                         teamList.add(Pair(user.userName, user.isAdmin))
                     }
+
+                    //begin button checks
+                    if(isAdmin(userName))
+                    {
+                        binding.buttonDeleteTeam.visibility = View.VISIBLE
+                    }
                 }
             }
             override fun onFailure(call: Call<TeamInfo>, t: Throwable) {
@@ -115,7 +126,6 @@ class TeamAdminFragment : Fragment() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun isAdmin(userName: String) : Boolean {
-        getTeamUsers()
         for (teamUser in teamList) {
             if (userName == teamUser.first && teamUser.second) { return true }
         }
