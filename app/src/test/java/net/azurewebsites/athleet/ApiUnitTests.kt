@@ -1,10 +1,31 @@
 package net.azurewebsites.athleet
+import com.google.gson.Gson
+import io.socket.client.IO
+import net.azurewebsites.athleet.chat.Message
+import net.azurewebsites.athleet.chat.MessageType
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotEquals
 import org.junit.Test
 import java.nio.charset.Charset
 
 class ApiUnitTests {
+
+    // Messaging activity test
+    // Visually check client socket output, will change depending on device
+    // should be: io.socket.client.Socket@[7 char has]
+    @Test
+    fun messagingActivityTest() {
+        var mSocket = IO.socket("https://athleet-chat.herokuapp.com")
+        val checkConnection = mSocket.connect()
+        println(checkConnection.isActive)
+
+        val message =
+            Message("Test User", "Test Text", "Test Team", "Test Time", MessageType.CHAT_MINE.index)
+        val gson = Gson()
+        val output = mSocket.emit("new message", gson.toJson(message))
+        println(output)
+
+    }
 
     @Test
     fun checkExistingUser() {
