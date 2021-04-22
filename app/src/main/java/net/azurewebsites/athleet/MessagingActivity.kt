@@ -145,14 +145,4 @@ class MessagingActivity : AppCompatActivity() {
             recyclerView.scrollToPosition(chatList.size - 1) //move focus on last message
         }
     }
-
-    /*private fun thing() {
-        val content = editText.text.toString()
-        val sendData = SendMessage(userName, content, roomName)
-        val jsonData = gson.toJson(sendData)
-        mSocket.emit("newMessage", jsonData)
-
-        val message = Message(userName, content, roomName, MessageType.CHAT_MINE.index)
-        addItemToRecyclerView(message)
-    }*/
 }
