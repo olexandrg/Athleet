@@ -3,7 +3,7 @@ package net.azurewebsites.athleet
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
-class leaveTeamTests {
+class createTeamTests {
 
     @Test
     fun deleteSuccess() {

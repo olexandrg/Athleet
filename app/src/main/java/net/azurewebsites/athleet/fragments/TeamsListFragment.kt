@@ -14,6 +14,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.fragment_workouts_list.*
 import net.azurewebsites.athleet.ApiLib.Api
 import net.azurewebsites.athleet.Dashboard.AddTeamActivity
@@ -125,78 +126,63 @@ class TeamsListFragment : Fragment() {
                     }
                 })
         }
-        if(requestCode == 58) {
+        if(resultCode == 58) {
             Toast.makeText(activity, "Successfully deleted Team", Toast.LENGTH_LONG).show()
-            /*val api: Api = Api.createSafe()
-            FirebaseAuth.getInstance().currentUser?.getIdToken(false)
-                ?.addOnCompleteListener { response ->
-                    if (response.isSuccessful) {
-                        //ask taylor how to get the team name
-                        val teamName = intentData?.getStringExtra(WORKOUT_NAME).toString()
-                        val call = api.deleteTeam(response.result?.token.toString(), teamName)
-                        call.enqueue(object : Callback<ResponseBody> {
-                            override fun onFailure(
-                                call: retrofit2.Call<ResponseBody>,
-                                t: Throwable
-                            ) {
-                                Toast.makeText(activity, "Failed to delete Team", Toast.LENGTH_LONG)
-                                    .show()
-                            }
+            val api: Api = Api.createSafe()
+            //ask taylor how to get the team name
+            val teamName = intentData?.getStringExtra(TEAM_NAME).toString()
+            val call = api.deleteTeam(getFirebaseTokenId(), teamName)
+            call.enqueue(object : Callback<ResponseBody> {
+                override fun onFailure(
+                    call: retrofit2.Call<ResponseBody>,
+                    t: Throwable
+                ) {
+                    Toast.makeText(activity, "Failed to delete Team", Toast.LENGTH_LONG)
+                        .show()
+                }
 
-                            override fun onResponse(
-                                call: retrofit2.Call<ResponseBody>,
-                                response: retrofit2.Response<ResponseBody>
-                            ) {
-                                Toast.makeText(
-                                    activity,
-                                    "Successfully deleted Team",
-                                    Toast.LENGTH_LONG
-                                ).show()
-                            }
+                override fun onResponse(
+                    call: retrofit2.Call<ResponseBody>,
+                    response: retrofit2.Response<ResponseBody>
+                ) {
+                    Toast.makeText(
+                        activity,
+                        "Successfully deleted Team",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
 
-                        })
-                    } else {
-                        Toast.makeText(activity, "Couldn't get user token", Toast.LENGTH_LONG)
-                            .show()
-                    }
-                }*/
+            })
         }
 
         else if(resultCode == 59) {
-            Toast.makeText(activity, "Successfully deleted Team", Toast.LENGTH_LONG).show()
-            /*val api: Api = Api.createSafe()
-            FirebaseAuth.getInstance().currentUser?.getIdToken(false)
-                ?.addOnCompleteListener { response ->
-                    if (response.isSuccessful) {
-                        val teamName = activity?.intent?.getStringExtra(TEAM_NAME).toString()
-                        val call = api.deleteTeam(response.result?.token.toString(), teamName)
+            Toast.makeText(activity, "Successfully left Team", Toast.LENGTH_LONG).show()
+            val api: Api = Api.createSafe()
+            //val teamName = activity?.intent?.getStringExtra(TEAM_NAME).toString()
+            val teamName = intentData?.getStringExtra(TEAM_NAME).toString()
+            val call = api.leaveTeam(getFirebaseTokenId(), teamName)
 
-                        call.enqueue(object : Callback<ResponseBody> {
-                            override fun onFailure(
-                                call: retrofit2.Call<ResponseBody>,
-                                t: Throwable
-                            ) {
-                                Toast.makeText(activity, "Failed to leave Team", Toast.LENGTH_LONG)
-                                    .show()
-                            }
+            call.enqueue(object : Callback<ResponseBody> {
+                override fun onFailure(
+                    call: Call<ResponseBody>,
+                    t: Throwable
+                ) {
+                    Toast.makeText(activity, "Failed to leave Team", Toast.LENGTH_LONG)
+                        .show()
+                }
 
-                            override fun onResponse(
-                                call: retrofit2.Call<ResponseBody>,
-                                response: retrofit2.Response<ResponseBody>
-                            ) {
-                                Toast.makeText(
-                                    activity,
-                                    "Successfully left Team",
-                                    Toast.LENGTH_LONG
-                                ).show()
-                            }
+                override fun onResponse(
+                    call: Call<ResponseBody>,
+                    response: Response<ResponseBody>
+                ) {
+                    Toast.makeText(
+                        activity,
+                        "Successfully left Team",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
 
-                        })
-                    } else {
-                        Toast.makeText(activity, "Couldn't get user token", Toast.LENGTH_LONG)
-                            .show()
-                    }
-                }*/
+            })
         }
     }
 }
