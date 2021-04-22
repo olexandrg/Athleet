@@ -42,8 +42,8 @@ class MessagingActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chatroom)
         try {
-            // mSocket = IO.socket("https://thing34343.herokuapp.com")
-            mSocket = IO.socket("http://10.0.2.2:3000")
+            mSocket = IO.socket("https://athleet-chat.herokuapp.com")
+            //mSocket = IO.socket("http://10.0.2.2:3000")
 
             mSocket.on(Socket.EVENT_CONNECT, onConnectEvent)
             mSocket.on(Socket.EVENT_CONNECT_ERROR, onError)
