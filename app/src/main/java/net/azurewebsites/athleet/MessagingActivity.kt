@@ -1,7 +1,10 @@
 package net.azurewebsites.athleet
 
+import java.text.SimpleDateFormat
+import java.util.*
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
@@ -39,12 +42,14 @@ class MessagingActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chatroom)
         try {
+            // mSocket = IO.socket("https://thing34343.herokuapp.com")
             mSocket = IO.socket("http://10.0.2.2:3000")
 
             mSocket.on(Socket.EVENT_CONNECT, onConnectEvent)
-            mSocket.on(Socket.EVENT_DISCONNECT, onDisconnectEvent)
+            mSocket.on(Socket.EVENT_CONNECT_ERROR, onError)
             mSocket.on("new message", onNewMessageEvent)
             mSocket.on("user joined", onUserJoinedEvent)
+            mSocket.on("user left", onUserLeftEvent)
             mSocket.on("updateChat", onUpdateChat)
 
             mSocket.connect()
@@ -72,10 +77,20 @@ class MessagingActivity : AppCompatActivity() {
         }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        mSocket.disconnect()
+    }
+
     private fun sendMessage() {
         // nice gift from Simeon and Ryan
         val text = findViewById<EditText>(R.id.editText).text?.toString().toString()
-        val message = Message(userName, text, teamName, MessageType.CHAT_MINE.index)
+
+        // get the current time
+        val currentTime = SimpleDateFormat("HH:mm")
+        val currentTimeString: String = currentTime.format(Date())
+
+        val message = Message(userName, text, teamName, currentTimeString, MessageType.CHAT_MINE.index)
         addItemToRecyclerView(message)
         if (TextUtils.isEmpty(text)) {
             Toast.makeText(this, "Cannot send text message that is empty!", Toast.LENGTH_LONG).show()
@@ -87,11 +102,7 @@ class MessagingActivity : AppCompatActivity() {
     }
 
     private var onConnectEvent = Emitter.Listener {
-        mSocket.emit("add user", FirebaseAuth.getInstance().currentUser!!.displayName!!)
-    }
-
-    private var onDisconnectEvent = Emitter.Listener {
-
+        mSocket.emit("add user", FirebaseAuth.getInstance().currentUser!!.displayName!!, teamName)
     }
 
     private var onNewMessageEvent = Emitter.Listener {
@@ -99,7 +110,21 @@ class MessagingActivity : AppCompatActivity() {
     }
 
     private var onUserJoinedEvent = Emitter.Listener {
+        val gson = Gson()
+        val chat: Message = gson.fromJson(it[0].toString(), Message::class.java)
+        chat.viewType = MessageType.USER_JOIN.index
+        addItemToRecyclerView(chat)
+    }
 
+    private var onUserLeftEvent = Emitter.Listener {
+        val gson = Gson()
+        val chat: Message = gson.fromJson(it[0].toString(), Message::class.java)
+        chat.viewType = MessageType.USER_LEAVE.index
+        addItemToRecyclerView(chat)
+    }
+
+    private var onError = Emitter.Listener {
+        Log.e("Socket.IO", "Connect Error")
     }
 
     var onUpdateChat = Emitter.Listener {

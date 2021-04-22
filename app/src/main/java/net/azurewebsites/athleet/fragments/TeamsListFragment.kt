@@ -79,6 +79,7 @@ class TeamsListFragment : Fragment() {
         val rootView = inflater!!.inflate(R.layout.fragment_teams_list, container, false)
         val recyclerView = rootView.findViewById<RecyclerView>(R.id.recyclerView_Teams) as RecyclerView
 
+        fab = requireActivity().findViewById(R.id.fab)
         fab.setOnClickListener { fabOnClick() }
         recyclerView.adapter = teamsAdapter
         recyclerView.layoutManager=linearLayoutManager
