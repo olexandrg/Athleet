@@ -5,12 +5,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import net.azurewebsites.athleet.exercise.Exercise
+import net.azurewebsites.athleet.models.DataSource
 
-var blockedUsersList: ArrayList<String> = arrayListOf(String())
+lateinit var dataSource:DataSource
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        dataSource = DataSource.getDataSource(resources)
         setContentView(R.layout.activity_main)
     }
 }

@@ -1,16 +1,18 @@
 package net.azurewebsites.athleet.user
 
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import net.azurewebsites.athleet.R
-import net.azurewebsites.athleet.blockedUsersList
-
+import net.azurewebsites.athleet.dataSource
+@RequiresApi(Build.VERSION_CODES.O)
 class BlockedUserListAdapter(private val onClick: (String) -> Unit) :
     ListAdapter<String, BlockedUserListAdapter.BlockedUserViewHolder>(BlockedUserDiffCallback) {
 
@@ -19,12 +21,9 @@ class BlockedUserListAdapter(private val onClick: (String) -> Unit) :
         RecyclerView.ViewHolder(itemView) {
         private val BlockedUserNameTextView: TextView = itemView.findViewById(R.id.blocked_users_list_username_textView)
         private var BlockedUserUnblockButton = itemView.findViewById<Button>(R.id.blocked_users_list_unblock_button)
-        init { BlockedUserUnblockButton.setOnClickListener { blockedUsersList.remove(BlockedUserNameTextView.text); };  }
-
-        /* Bind BlockedUser name and image. */
         fun bind(BlockedUser: String) {
             BlockedUserNameTextView.text = BlockedUser
-            BlockedUserUnblockButton.setOnClickListener { blockedUsersList.remove(BlockedUser) }
+            BlockedUserUnblockButton.setOnClickListener { dataSource.unblockUser(BlockedUser); }
         }
     }
 

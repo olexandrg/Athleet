@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.textfield.TextInputEditText
 import net.azurewebsites.athleet.ApiLib.Api
 import net.azurewebsites.athleet.R
-import net.azurewebsites.athleet.blockedUsersList
+import net.azurewebsites.athleet.models.DataSource
 import net.azurewebsites.athleet.models.UserItem
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -21,6 +21,7 @@ class OtherUserProfilePageActivity : AppCompatActivity() {
     private lateinit var headlineField:TextInputEditText
     private lateinit var sendMessageButton:Button
     private lateinit var blockUserButton:Button
+    private lateinit var dataSource: DataSource
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.other_user_detail_page)
@@ -28,6 +29,7 @@ class OtherUserProfilePageActivity : AppCompatActivity() {
     }
 
     private fun setShitUp() {
+        dataSource = DataSource.getDataSource(resources)
         teamMemberUsername = intent!!.extras?.get("userName").toString()
 
         usernameField = findViewById(R.id.userName)
@@ -36,7 +38,7 @@ class OtherUserProfilePageActivity : AppCompatActivity() {
         blockUserButton = findViewById(R.id.block_user_button)
         blockUserButton.setOnClickListener { blockUserButtonOnClick() }
 
-        if (blockedUsersList.contains(teamMemberUsername))
+        if (dataSource.blockedUsersList.contains(teamMemberUsername))
             blockUserButton.setText("Unblock User")
         else
             blockUserButton.setText("Block User")
@@ -50,16 +52,16 @@ class OtherUserProfilePageActivity : AppCompatActivity() {
     }
 
     private fun blockUserButtonOnClick() {
-        if (blockedUsersList.contains(teamMemberUsername))
+        if (dataSource.blockedUsersList.contains(teamMemberUsername))
         {
             Toast.makeText(this, "Unblocked user: "+ teamMemberUsername, Toast.LENGTH_SHORT).show();
-            blockedUsersList.remove(teamMemberUsername)
+            dataSource.unblockUser(teamMemberUsername)
             blockUserButton.setText("Block User")
         }
         else
         {
             Toast.makeText(this, "Blocked user: "+teamMemberUsername, Toast.LENGTH_SHORT).show();
-            blockedUsersList.add(teamMemberUsername);
+            dataSource.blockUser( teamMemberUsername)
             blockUserButton.setText("Unblock User")
         }
     }
