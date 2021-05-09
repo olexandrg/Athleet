@@ -54,8 +54,10 @@ class UserProfilePageActivity : AppCompatActivity() {
 
         blockedUserListAdapter = BlockedUserListAdapter { user->dataSource.unblockUser(user) }
         blockedUsersListViewModel.blockedUsersLiveData.observe(this) {
-            it.let { if(blockedUsersListViewModel.blockedUsersLiveData.value!!.size != 0)
-                blockedUserListAdapter.submitList(it as MutableList<String>); blockedUserListAdapter.notifyDataSetChanged()
+            it.let {
+                if(blockedUsersListViewModel.blockedUsersLiveData.value!!.size != 0)
+                    blockedUserListAdapter.submitList(it as MutableList<String>);
+                blockedUserListAdapter.notifyDataSetChanged()
             }
         }
         val emailField = findViewById<TextView>(R.id.userEmail)
