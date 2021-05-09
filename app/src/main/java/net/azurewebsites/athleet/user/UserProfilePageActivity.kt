@@ -1,32 +1,47 @@
 package net.azurewebsites.athleet.user
 
+import android.content.Context
 import android.os.Build
 import android.os.Bundle
+import android.util.AttributeSet
 import android.view.KeyEvent
 import android.view.View
+import android.widget.Button
 import android.widget.TextView
+import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.*
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.blocked_user_list_item.*
+import kotlinx.android.synthetic.main.blocked_user_list_item.view.*
 import net.azurewebsites.athleet.ApiLib.Api
 import net.azurewebsites.athleet.R
-import net.azurewebsites.athleet.blockedUsersList
 import net.azurewebsites.athleet.getFirebaseTokenId
+import net.azurewebsites.athleet.models.DataSource
+import net.azurewebsites.athleet.models.Team
+import net.azurewebsites.athleet.models.TeamUser
 import net.azurewebsites.athleet.models.UserItem
 import okhttp3.ResponseBody
+import okhttp3.internal.notify
+import okhttp3.internal.notifyAll
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
+
 class UserProfilePageActivity : AppCompatActivity() {
     // store user data locally
     val api = Api.createSafe()
-    val blockedUserListAdapter = BlockedUserListAdapter({ user->blockedUsersList.remove(user)})
+    private lateinit var blockedUserListAdapter:BlockedUserListAdapter
+    private val blockedUsersListViewModel by viewModels<BlockedUsersListViewModel>{BlockedUsersListViewModelFactory(this)}
     private lateinit var rv:RecyclerView
     private lateinit var user: UserItem
+    private lateinit var linearLayoutManager: LinearLayoutManager
+    lateinit var dataSource:DataSource
     private var userEmail = FirebaseAuth.getInstance().currentUser?.email
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,11 +50,50 @@ class UserProfilePageActivity : AppCompatActivity() {
         // populate menu with retrieved user data
         getUserMenuData()
         setupEnterKeyListeners()
+        dataSource = DataSource.getDataSource(resources)
+
+        blockedUserListAdapter = BlockedUserListAdapter { user->dataSource.unblockUser(user) }
+        blockedUsersListViewModel.blockedUsersLiveData.observe(this) {
+            it.let { if(blockedUsersListViewModel.blockedUsersLiveData.value!!.size != 0)
+                blockedUserListAdapter.submitList(it as MutableList<String>); blockedUserListAdapter.notifyDataSetChanged()
+            }
+        }
         val emailField = findViewById<TextView>(R.id.userEmail)
         emailField.setText(userEmail)
+
         rv = findViewById(R.id.recyclerView_blockedUsers)
         rv.adapter = blockedUserListAdapter
-        blockedUserListAdapter.submitList(blockedUsersList)
+        linearLayoutManager = LinearLayoutManager(this)
+        rv.layoutManager = linearLayoutManager
+
+    }
+
+    override fun onCreateView(name: String, context: Context, attrs: AttributeSet): View? {
+        return super.onCreateView(name, context, attrs)
+
+    }
+    class BlockedUsersListViewModel(val dataSource: DataSource) : ViewModel() {
+
+        @RequiresApi(Build.VERSION_CODES.O)
+        public val blockedUsersLiveData = dataSource.BlockedUsersLiveData
+        @RequiresApi(Build.VERSION_CODES.O)
+        fun updateBlockedUserList(list:List<String>) {
+            dataSource.blockedUsersList = list as MutableList<String>
+            dataSource.BlockedUsersLiveData.postValue(dataSource.blockedUsersList)
+        }
+    }
+
+    class BlockedUsersListViewModelFactory(private val context: Context) : ViewModelProvider.Factory {
+
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+            if (modelClass.isAssignableFrom(BlockedUsersListViewModel::class.java)) {
+                @Suppress("UNCHECKED_CAST")
+                return BlockedUsersListViewModel(
+                    dataSource = DataSource.getDataSource(context.resources)
+                ) as T
+            }
+            throw IllegalArgumentException("Unknown ViewModel class")
+        }
     }
 
     // retrieve user data

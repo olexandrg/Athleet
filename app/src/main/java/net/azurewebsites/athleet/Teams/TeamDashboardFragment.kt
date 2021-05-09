@@ -53,7 +53,12 @@ class TeamDashboardFragment : Fragment() {
         fab = binding.fab
         fab.setOnClickListener { fabOnClick() }
         teamMemberListAdapter = TeamMemberListAdapter { teamMember-> adapterOnClick(teamMember) }
-        teamMembersListViewModel.teamMembersLiveData.observe(this.viewLifecycleOwner , { it.let { if(teamMembersListViewModel.teamMembersLiveData.value!!.size != 0) teamMemberListAdapter.submitList(it as MutableList<TeamUser>) } })
+        teamMembersListViewModel.teamMembersLiveData.observe(this.viewLifecycleOwner , {
+            it.let {
+                if(teamMembersListViewModel.teamMembersLiveData.value!!.size != 0)
+                    teamMemberListAdapter.submitList(it as MutableList<TeamUser>)
+            }
+        })
         linearLayoutManager = LinearLayoutManager(activity)
         recyclerView.adapter = teamMemberListAdapter
         recyclerView.layoutManager = linearLayoutManager
