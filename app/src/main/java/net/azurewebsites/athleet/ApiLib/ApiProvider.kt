@@ -124,6 +124,25 @@ interface Api {
         @Query("teamName") teamName: String
     ): Call<ResponseBody>
 
+//  ############################################
+//  ############### CHAT STUFF #################
+//  ############################################
+
+    //get team conversation
+    @GET("Chat/team")
+    fun getTeamConversation(
+        @Header("Authorization") token: String,
+        @Query("teamName") teamName: String
+    ): Call<List<Conversation>>
+
+    //post team message
+    @POST("Chat/team")
+    fun saveTeamMessage(
+        @Header("Authorization") token: String,
+        @Query("conversationID") conversationID: Int,
+        @Query("content") content: String
+    ): Call<ResponseBody>
+
 //  #####################################################################
 //  ############## FACTORY METHOD FOR INSTANTIATING API #################
 //  #########################  NO TOUCH  ################################
