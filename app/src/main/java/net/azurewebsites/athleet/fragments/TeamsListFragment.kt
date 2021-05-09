@@ -46,9 +46,6 @@ class TeamsListFragment : Fragment() {
         recyclerView_Workout?.layoutManager = linearLayoutManager
         recyclerView_Workout?.adapter = teamsAdapter
         teamsAdapter.submitList(TeamsList(resources))
-
-        // Button goes to Create New Team activity.
-        fab = requireActivity().findViewById(R.id.fab)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
