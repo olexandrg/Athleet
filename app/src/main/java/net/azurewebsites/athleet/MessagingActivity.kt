@@ -19,12 +19,18 @@ import io.socket.emitter.Emitter
 import kotlinx.android.synthetic.main.activity_chatroom.*
 import kotlinx.android.synthetic.main.activity_messaging.*
 import kotlinx.android.synthetic.main.activity_messaging.send_message_button
+import net.azurewebsites.athleet.ApiLib.Api
 import net.azurewebsites.athleet.Dashboard.TEAM_NAME
 import net.azurewebsites.athleet.chat.ChatRoomAdapter
 import net.azurewebsites.athleet.chat.Message
 import net.azurewebsites.athleet.chat.MessageType
+import net.azurewebsites.athleet.models.Conversation
+import retrofit2.Callback
+import okhttp3.ResponseBody
 import org.json.JSONException
 import org.json.JSONObject
+import retrofit2.Call
+import retrofit2.Response
 import java.net.URISyntaxException
 
 class MessagingActivity : AppCompatActivity() {
@@ -75,6 +81,37 @@ class MessagingActivity : AppCompatActivity() {
         send_message_button.setOnClickListener {
             sendMessage()
         }
+
+        val apiCall = Api.createSafe().getTeamConversation(getFirebaseTokenId(), teamName)
+        apiCall.enqueue(object: Callback<List<Conversation>> {
+            override fun onResponse(
+                call: Call<List<Conversation>>,
+                response: Response<List<Conversation>>
+            ) {
+                val messages: List<Conversation> = response.body()!!
+                for (message in messages)
+                {
+                    var type: Int
+                    if (message.UserName == userName)
+                        type = MessageType.CHAT_MINE.index
+                    else
+                        type = MessageType.CHAT_PARTNER.index
+                    
+                    val newMessage = Message(
+                        message.UserName,
+                        message.MessageContent,
+                        teamName,
+                        message.MessageDate,
+                        type
+                    )
+                    addItemToRecyclerView(newMessage)
+                }
+            }
+
+            override fun onFailure(call: Call<List<Conversation>>, t: Throwable) {
+                Toast.makeText(applicationContext, "Failed finding user name. User may not be part of team.", Toast.LENGTH_LONG).show()
+            }
+        })
     }
 
     override fun onDestroy() {
