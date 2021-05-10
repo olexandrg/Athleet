@@ -90,6 +90,8 @@ class MessagingActivity : AppCompatActivity() {
                 response: Response<List<Conversation>>
             ) {
                 val messages: List<Conversation> = response.body()!!
+                if (messages.count() == 0)
+                    return
                 for (message in messages)
                 {
                     var type: Int
