@@ -38,6 +38,7 @@ class MessagingActivity : AppCompatActivity() {
     private lateinit var message: String
     private lateinit var userName: String
     private lateinit var teamName: String
+    private var convID: Int = 0
 
     val chatList: ArrayList<Message> = arrayListOf()
     lateinit var chatRoomAdapter: ChatRoomAdapter
@@ -106,10 +107,11 @@ class MessagingActivity : AppCompatActivity() {
                     )
                     addItemToRecyclerView(newMessage)
                 }
+                convID = messages[1].conversationID
             }
 
             override fun onFailure(call: Call<List<Conversation>>, t: Throwable) {
-                Toast.makeText(applicationContext, "Failed finding user name. User may not be part of team.", Toast.LENGTH_LONG).show()
+                Toast.makeText(applicationContext, "Failed to load messages", Toast.LENGTH_LONG).show()
             }
         })
     }
@@ -136,6 +138,21 @@ class MessagingActivity : AppCompatActivity() {
 
         val gson = Gson()
         mSocket.emit("new message", gson.toJson(message))
+
+
+
+        val apiCall = Api.createSafe().saveTeamMessage(getFirebaseTokenId(), convID, text)
+        apiCall.enqueue(object: Callback<ResponseBody> {
+            override fun onResponse(
+                call: Call<ResponseBody>,
+                response: Response<ResponseBody>
+            ) {
+            }
+
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                Toast.makeText(applicationContext, "Faild to load Messages", Toast.LENGTH_LONG).show()
+            }
+        })
     }
 
     private var onConnectEvent = Emitter.Listener {
