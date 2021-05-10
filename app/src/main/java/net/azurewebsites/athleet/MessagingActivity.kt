@@ -92,16 +92,16 @@ class MessagingActivity : AppCompatActivity() {
                 for (message in messages)
                 {
                     var type: Int
-                    if (message.UserName == userName)
+                    if (message.userName == userName)
                         type = MessageType.CHAT_MINE.index
                     else
                         type = MessageType.CHAT_PARTNER.index
                     
                     val newMessage = Message(
-                        message.UserName,
-                        message.MessageContent,
+                        message.userName,
+                        message.messageContent,
                         teamName,
-                        message.MessageDate,
+                        message.messageDate,
                         type
                     )
                     addItemToRecyclerView(newMessage)
