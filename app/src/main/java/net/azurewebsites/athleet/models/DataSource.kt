@@ -31,8 +31,7 @@ class DataSource(resources: Resources) {
     fun getTeamsList(): LiveData<List<Team>> { return TeamsLiveData }
     fun addTeams(list: List<Team>) { TeamsLiveData.postValue(list) }
 
-    fun blockUser(username:String){ blockedUsersList.add(username);BlockedUsersLiveData.postValue(blockedUsersList) }
-    fun unblockUser(username:String){ blockedUsersList.remove(username);BlockedUsersLiveData.postValue(blockedUsersList) }
+    fun setBlockList(usernames: MutableList<String>){blockedUsersList = usernames; BlockedUsersLiveData.postValue(blockedUsersList)}
 
     fun addTeam(newTeam: Team) {
         val currentList = TeamsLiveData.value
