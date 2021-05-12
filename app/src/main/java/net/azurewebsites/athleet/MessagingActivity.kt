@@ -19,12 +19,18 @@ import io.socket.emitter.Emitter
 import kotlinx.android.synthetic.main.activity_chatroom.*
 import kotlinx.android.synthetic.main.activity_messaging.*
 import kotlinx.android.synthetic.main.activity_messaging.send_message_button
+import net.azurewebsites.athleet.ApiLib.Api
 import net.azurewebsites.athleet.Dashboard.TEAM_NAME
 import net.azurewebsites.athleet.chat.ChatRoomAdapter
 import net.azurewebsites.athleet.chat.Message
 import net.azurewebsites.athleet.chat.MessageType
+import net.azurewebsites.athleet.models.Conversation
+import retrofit2.Callback
+import okhttp3.ResponseBody
 import org.json.JSONException
 import org.json.JSONObject
+import retrofit2.Call
+import retrofit2.Response
 import java.net.URISyntaxException
 
 class MessagingActivity : AppCompatActivity() {
@@ -32,6 +38,7 @@ class MessagingActivity : AppCompatActivity() {
     private lateinit var message: String
     private lateinit var userName: String
     private lateinit var teamName: String
+    private var convID: Int = 0
 
     val chatList: ArrayList<Message> = arrayListOf()
     lateinit var chatRoomAdapter: ChatRoomAdapter
@@ -75,6 +82,40 @@ class MessagingActivity : AppCompatActivity() {
         send_message_button.setOnClickListener {
             sendMessage()
         }
+
+        val apiCall = Api.createSafe().getTeamConversation(getFirebaseTokenId(), teamName)
+        apiCall.enqueue(object: Callback<List<Conversation>> {
+            override fun onResponse(
+                call: Call<List<Conversation>>,
+                response: Response<List<Conversation>>
+            ) {
+                val messages: List<Conversation> = response.body()!!
+                if (messages.count() == 0)
+                    return
+                for (message in messages)
+                {
+                    var type: Int
+                    if (message.userName == userName)
+                        type = MessageType.CHAT_MINE.index
+                    else
+                        type = MessageType.CHAT_PARTNER.index
+                    
+                    val newMessage = Message(
+                        message.userName,
+                        message.messageContent,
+                        teamName,
+                        message.messageDate,
+                        type
+                    )
+                    addItemToRecyclerView(newMessage)
+                }
+                convID = messages[1].conversationID
+            }
+
+            override fun onFailure(call: Call<List<Conversation>>, t: Throwable) {
+                Toast.makeText(applicationContext, "Failed to load messages", Toast.LENGTH_LONG).show()
+            }
+        })
     }
 
     override fun onDestroy() {
@@ -99,6 +140,21 @@ class MessagingActivity : AppCompatActivity() {
 
         val gson = Gson()
         mSocket.emit("new message", gson.toJson(message))
+
+
+
+        val apiCall = Api.createSafe().saveTeamMessage(getFirebaseTokenId(), convID, text)
+        apiCall.enqueue(object: Callback<ResponseBody> {
+            override fun onResponse(
+                call: Call<ResponseBody>,
+                response: Response<ResponseBody>
+            ) {
+            }
+
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                Toast.makeText(applicationContext, "Failed to save message", Toast.LENGTH_LONG).show()
+            }
+        })
     }
 
     private var onConnectEvent = Emitter.Listener {
