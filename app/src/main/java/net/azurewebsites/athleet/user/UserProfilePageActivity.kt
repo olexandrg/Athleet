@@ -52,7 +52,22 @@ class UserProfilePageActivity : AppCompatActivity() {
         setupEnterKeyListeners()
         dataSource = DataSource.getDataSource(resources)
 
-        blockedUserListAdapter = BlockedUserListAdapter { user->dataSource.unblockUser(user) }
+        blockedUserListAdapter = BlockedUserListAdapter { user->api.unblockUser(getFirebaseTokenId(), user).enqueue(object:
+            Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                if(response.isSuccessful) {
+                    api.retrieveBlockedUsers(getFirebaseTokenId()).enqueue(object:
+                        Callback<List<String>> {
+                        override fun onResponse(call: Call<List<String>>, response: Response<List<String>>) {
+                            if(response.isSuccessful) {
+                                net.azurewebsites.athleet.dataSource.setBlockList(response.body()!!.toMutableList());
+                            }
+                        }
+                        override fun onFailure(call: Call<List<String>>, t: Throwable) { TODO("Not yet implemented") }
+                    })}
+            }
+
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) { TODO("Not yet implemented") } }) }
         blockedUsersListViewModel.blockedUsersLiveData.observe(this) {
             it.let {
                 if(blockedUsersListViewModel.blockedUsersLiveData.value!!.size != 0)
@@ -76,12 +91,26 @@ class UserProfilePageActivity : AppCompatActivity() {
     }
     class BlockedUsersListViewModel(val dataSource: DataSource) : ViewModel() {
 
+        private val api = Api.createSafe()
         @RequiresApi(Build.VERSION_CODES.O)
         public val blockedUsersLiveData = dataSource.BlockedUsersLiveData
         @RequiresApi(Build.VERSION_CODES.O)
-        fun updateBlockedUserList(list:List<String>) {
-            dataSource.blockedUsersList = list as MutableList<String>
-            dataSource.BlockedUsersLiveData.postValue(dataSource.blockedUsersList)
+        fun updateBlockedUserList() {
+            api.retrieveBlockedUsers(getFirebaseTokenId()).enqueue(object: Callback<List<String>> {
+                override fun onResponse(call: Call<List<String>>, response: Response<List<String>>) { if(response.isSuccessful) { blockedUsersLiveData.postValue(response.body()?.toMutableList()) } }
+                override fun onFailure(call: Call<List<String>>, t: Throwable) { TODO("Not yet implemented") }
+            })
+        }
+        fun blockUser(username:String) {
+            api.blockUser(getFirebaseTokenId(), username).enqueue(object: Callback<ResponseBody> {
+                override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                    if(response.isSuccessful) {
+                        var newList = blockedUsersLiveData.value!!
+                        if(newList.remove(username)){ blockedUsersLiveData.postValue(newList) }
+                    }
+                }
+
+                override fun onFailure(call: Call<ResponseBody>, t: Throwable) { TODO("Not yet implemented") } })
         }
     }
 
@@ -152,8 +181,7 @@ class UserProfilePageActivity : AppCompatActivity() {
                     getFirebaseTokenId(),
                     user.userHeadline,
                     user.userId,
-                    user.userName
-                )
+                    user.userName)
                 api.updateExistingUser(getFirebaseTokenId(), user.userId.toString(), updatedUser ).enqueue(object:Callback<ResponseBody>{
                     override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                         if(response.isSuccessful){
