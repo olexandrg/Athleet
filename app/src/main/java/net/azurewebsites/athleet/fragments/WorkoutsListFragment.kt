@@ -5,25 +5,26 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.auth.FirebaseAuth
-import net.azurewebsites.athleet.ApiLib.*
-import net.azurewebsites.athleet.Dashboard.*
-import net.azurewebsites.athleet.workouts.WorkoutsListViewModelFactory
+import net.azurewebsites.athleet.ApiLib.Api
+import net.azurewebsites.athleet.Dashboard.AddWorkoutActivity
+import net.azurewebsites.athleet.Dashboard.WORKOUT_DESCRIPTION
+import net.azurewebsites.athleet.Dashboard.WORKOUT_NAME
 import net.azurewebsites.athleet.R
 import net.azurewebsites.athleet.getFirebaseTokenId
-import net.azurewebsites.athleet.workouts.Workout
+import net.azurewebsites.athleet.models.Workout
 import net.azurewebsites.athleet.workouts.WorkoutDetailActivity
 import net.azurewebsites.athleet.workouts.WorkoutListAdapter
 import net.azurewebsites.athleet.workouts.WorkoutsListViewModel
+import net.azurewebsites.athleet.workouts.WorkoutsListViewModelFactory
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
@@ -62,10 +63,7 @@ class WorkoutsListFragment() : Fragment() {
 
 
     @RequiresApi(Build.VERSION_CODES.O)
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         linearLayoutManager = LinearLayoutManager(context)
         val workoutAdapter = WorkoutListAdapter { workout -> adapterOnClick(workout) }

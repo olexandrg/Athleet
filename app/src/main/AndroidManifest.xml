@@ -13,13 +13,15 @@
         android:theme="@style/Theme.Athleet">
         <!-- android:theme="@style/Theme.AppCompat.DarkTheme">-->
 
-        <activity android:name=".InviteTeamUser"></activity>
+        <activity android:name=".InviteTeamUser"/>
+        <activity android:name=".Teams.TeamAdminActivity"/>
         <activity android:name=".TeamMemberListView" />
         <activity android:name=".Dashboard.AddTeamActivity" />
 
         <activity android:name=".workouts.WorkoutDetailActivity" />
         <activity android:name=".exercise.AddExerciseActivity" />
         <activity android:name=".user.UserProfilePageActivity"/>
+        <activity android:name=".user.OtherUserProfilePageActivity"/>
         <activity android:name=".Teams.TeamDetailActivity" />
         <activity android:name=".MainActivity">
 

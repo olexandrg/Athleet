@@ -47,4 +47,5 @@
     <string name="e_mail">E-mail</string>
     <string name="make_admin">Make Admin</string>
     <string name="username">Enter User Name</string>
+    <string name="blocked_users_textview_header">Blocked Users:</string>
 </resources>

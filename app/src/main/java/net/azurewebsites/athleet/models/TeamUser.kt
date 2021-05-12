@@ -1,4 +1,4 @@
-package net.azurewebsites.athleet.ApiLib
+package net.azurewebsites.athleet.models
 
 data class TeamUser (
     var userName: String,

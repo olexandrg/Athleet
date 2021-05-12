@@ -1,4 +1,4 @@
-package net.azurewebsites.athleet.ApiLib
+package net.azurewebsites.athleet.models
 data class UserItem(
     val firebaseUID: String?,
     var userHeadline: String?,

@@ -2,9 +2,9 @@ package net.azurewebsites.athleet.Dashboard
 
 import android.app.Activity
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
+import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.textfield.TextInputEditText
 import net.azurewebsites.athleet.R
 

@@ -1,13 +1,10 @@
 package net.azurewebsites.athleet.ApiLib
 
-import net.azurewebsites.athleet.Teams.Team
-import net.azurewebsites.athleet.models.Exercise
-import net.azurewebsites.athleet.workouts.Workout
+import net.azurewebsites.athleet.models.*
 import okhttp3.OkHttpClient
 import okhttp3.ResponseBody
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
-import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
@@ -42,6 +39,23 @@ interface Api {
         @Query("userName") userName:String,
         @Query("description") description: String
     ): Call<ResponseBody>
+
+    @GET("Users/BlockedUsers")
+    fun retrieveBlockedUsers(
+        @Header("Authorization") token: String
+    ):Call<List<String>>
+
+    @POST("Users/blockUser")
+    fun blockUser(
+        @Header("Authorization")token:String,
+        @Query("UserName") username:String
+    ):Call<ResponseBody>
+
+    @POST("Users/unblockUser")
+    fun unblockUser(
+        @Header("Authorization")token:String,
+        @Query("UserName") username:String
+    ):Call<ResponseBody>
 
 //  ############################################
 //  ############## WORKOUT STUFF ###############

@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import net.azurewebsites.athleet.R
+import net.azurewebsites.athleet.models.Workout
 
 class WorkoutListAdapter(private val onClick: (Workout) -> Unit) :
     ListAdapter<Workout, WorkoutListAdapter.WorkoutViewHolder>(WorkoutDiffCallback) {
@@ -16,16 +17,10 @@ class WorkoutListAdapter(private val onClick: (Workout) -> Unit) :
     class WorkoutViewHolder(itemView: View, val onClick: (Workout) -> Unit) :
         RecyclerView.ViewHolder(itemView) {
         private val workoutTextView: TextView = itemView.findViewById(R.id.textView_WorkoutName)
-        private val workoutDateTextView: TextView = itemView.findViewById(R.id.textView_LastWorkoutDate)
+        private val workoutDateTextView: TextView = itemView.findViewById(R.id.textView_WorkoutDescription)
         private var currentWorkout: Workout? = null
 
-        init {
-            itemView.setOnClickListener {
-                currentWorkout?.let {
-                    onClick(it)
-                }
-            }
-        }
+        init { itemView.setOnClickListener { currentWorkout?.let { onClick(it) } } }
 
         /* Bind workout name and image. */
         fun bind(workout: Workout) { currentWorkout = workout
