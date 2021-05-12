@@ -152,7 +152,7 @@ class MessagingActivity : AppCompatActivity() {
             }
 
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                Toast.makeText(applicationContext, "Faild to load Messages", Toast.LENGTH_LONG).show()
+                Toast.makeText(applicationContext, "Failed to save message", Toast.LENGTH_LONG).show()
             }
         })
     }
