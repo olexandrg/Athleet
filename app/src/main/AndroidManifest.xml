@@ -23,6 +23,7 @@
         <activity android:name=".user.UserProfilePageActivity"/>
         <activity android:name=".user.OtherUserProfilePageActivity"/>
         <activity android:name=".Teams.TeamDetailActivity" />
+        <activity android:name=".Teams.TeamAdminActivity" />
         <activity android:name=".MainActivity">
 
             <intent-filter>
