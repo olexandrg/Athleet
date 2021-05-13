@@ -30,7 +30,7 @@ class TeamAdminActivity : AppCompatActivity() {
                 override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                     Log.i("TeamAdminActivity:", "Successfully promoted user '" + userInput.text.toString() + "' to Coach.");
                     setResult(USER_PROMOTED)
-                    finishActivity(UPDATED_ADMINS_STATUS) }
+                    finishActivity(58) }
                 override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                     Log.e("TeamAdminActivity ERROR", "Failed to promote user '" + userInput.text.toString() + "' to Coach. Cause:", t.cause);
                     setResult(NO_CHANGES_BY_ADMIN) }

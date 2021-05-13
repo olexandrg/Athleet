@@ -55,7 +55,9 @@ class TeamDashboardFragment : Fragment() {
         binding.textView_teamName.text = teamName
         val recyclerView: RecyclerView = binding.teamMemberListView
         fab = binding.fab
+        teamChatButton = binding.button
         fab.setOnClickListener { fabOnClick() }
+        teamChatButton.setOnClickListener {  onTeamChatButtonClick() }
         teamMemberListAdapter = TeamMemberListAdapter { teamMember-> adapterOnClick(teamMember) }
         teamMembersListViewModel.teamMembersLiveData.observe(this.viewLifecycleOwner , {
             it.let {
@@ -101,7 +103,8 @@ class TeamDashboardFragment : Fragment() {
         {
             val intent = Intent(requireActivity(), TeamAdminActivity::class.java)
             intent.putExtra(TEAM_NAME, teamName)
-            startActivityForResult(intent, UPDATED_ADMINS_STATUS)
+
+            startActivityForResult(intent, 58)
         }
         return false;
     }
@@ -112,21 +115,8 @@ class TeamDashboardFragment : Fragment() {
             intent = Intent(requireActivity(), OtherUserProfilePageActivity()::class.java)
         else
             intent = Intent(requireActivity(), UserProfilePageActivity()::class.java)
+        intent.putExtra("userName", teamMember.userName)
 
-        intent.putExtra("userName", teamMember.userName)}
-
-    private fun getCurrentUser(){
-
-        api.retrieveExistingUser(getFirebaseTokenId()).enqueue(object: Callback<List<UserItem>> {
-            override fun onResponse(call: Call<List<UserItem>>, response: Response<List<UserItem>>) { currentUser=response.body()!![0]; }
-            override fun onFailure(call: Call<List<UserItem>>, t: Throwable) {  }
-        })
-    }
-
-    private fun adapterOnClick(team: Team) {
-        val intent = Intent(requireContext(), TeamDetailActivity()::class.java)  // THIS WILL BECOME TeamDetailActivity()
-        intent.putExtra(TEAM_NAME, team.teamName)
-        intent.putExtra(TEAM_DESCRIPTION, team.teamDescription)
         startActivity(intent)
     }
 
@@ -152,16 +142,8 @@ class TeamDashboardFragment : Fragment() {
             val apiCall = api.teamInfo(getFirebaseTokenId(),  teamName)
             apiCall.enqueue(object: Callback<TeamInfo>{
                 override fun onResponse(call: Call<TeamInfo>, response: Response<TeamInfo>) { if (response.isSuccessful) { teamMemberListAdapter.submitList(response.body()!!.users); teamInfo = response.body()!! ; }}
-                override fun onFailure(call: Call<TeamInfo>, t: Throwable) { Toast.makeText(activity, "Failed getting the team users", Toast.LENGTH_LONG).show() }
+                override fun onFailure(call: Call<TeamInfo>, t: Throwable) { Toast.makeText(requireContext(), "Failed getting the team users", Toast.LENGTH_LONG).show() }
             })
         }
-
-                    teamMemberListAdapter.notifyDataSetChanged()
-                }
-            }
-            override fun onFailure(call: Call<TeamInfo>, t: Throwable) {
-                Toast.makeText(activity, "Failed getting the team users", Toast.LENGTH_LONG).show()
-            }
-        })
     }
 }
