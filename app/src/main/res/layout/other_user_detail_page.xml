@@ -17,6 +17,7 @@
         android:fontFamily="@font/andada"
         android:text="@string/user"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="@android:color/primary_text_light_nodisable"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/userName"
@@ -34,9 +35,12 @@
         android:layout_marginStart="15dp"
         android:layout_marginTop="168dp"
         android:layout_marginEnd="15dp"
+        android:editable="false"
         android:fontFamily="@font/andada"
         android:singleLine="true"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textSize="18sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.478"
         app:layout_constraintStart_toStartOf="parent"
@@ -51,6 +55,7 @@
         android:fontFamily="@font/andada"
         android:text="@string/headline"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="@color/fui_bgGitHub"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/userHeadline"
@@ -62,14 +67,20 @@
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/userHeadline"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="start"
         android:layout_marginStart="15dp"
         android:layout_marginEnd="15dp"
+        android:background="#FFFFFF"
+        android:editable="false"
         android:fontFamily="@font/andada"
-        android:singleLine="true"
+        android:isScrollContainer="true"
+        android:maxLines="10"
+        android:singleLine="false"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textStyle="italic"
+        android:verticalScrollbarPosition="right"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
@@ -77,67 +88,28 @@
         app:layout_constraintTop_toBottomOf="@+id/userName"
         app:layout_constraintVertical_bias="0.102" />
 
-    <TextView
-        android:id="@+id/labelEmail"
-        android:layout_width="87dp"
-        android:layout_height="29dp"
-        android:layout_gravity="start"
+    <Button
+        android:id="@+id/send_message_button"
+        android:layout_width="250dp"
+        android:layout_height="44dp"
         android:layout_marginTop="32dp"
-        android:ems="10"
-        android:fontFamily="@font/andada"
-        android:text="@string/e_mail"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:backgroundTint="@android:color/holo_green_light"
+        android:text="Send Message"
+        android:textColor="?attr/colorPrimaryDark"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.049"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/userHeadline"
-        app:layout_constraintVertical_bias="0.015" />
+        app:layout_constraintTop_toBottomOf="@+id/userHeadline" />
 
-    <TextView
-        android:id="@+id/userEmail"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="start"
-        android:layout_marginStart="15dp"
-        android:layout_marginEnd="15dp"
-        android:ems="10"
-        android:fontFamily="@font/andada"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <Button
+        android:id="@+id/block_user_button"
+        android:layout_width="250dp"
+        android:layout_height="44dp"
+        android:backgroundTint="@color/fui_bgEmail"
+        android:text="Block User"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/labelEmail"
-        app:layout_constraintVertical_bias="0.03" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView_blockedUsers"
-        android:layout_width="372dp"
-        android:layout_height="282dp"
-        android:clickable="true"
-        android:focusable="true"
-        android:isScrollContainer="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.384"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:listitem="@layout/blocked_user_list_item" />
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="369dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="14dp"
-        android:text="@string/blocked_users_textview_header"
-        android:textSize="19sp"
-        app:layout_constraintBottom_toTopOf="@+id/recyclerView_blockedUsers"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.428"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/userEmail" />
-
+        app:layout_constraintTop_toBottomOf="@+id/send_message_button" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

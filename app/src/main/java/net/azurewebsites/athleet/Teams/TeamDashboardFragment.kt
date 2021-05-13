@@ -7,73 +7,69 @@ import android.view.*
 import android.widget.Button
 import android.widget.Toast
 import androidx.annotation.RequiresApi
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import androidx.lifecycle.observe
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.myapplication.TeamMemberListAdapter
+import com.google.android.material.textfield.TextInputEditText
+import kotlinx.android.synthetic.main.fragment_team_dashboard.view.*
 import net.azurewebsites.athleet.ApiLib.Api
-import net.azurewebsites.athleet.Dashboard.TEAM_DESCRIPTION
 import net.azurewebsites.athleet.Dashboard.TEAM_NAME
 import net.azurewebsites.athleet.InviteTeamUser
 import net.azurewebsites.athleet.MessagingActivity
 import net.azurewebsites.athleet.R
-//import net.azurewebsites.athleet.chat.ChatRoomActivity
-import net.azurewebsites.athleet.databinding.FragmentTeamDashboardBinding
 import net.azurewebsites.athleet.getFirebaseTokenId
-import net.azurewebsites.athleet.models.Team
+import net.azurewebsites.athleet.models.DataSource
 import net.azurewebsites.athleet.models.TeamInfo
+import net.azurewebsites.athleet.models.TeamUser
 import net.azurewebsites.athleet.models.UserItem
+import net.azurewebsites.athleet.user.OtherUserProfilePageActivity
+import net.azurewebsites.athleet.user.UserProfilePageActivity
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-
+@RequiresApi(Build.VERSION_CODES.O)
 class TeamDashboardFragment : Fragment() {
-    private var teamList = ArrayList<String>()
-    private var teamName : String = ""
     private val api = Api.createSafe()
-    private lateinit var currentUser: UserItem
-
+    private var teamName : String = ""
+    private val teamMembersListViewModel by viewModels<TeamMembersListViewModel> { TeamMembersListViewModelFactory(requireContext()) }
     private lateinit var teamMemberListAdapter : TeamMemberListAdapter
     private lateinit var linearLayoutManager: LinearLayoutManager
+    private lateinit var fab: View
+    private lateinit var dataSource:DataSource
+    private lateinit var teamInfo: TeamInfo
+    private lateinit var currentUser:UserItem
 
     private lateinit var teamChatButton: Button
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        getCurrentUser()
-
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        val binding = DataBindingUtil.inflate<FragmentTeamDashboardBinding>(inflater,
-            R.layout.fragment_team_dashboard, container, false )
-
-        teamName = requireActivity()?.intent?.getStringExtra("name")!!
-        binding.textViewTeamName.text = teamName
-
+        val binding =inflater.inflate(R.layout.fragment_team_dashboard, container, false )
+        teamName = requireActivity().intent?.getStringExtra(TEAM_NAME)!!
+        binding.textView_teamName.text = teamName
         val recyclerView: RecyclerView = binding.teamMemberListView
-
-        binding.fab.setOnClickListener {
-            fabOnClick()
-        }
-
-        binding.button.setOnClickListener {
-            onTeamChatButtonClick()
-        }
-
-        teamMemberListAdapter = TeamMemberListAdapter(teamList)
+        fab = binding.fab
+        fab.setOnClickListener { fabOnClick() }
+        teamMemberListAdapter = TeamMemberListAdapter { teamMember-> adapterOnClick(teamMember) }
+        teamMembersListViewModel.teamMembersLiveData.observe(this.viewLifecycleOwner , {
+            it.let {
+                if(teamMembersListViewModel.teamMembersLiveData.value!!.size != 0)
+                    teamMemberListAdapter.submitList(it as MutableList<TeamUser>)
+            }
+        })
         linearLayoutManager = LinearLayoutManager(activity)
         recyclerView.adapter = teamMemberListAdapter
         recyclerView.layoutManager = linearLayoutManager
-        getTeamUsers()
-
+        getTeamInfo()
+        getUser()
         setHasOptionsMenu(true)
-        return binding.root
+        return binding
     }
 
     private fun fabOnClick() {
@@ -82,6 +78,10 @@ class TeamDashboardFragment : Fragment() {
         startActivityForResult(intent, 1)
     }
 
+    override fun onResume() {
+        super.onResume()
+        fab.setOnClickListener { fabOnClick() }
+    }
     private fun onTeamChatButtonClick() {
 
         val intent = Intent(this.requireActivity(), MessagingActivity::class.java)
@@ -97,10 +97,23 @@ class TeamDashboardFragment : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return NavigationUI.
-        onNavDestinationSelected(item,requireView().findNavController())
-                || super.onOptionsItemSelected(item)
+        if(item.title == "Team Admin")
+        {
+            val intent = Intent(requireActivity(), TeamAdminActivity::class.java)
+            intent.putExtra(TEAM_NAME, teamName)
+            startActivityForResult(intent, UPDATED_ADMINS_STATUS)
+        }
+        return false;
     }
+
+    private fun adapterOnClick(teamMember: TeamUser) {
+        var intent:Intent
+        if(teamMember.userName != currentUser.userName)
+            intent = Intent(requireActivity(), OtherUserProfilePageActivity()::class.java)
+        else
+            intent = Intent(requireActivity(), UserProfilePageActivity()::class.java)
+
+        intent.putExtra("userName", teamMember.userName)}
 
     private fun getCurrentUser(){
 
@@ -117,18 +130,31 @@ class TeamDashboardFragment : Fragment() {
         startActivity(intent)
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        getTeamInfo()
+    }
+    private fun getUser() {
+        val callGetUser = api.retrieveExistingUser(getFirebaseTokenId())
+        callGetUser.enqueue(object: Callback<List<UserItem>> {
+            override fun onResponse(call: Call<List<UserItem>>, response: Response<List<UserItem>>) {
+                if(response.isSuccessful) { currentUser = response.body()!![0] }
+            }
+            override fun onFailure(call: Call<List<UserItem>>, t: Throwable) {
+                TODO("Not yet implemented")
+            }
+        })
+    }
     @RequiresApi(Build.VERSION_CODES.O)
-    fun getTeamUsers()
+    fun getTeamInfo()
     {
-        val api = Api.createSafe()
-        val apiCall = api.teamInfo(getFirebaseTokenId(),  teamName)
-        apiCall.enqueue(object: Callback<TeamInfo>{
-            override fun onResponse(call: Call<TeamInfo>, response: Response<TeamInfo>) {
-                if (response.isSuccessful) {
-                    val userList = response.body()!!.users
-                    for (user in userList) {
-                        teamList.add(user.userName)
-                    }
+        if(!teamName.isBlank()){
+            val apiCall = api.teamInfo(getFirebaseTokenId(),  teamName)
+            apiCall.enqueue(object: Callback<TeamInfo>{
+                override fun onResponse(call: Call<TeamInfo>, response: Response<TeamInfo>) { if (response.isSuccessful) { teamMemberListAdapter.submitList(response.body()!!.users); teamInfo = response.body()!! ; }}
+                override fun onFailure(call: Call<TeamInfo>, t: Throwable) { Toast.makeText(activity, "Failed getting the team users", Toast.LENGTH_LONG).show() }
+            })
+        }
 
                     teamMemberListAdapter.notifyDataSetChanged()
                 }

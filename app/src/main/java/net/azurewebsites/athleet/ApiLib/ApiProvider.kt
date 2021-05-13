@@ -40,6 +40,23 @@ interface Api {
         @Query("description") description: String
     ): Call<ResponseBody>
 
+    @GET("Users/BlockedUsers")
+    fun retrieveBlockedUsers(
+        @Header("Authorization") token: String
+    ):Call<List<String>>
+
+    @POST("Users/blockUser")
+    fun blockUser(
+        @Header("Authorization")token:String,
+        @Query("UserName") username:String
+    ):Call<ResponseBody>
+
+    @POST("Users/unblockUser")
+    fun unblockUser(
+        @Header("Authorization")token:String,
+        @Query("UserName") username:String
+    ):Call<ResponseBody>
+
 //  ############################################
 //  ############## WORKOUT STUFF ###############
 //  ############################################
