@@ -99,14 +99,9 @@ class TeamDashboardFragment : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if(item.title == "Team Admin")
-        {
-            val intent = Intent(requireActivity(), TeamAdminActivity::class.java)
-            intent.putExtra(TEAM_NAME, teamName)
-
-            startActivityForResult(intent, 58)
-        }
-        return false;
+        return NavigationUI.
+        onNavDestinationSelected(item,requireView().findNavController())
+                || super.onOptionsItemSelected(item)
     }
 
     private fun adapterOnClick(teamMember: TeamUser) {
