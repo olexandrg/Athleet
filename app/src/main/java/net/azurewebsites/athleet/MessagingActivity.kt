@@ -85,10 +85,7 @@ class MessagingActivity : AppCompatActivity() {
 
         val apiCall = Api.createSafe().getTeamConversation(getFirebaseTokenId(), teamName)
         apiCall.enqueue(object: Callback<List<Conversation>> {
-            override fun onResponse(
-                call: Call<List<Conversation>>,
-                response: Response<List<Conversation>>
-            ) {
+            override fun onResponse(call: Call<List<Conversation>>, response: Response<List<Conversation>>) {
                 val messages: List<Conversation> = response.body()!!
                 if (messages.count() == 0)
                     return
@@ -99,22 +96,13 @@ class MessagingActivity : AppCompatActivity() {
                         type = MessageType.CHAT_MINE.index
                     else
                         type = MessageType.CHAT_PARTNER.index
-                    
-                    val newMessage = Message(
-                        message.userName,
-                        message.messageContent,
-                        teamName,
-                        message.messageDate,
-                        type
-                    )
+                    val newMessage = Message(message.userName, message.messageContent, teamName, message.messageDate, type)
                     addItemToRecyclerView(newMessage)
                 }
-                convID = messages[1].conversationID
+                convID = messages[0].conversationID
             }
 
-            override fun onFailure(call: Call<List<Conversation>>, t: Throwable) {
-                Toast.makeText(applicationContext, "Failed to load messages", Toast.LENGTH_LONG).show()
-            }
+            override fun onFailure(call: Call<List<Conversation>>, t: Throwable) { Toast.makeText(applicationContext, "Failed to load messages", Toast.LENGTH_LONG).show() }
         })
     }
 
@@ -140,31 +128,15 @@ class MessagingActivity : AppCompatActivity() {
 
         val gson = Gson()
         mSocket.emit("new message", gson.toJson(message))
-
-
-
         val apiCall = Api.createSafe().saveTeamMessage(getFirebaseTokenId(), convID, text)
         apiCall.enqueue(object: Callback<ResponseBody> {
-            override fun onResponse(
-                call: Call<ResponseBody>,
-                response: Response<ResponseBody>
-            ) {
-            }
-
-            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                Toast.makeText(applicationContext, "Failed to save message", Toast.LENGTH_LONG).show()
-            }
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) { }
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) { Toast.makeText(applicationContext, "Failed to save message", Toast.LENGTH_LONG).show() }
         })
     }
 
-    private var onConnectEvent = Emitter.Listener {
-        mSocket.emit("add user", FirebaseAuth.getInstance().currentUser!!.displayName!!, teamName)
-    }
-
-    private var onNewMessageEvent = Emitter.Listener {
-
-    }
-
+    private var onConnectEvent = Emitter.Listener { mSocket.emit("add user", FirebaseAuth.getInstance().currentUser!!.displayName!!, teamName) }
+    private var onNewMessageEvent = Emitter.Listener {}
     private var onUserJoinedEvent = Emitter.Listener {
         val gson = Gson()
         val chat: Message = gson.fromJson(it[0].toString(), Message::class.java)
@@ -191,7 +163,6 @@ class MessagingActivity : AppCompatActivity() {
     }
 
     private fun addItemToRecyclerView(message: Message) {
-
         //Since this function is inside of the listener,
         // You need to do it on UIThread!
         runOnUiThread {
