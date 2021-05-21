@@ -12,10 +12,18 @@
         <action
             android:id="@+id/action_teamDashboardFragment_to_teamAdminFragment"
             app:destination="@id/teamAdminFragment" />
+        <action
+            android:id="@+id/action_teamDashboardFragment_to_teamWorkoutFragment"
+            app:destination="@id/teamWorkoutFragment" />
     </fragment>
     <fragment
         android:id="@+id/teamAdminFragment"
         android:name="net.azurewebsites.athleet.Teams.TeamAdminFragment"
         android:label="fragment_team_admin"
         tools:layout="@layout/fragment_team_admin" />
+    <fragment
+        android:id="@+id/teamWorkoutFragment"
+        android:name="net.azurewebsites.athleet.fragments.TeamWorkoutFragment"
+        android:label="fragment_team_workout"
+        tools:layout="@layout/fragment_team_workout" />
 </navigation>

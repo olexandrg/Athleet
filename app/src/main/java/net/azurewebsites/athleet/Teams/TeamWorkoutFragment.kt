@@ -32,7 +32,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class WorkoutsListFragment() : Fragment() {
+class TeamWorkoutFragment() : Fragment() {
     val api = Api.createSafe()
     private val workoutListViewModel by viewModels<WorkoutsListViewModel> { WorkoutsListViewModelFactory(requireContext()) }
     private lateinit var linearLayoutManager: LinearLayoutManager
@@ -68,7 +68,7 @@ class WorkoutsListFragment() : Fragment() {
         linearLayoutManager = LinearLayoutManager(context)
         val workoutAdapter = WorkoutListAdapter { workout -> adapterOnClick(workout) }
         workoutListViewModel.workoutsLiveData.observe(this.viewLifecycleOwner , { it.let { if(workoutListViewModel.workoutsLiveData.value!!.size != 0) workoutAdapter.submitList(it as MutableList<Workout>) } })
-        val rootView = inflater!!.inflate(R.layout.fragment_workouts_list, container, false)
+        val rootView = inflater.inflate(R.layout.fragment_workouts_list, container, false)
         fab = requireActivity().fab
         fab.setOnClickListener { fabOnClick() }
         val recyclerView = rootView.findViewById<RecyclerView>(R.id.recyclerView_Workout) as RecyclerView

@@ -65,23 +65,20 @@
             app:layout_constraintTop_toBottomOf="@+id/teamMemberListView"
             app:layout_constraintVertical_bias="0.094" />
 
+
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="28dp"
+            android:layout_marginBottom="16dp"
             android:backgroundTint="#D84315"
             android:contentDescription="@string/fab_content_description"
             android:src="@drawable/teams_tab_icon"
             android:text="Invite User"
             android:textColor="#EAE0E0"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/button" />
-
-
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <TextView
             android:id="@+id/textView_teamName"
@@ -97,15 +94,25 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="16dp"
             android:backgroundTint="#283593"
             android:text="@string/team_chat_room"
             android:textColor="#EAE0E0"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/fab"
-            app:layout_constraintHorizontal_bias="0.961"
             app:layout_constraintStart_toStartOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_teamWorkouts"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:backgroundTint="#E91E63"
+            android:text="Workouts"
+            android:textColor="#EAE0E0"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/fab"
+            app:layout_constraintHorizontal_bias="0.373"
+            app:layout_constraintStart_toEndOf="@+id/button" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

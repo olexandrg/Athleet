@@ -12,6 +12,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.observe
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -29,6 +30,7 @@ import net.azurewebsites.athleet.models.TeamUser
 import net.azurewebsites.athleet.models.UserItem
 import net.azurewebsites.athleet.user.OtherUserProfilePageActivity
 import net.azurewebsites.athleet.user.UserProfilePageActivity
+import net.azurewebsites.athleet.workouts.WorkoutFragmentDirections
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
@@ -58,6 +60,11 @@ class TeamDashboardFragment : Fragment() {
         teamChatButton = binding.button
         fab.setOnClickListener { fabOnClick() }
         teamChatButton.setOnClickListener {  onTeamChatButtonClick() }
+
+        binding.btn_teamWorkouts.setOnClickListener { view ->
+            view.findNavController().navigate(R.id.action_teamDashboardFragment_to_teamWorkoutFragment)
+        }
+
         teamMemberListAdapter = TeamMemberListAdapter { teamMember-> adapterOnClick(teamMember) }
         teamMembersListViewModel.teamMembersLiveData.observe(this.viewLifecycleOwner , {
             it.let {
