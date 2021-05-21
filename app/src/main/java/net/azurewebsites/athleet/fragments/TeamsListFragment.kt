@@ -59,7 +59,7 @@ class TeamsListFragment : Fragment() {
                 }
             }
             override fun onFailure(call: Call<List<Team>>, t: Throwable) {
-                TODO("Not yet implemented")
+                Toast.makeText(activity, "Failed creating team.", Toast.LENGTH_LONG).show()
             }
         })
     }
