@@ -103,7 +103,7 @@ class TeamAdminFragment : Fragment() {
                     Toast.makeText(activity, "Gathering chat history...", Toast.LENGTH_LONG).show()
                     messages = response.body()!!
                 }
-
+                
                 override fun onFailure(call: Call<List<Conversation>>, t: Throwable) {
                     Toast.makeText(activity, "Failed to load messages", Toast.LENGTH_LONG).show()
                 }
