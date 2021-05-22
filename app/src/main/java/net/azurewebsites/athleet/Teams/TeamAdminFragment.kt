@@ -70,7 +70,8 @@ class TeamAdminFragment : Fragment() {
         }
 
         binding.buttonModerate.setOnClickListener {
-            moderateTeam()
+            getChat()
+            moderateChat()
         }
 
         return binding.root
@@ -92,8 +93,12 @@ class TeamAdminFragment : Fragment() {
         activity?.finish()
     }
 
+    private fun moderateChat() {
+
+    }
+
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun moderateTeam() {
+    private fun getChat() {
         if (isAdmin(userName))
         {
             val teamName = requireActivity().intent?.getStringExtra(TEAM_NAME).toString()
@@ -103,7 +108,7 @@ class TeamAdminFragment : Fragment() {
                     Toast.makeText(activity, "Gathering chat history...", Toast.LENGTH_LONG).show()
                     messages = response.body()!!
                 }
-                
+
                 override fun onFailure(call: Call<List<Conversation>>, t: Throwable) {
                     Toast.makeText(activity, "Failed to load messages", Toast.LENGTH_LONG).show()
                 }

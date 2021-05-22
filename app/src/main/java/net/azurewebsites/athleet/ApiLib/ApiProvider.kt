@@ -194,6 +194,16 @@ interface Api {
         @Header("Authorization") token: String
     ): Call<List<Team>>
 
+    // Sending a warning message to the user
+    @POST("Team/warn")
+    fun warnUser(
+        @Header("Authorization") token: String,
+        @Query("userName") userName: String,
+        @Query("warnMessage") warnMessage: String
+    ) : Call<ResponseBody>
+
+    // 
+
     // factory method
     companion object {
         fun createSafe(baseUrl: String = "https://testapi.athleetapi.club/api/"): Api {
