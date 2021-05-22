@@ -128,7 +128,7 @@ class MessagingActivity : AppCompatActivity() {
 
         val gson = Gson()
         mSocket.emit("new message", gson.toJson(message))
-        val apiCall = Api.createSafe().saveTeamMessage(getFirebaseTokenId(), convID, text)
+        val apiCall = Api.createSafe().saveMessage(getFirebaseTokenId(), convID, text)
         apiCall.enqueue(object: Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) { }
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) { Toast.makeText(applicationContext, "Failed to save message", Toast.LENGTH_LONG).show() }

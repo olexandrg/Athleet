@@ -154,11 +154,22 @@ interface Api {
 
     //post team message
     @POST("Chat/team")
-    fun saveTeamMessage(
+    fun saveMessage(
         @Header("Authorization") token: String,
         @Query("conversationID") conversationID: Int,
         @Query("content") content: String
     ): Call<ResponseBody>
+
+    @GET("Chat/user/list")
+    fun getUserConvList(
+        @Header("Authorization") token: String
+    ): Call<List<UserConvs>>
+
+    @GET("Chat/user")
+    fun getUserMessages(
+        @Header("Authorization") token: String,
+        @Query("convID") conversationID: Int
+    ): Call<List<Conversation>>
 
 //  #####################################################################
 //  ############## FACTORY METHOD FOR INSTANTIATING API #################
