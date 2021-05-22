@@ -30,9 +30,7 @@ import retrofit2.Response
 class TeamAdminFragment : Fragment() {
     // username, associated isAdmin flag
     private var teamList = ArrayList<Pair<String, Boolean>>()
-
-    // username, associated team chat message
-    private var moderatedChatList = ArrayList<Pair<String, String>>()
+    private lateinit var messages: List<Conversation>
 
     private lateinit var userName: String
     private lateinit var binding:FragmentTeamAdminBinding
@@ -103,16 +101,7 @@ class TeamAdminFragment : Fragment() {
             apiCall.enqueue(object: Callback<List<Conversation>> {
                 override fun onResponse(call: Call<List<Conversation>>, response: Response<List<Conversation>>) {
                     Toast.makeText(activity, "Gathering chat history...", Toast.LENGTH_LONG).show()
-
-                    val messages: List<Conversation> = response.body()!!
-                    for (message in messages)
-                    {
-                        // check for initial message from back-end side
-                        if (message.messageContent != "@42" && !message.userName.isNullOrEmpty())
-                        {
-                            moderatedChatList.add(Pair(message.userName, message.messageContent))
-                        }
-                    }
+                    messages = response.body()!!
                 }
 
                 override fun onFailure(call: Call<List<Conversation>>, t: Throwable) {
