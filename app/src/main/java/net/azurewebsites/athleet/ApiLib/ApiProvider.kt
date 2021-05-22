@@ -202,7 +202,11 @@ interface Api {
         @Query("warnMessage") warnMessage: String
     ) : Call<ResponseBody>
 
-    // 
+    // Getting the warning logs for the user
+    @GET("Warning")
+    fun getWarnings(
+        @Header("Authorization") token: String
+    ) : Call<Warning>
 
     // factory method
     companion object {
