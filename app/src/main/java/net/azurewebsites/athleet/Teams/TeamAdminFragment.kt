@@ -16,8 +16,11 @@ import kotlinx.android.synthetic.main.fragment_team_admin.*
 import net.azurewebsites.athleet.ApiLib.Api
 import net.azurewebsites.athleet.Dashboard.TEAM_NAME
 import net.azurewebsites.athleet.R
+import net.azurewebsites.athleet.chat.Message
+import net.azurewebsites.athleet.chat.MessageType
 import net.azurewebsites.athleet.databinding.FragmentTeamAdminBinding
 import net.azurewebsites.athleet.getFirebaseTokenId
+import net.azurewebsites.athleet.models.Conversation
 import net.azurewebsites.athleet.models.TeamInfo
 import okhttp3.ResponseBody
 import retrofit2.Call
@@ -65,7 +68,7 @@ class TeamAdminFragment : Fragment() {
         }
 
         binding.buttonModerate.setOnClickListener {
-
+            moderateTeam()
         }
 
 
@@ -86,6 +89,28 @@ class TeamAdminFragment : Fragment() {
         Toast.makeText(activity, "Successfully Deleted Team (admin)", Toast.LENGTH_LONG).show()
         activity?.setResult(58, intent)
         activity?.finish()
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun moderateTeam() {
+        var teamName = requireActivity().intent?.getStringExtra(TEAM_NAME).toString()
+        val apiCall = Api.createSafe().getTeamConversation(getFirebaseTokenId(), teamName)
+        apiCall.enqueue(object: Callback<List<Conversation>> {
+            override fun onResponse(call: Call<List<Conversation>>, response: Response<List<Conversation>>) {
+                val messages: List<Conversation> = response.body()!!
+
+                for (message in messages)
+                {
+                    // check for initial message from back-end side
+                    if (message.messageContent != "@42" && !message.userName.isNullOrEmpty())
+                    {
+                        val newMessage = Message(message.userName.toString(), message.messageContent, teamName, message.messageDate, type)
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<List<Conversation>>, t: Throwable) { Toast.makeText(applicationContext, "Failed to load messages", Toast.LENGTH_LONG).show() }
+        })
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
