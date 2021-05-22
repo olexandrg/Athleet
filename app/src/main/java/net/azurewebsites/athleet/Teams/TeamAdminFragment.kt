@@ -28,8 +28,12 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class TeamAdminFragment : Fragment() {
-    // username, isAdmin
+    // username, associated isAdmin flag
     private var teamList = ArrayList<Pair<String, Boolean>>()
+
+    // username, associated team chat message
+    private var moderatedChatList = ArrayList<Pair<String, String>>()
+
     private lateinit var userName: String
     private lateinit var binding:FragmentTeamAdminBinding
 
@@ -71,12 +75,11 @@ class TeamAdminFragment : Fragment() {
             moderateTeam()
         }
 
-
         return binding.root
     }
 
     private fun leaveTeam() {
-        var intent = Intent()
+        val intent = Intent()
         Log.e("thing", requireActivity().intent?.getStringExtra(TEAM_NAME).toString())
         intent.putExtra(TEAM_NAME, requireActivity().intent?.getStringExtra(TEAM_NAME).toString())
         activity?.setResult(59, intent)
@@ -84,7 +87,7 @@ class TeamAdminFragment : Fragment() {
     }
 
     private fun deleteTeam() {
-        var intent = Intent()
+        val intent = Intent()
         intent.putExtra(TEAM_NAME, requireActivity().intent?.getStringExtra(TEAM_NAME).toString())
         Toast.makeText(activity, "Successfully Deleted Team (admin)", Toast.LENGTH_LONG).show()
         activity?.setResult(58, intent)
@@ -93,23 +96,26 @@ class TeamAdminFragment : Fragment() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun moderateTeam() {
-        var teamName = requireActivity().intent?.getStringExtra(TEAM_NAME).toString()
+        val teamName = requireActivity().intent?.getStringExtra(TEAM_NAME).toString()
         val apiCall = Api.createSafe().getTeamConversation(getFirebaseTokenId(), teamName)
         apiCall.enqueue(object: Callback<List<Conversation>> {
             override fun onResponse(call: Call<List<Conversation>>, response: Response<List<Conversation>>) {
-                val messages: List<Conversation> = response.body()!!
+                Toast.makeText(activity, "Gathering chat history...", Toast.LENGTH_LONG).show()
 
+                val messages: List<Conversation> = response.body()!!
                 for (message in messages)
                 {
                     // check for initial message from back-end side
                     if (message.messageContent != "@42" && !message.userName.isNullOrEmpty())
                     {
-                        val newMessage = Message(message.userName.toString(), message.messageContent, teamName, message.messageDate, type)
+                        moderatedChatList.add(Pair(message.userName, message.messageContent))
                     }
                 }
             }
 
-            override fun onFailure(call: Call<List<Conversation>>, t: Throwable) { Toast.makeText(applicationContext, "Failed to load messages", Toast.LENGTH_LONG).show() }
+            override fun onFailure(call: Call<List<Conversation>>, t: Throwable) {
+                Toast.makeText(activity, "Failed to load messages", Toast.LENGTH_LONG).show()
+            }
         })
     }
 
