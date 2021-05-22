@@ -38,6 +38,21 @@
             app:layout_constraintTop_toBottomOf="@+id/text_aboutTeamAdmin" />
 
         <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button_moderate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:background="#BEA7BD55"
+            android:enabled="false"
+            android:text="@string/moderate_team"
+            android:textColor="#FFFFFF"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_aboutTeamAdmin"
+            app:layout_constraintVertical_bias="0.341" />
+
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/button_makeUserAdmin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -58,8 +73,8 @@
             android:layout_marginTop="4dp"
             android:background="#F11010"
             android:text="@string/delete_team"
-            android:visibility="invisible"
             android:textColor="#FFFFFF"
+            android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/button_leaveTeam" />

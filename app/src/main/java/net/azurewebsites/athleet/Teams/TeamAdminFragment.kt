@@ -64,6 +64,11 @@ class TeamAdminFragment : Fragment() {
             // Need to redirect to Users Dashboard after this.
         }
 
+        binding.buttonModerate.setOnClickListener {
+
+        }
+
+
         return binding.root
     }
 
