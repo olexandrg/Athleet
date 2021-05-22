@@ -96,27 +96,34 @@ class TeamAdminFragment : Fragment() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun moderateTeam() {
-        val teamName = requireActivity().intent?.getStringExtra(TEAM_NAME).toString()
-        val apiCall = Api.createSafe().getTeamConversation(getFirebaseTokenId(), teamName)
-        apiCall.enqueue(object: Callback<List<Conversation>> {
-            override fun onResponse(call: Call<List<Conversation>>, response: Response<List<Conversation>>) {
-                Toast.makeText(activity, "Gathering chat history...", Toast.LENGTH_LONG).show()
+        if (isAdmin(userName))
+        {
+            val teamName = requireActivity().intent?.getStringExtra(TEAM_NAME).toString()
+            val apiCall = Api.createSafe().getTeamConversation(getFirebaseTokenId(), teamName)
+            apiCall.enqueue(object: Callback<List<Conversation>> {
+                override fun onResponse(call: Call<List<Conversation>>, response: Response<List<Conversation>>) {
+                    Toast.makeText(activity, "Gathering chat history...", Toast.LENGTH_LONG).show()
 
-                val messages: List<Conversation> = response.body()!!
-                for (message in messages)
-                {
-                    // check for initial message from back-end side
-                    if (message.messageContent != "@42" && !message.userName.isNullOrEmpty())
+                    val messages: List<Conversation> = response.body()!!
+                    for (message in messages)
                     {
-                        moderatedChatList.add(Pair(message.userName, message.messageContent))
+                        // check for initial message from back-end side
+                        if (message.messageContent != "@42" && !message.userName.isNullOrEmpty())
+                        {
+                            moderatedChatList.add(Pair(message.userName, message.messageContent))
+                        }
                     }
                 }
-            }
 
-            override fun onFailure(call: Call<List<Conversation>>, t: Throwable) {
-                Toast.makeText(activity, "Failed to load messages", Toast.LENGTH_LONG).show()
-            }
-        })
+                override fun onFailure(call: Call<List<Conversation>>, t: Throwable) {
+                    Toast.makeText(activity, "Failed to load messages", Toast.LENGTH_LONG).show()
+                }
+            })
+        }
+        else
+        {
+            Toast.makeText(activity, "Only admins can moderate the chat!", Toast.LENGTH_LONG).show()
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)

@@ -43,7 +43,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:background="#BEA7BD55"
-            android:enabled="false"
             android:text="@string/moderate_team"
             android:textColor="#FFFFFF"
             app:layout_constraintBottom_toBottomOf="parent"
