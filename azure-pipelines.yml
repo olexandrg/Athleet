@@ -5,6 +5,9 @@
 
 pool:
   vmImage: 'macos-latest'
+trigger:
+  - master
+  - develop
 steps:
 - task: Gradle@2
   inputs:
@@ -22,13 +25,7 @@ steps:
     #buildPlatform: # Optional
     #buildConfiguration: # Optional
     publishRunAttachments: true 
-  trigger:
-  - master
-  - develop
-
 - task: PublishPipelineArtifact@1
   inputs:
     targetPath: '$(System.DefaultWorkingDirectory)/app/build/outputs/apk/debug/app-debug.apk'
     artifactName: App
-  trigger:
-  - master
