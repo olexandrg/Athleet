@@ -143,10 +143,10 @@ interface Api {
 
     // Get team's workouts
     @GET("Team/workouts")
-    fun getTeamWorkouts(
+    suspend fun getTeamWorkouts(
         @Header("Authorization") token: String,
         @Query("TeamID") teamID: Int
-    ): Call<List<Workout>>
+    ):List<Workout>
 
     @POST("Team/workout")
     fun createTeamWorkout(

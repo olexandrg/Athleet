@@ -19,14 +19,19 @@ class DataSource(resources: Resources) {
 
     private var initialWorkoutList = WorkoutList(resources)
     private val WorkoutsLiveData = MutableLiveData(initialWorkoutList)
+    private val TeamWorkoutsLiveData = MutableLiveData(initialWorkoutList)
+
     private val initialTeamsList = TeamsList(resources)
     private val TeamsLiveData = MutableLiveData(initialTeamsList)
     var currentWorkout: Workout? = null
     private var ExercisesLiveData:MutableLiveData<List<Exercise>> = MutableLiveData(listOf(Exercise(null,null,null,null,null,null)))
 
     fun addWorkouts(list: List<Workout>) { WorkoutsLiveData.postValue(list) }
+    fun addTeamWorkouts(list: List<Workout>) { TeamWorkoutsLiveData.postValue(list) }
 
     fun getWorkoutList(): LiveData<List<Workout>> { return WorkoutsLiveData }
+    fun getTeamWorkoutList(): LiveData<List<Workout>> { return TeamWorkoutsLiveData }
+
 
     fun getTeamsList(): LiveData<List<Team>> { return TeamsLiveData }
     fun addTeams(list: List<Team>) { TeamsLiveData.postValue(list) }
