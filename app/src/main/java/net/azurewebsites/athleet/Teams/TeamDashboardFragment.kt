@@ -3,20 +3,18 @@ package net.azurewebsites.athleet.Teams
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.Button
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.lifecycle.observe
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.textfield.TextInputEditText
 import kotlinx.android.synthetic.main.fragment_team_dashboard.view.*
 import net.azurewebsites.athleet.ApiLib.Api
 import net.azurewebsites.athleet.Dashboard.TEAM_NAME
@@ -30,8 +28,6 @@ import net.azurewebsites.athleet.models.TeamUser
 import net.azurewebsites.athleet.models.UserItem
 import net.azurewebsites.athleet.user.OtherUserProfilePageActivity
 import net.azurewebsites.athleet.user.UserProfilePageActivity
-import net.azurewebsites.athleet.workouts.WorkoutFragmentDirections
-import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -50,6 +46,8 @@ class TeamDashboardFragment : Fragment() {
 
     private lateinit var teamChatButton: Button
 
+
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         val binding =inflater.inflate(R.layout.fragment_team_dashboard, container, false )
@@ -62,8 +60,10 @@ class TeamDashboardFragment : Fragment() {
         teamChatButton.setOnClickListener {  onTeamChatButtonClick() }
 
         binding.btn_teamWorkouts.setOnClickListener { view ->
-            view.findNavController().navigate(R.id.action_teamDashboardFragment_to_teamWorkoutFragment)
+            view.findNavController().navigate(TeamDashboardFragmentDirections.actionTeamDashboardFragmentToTeamWorkoutFragment(teamName))
+            Log.i("TEST", "TeamName in btnclick: $teamName")
         }
+
 
         teamMemberListAdapter = TeamMemberListAdapter { teamMember-> adapterOnClick(teamMember) }
         teamMembersListViewModel.teamMembersLiveData.observe(this.viewLifecycleOwner , {

@@ -160,6 +160,12 @@ interface Api {
         @Body deleteTeamWorkout: DeleteTeamWorkout
     ):Call<ResponseBody>
 
+    @GET("Team/id")
+    suspend fun getTeamId(
+        @Header("Authorization") token: String,
+        @Query("teamName") teamName: String
+    ):Int
+
 //  ############################################
 //  ############### CHAT STUFF #################
 //  ############################################

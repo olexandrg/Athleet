@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -99,6 +100,8 @@ class TeamsListFragment : Fragment() {
         val intent = Intent(requireContext(), TeamDetailActivity()::class.java)
         intent.putExtra(TEAM_NAME, team.teamName)
         intent.putExtra(TEAM_DESCRIPTION, team.teamDescription)
+        intent.putExtra("teamId", team.teamId)
+        Log.i("TEST", team.teamId.toString())
         startActivityForResult(intent, 2)
     }
 

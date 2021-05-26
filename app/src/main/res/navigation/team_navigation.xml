@@ -25,5 +25,9 @@
         android:id="@+id/teamWorkoutFragment"
         android:name="net.azurewebsites.athleet.fragments.TeamWorkoutFragment"
         android:label="fragment_team_workout"
-        tools:layout="@layout/fragment_team_workout" />
+        tools:layout="@layout/fragment_team_workout" >
+        <argument
+            android:name="teamName"
+            app:argType="string" />
+    </fragment>
 </navigation>

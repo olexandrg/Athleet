@@ -15,53 +15,52 @@ import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_dashboard.*
-import kotlinx.android.synthetic.main.fragment_exercise.*
 import net.azurewebsites.athleet.ApiLib.Api
 import net.azurewebsites.athleet.Dashboard.AddWorkoutActivity
-import net.azurewebsites.athleet.Dashboard.WORKOUT_DESCRIPTION
 import net.azurewebsites.athleet.Dashboard.WORKOUT_NAME
 import net.azurewebsites.athleet.R
 import net.azurewebsites.athleet.Teams.TeamWorkoutListViewModel
 import net.azurewebsites.athleet.Teams.TeamWorkoutListViewModelFactory
-import net.azurewebsites.athleet.getFirebaseTokenId
 import net.azurewebsites.athleet.models.Workout
 import net.azurewebsites.athleet.workouts.WorkoutDetailActivity
 import net.azurewebsites.athleet.workouts.WorkoutListAdapter
-import net.azurewebsites.athleet.workouts.WorkoutsListViewModel
-import net.azurewebsites.athleet.workouts.WorkoutsListViewModelFactory
-import okhttp3.ResponseBody
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+
 
 class TeamWorkoutFragment() : Fragment() {
     val api = Api.createSafe()
+    private lateinit var teamName: String
+
     private val workoutListViewModel by viewModels<TeamWorkoutListViewModel> { TeamWorkoutListViewModelFactory(requireContext()) }
     private lateinit var linearLayoutManager: LinearLayoutManager
     private lateinit var fab:View
     private lateinit var workoutListAdapter: WorkoutListAdapter
-    private lateinit var token:String
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         linearLayoutManager = LinearLayoutManager(activity)
         workoutListAdapter = WorkoutListAdapter { workout -> adapterOnClick(workout) }
-        getWorkouts()
+
+
     }
 
     //************************************************//
     // this call needs to change to get team workouts //
     //************************************************//
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun getWorkouts() {
-        workoutListViewModel.insertWorkouts()
+    private fun getWorkouts(teamName: String) {
+        workoutListViewModel.insertWorkouts(teamName)
     }
 
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
+        var args = TeamWorkoutFragmentArgs.fromBundle(requireArguments())
+        Log.i("TEST", args.teamName)
+        teamName = args.teamName
+        getWorkouts(teamName)
+
         linearLayoutManager = LinearLayoutManager(context)
         val workoutAdapter = WorkoutListAdapter { workout -> adapterOnClick(workout) }
         workoutListViewModel.workoutsLiveData.observe(this.viewLifecycleOwner , { it.let { if(workoutListViewModel.workoutsLiveData.value!!.size != 0) workoutAdapter.submitList(it as MutableList<Workout>) } })
@@ -78,7 +77,7 @@ class TeamWorkoutFragment() : Fragment() {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onResume() {
         super.onResume()
-        getWorkouts()
+        getWorkouts(teamName)
         fab.setOnClickListener { fabOnClick() }
     }
 

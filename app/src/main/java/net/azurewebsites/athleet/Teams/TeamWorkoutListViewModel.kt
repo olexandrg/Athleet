@@ -2,6 +2,7 @@ package net.azurewebsites.athleet.Teams
 
 import android.content.Context
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -21,12 +22,17 @@ class TeamWorkoutListViewModel (val dataSource: DataSource) : ViewModel() {
     val workoutsLiveData = dataSource.getTeamWorkoutList()
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun insertWorkouts() {
+    fun insertWorkouts(teamName: String) {
         viewModelScope.launch {
             try{
-                var list = api.getTeamWorkouts(getFirebaseTokenId(), 45)
+                var token = getFirebaseTokenId()
+                var teamId = api.getTeamId(token, teamName)
+                Log.i("TEST", "TeamID ${teamId.toString()}")
+                var list = api.getTeamWorkouts(token, teamId)
+                Log.i("TEST", "Workouts ${list.toString()}")
                 dataSource.addTeamWorkouts(list)
             }catch (e: Exception){
+                Log.i("TEST", "failed insert workouts in team")
             }
         }
     }
