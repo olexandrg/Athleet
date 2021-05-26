@@ -121,7 +121,7 @@ class MessagingActivity : AppCompatActivity() {
 
         val message = Message(userName, text, teamName, currentTimeString, MessageType.CHAT_MINE.index)
         addItemToRecyclerView(message)
-        if (TextUtils.isEmpty(text)) {
+        if (TextUtils.  isEmpty(text)) {
             Toast.makeText(this, "Cannot send text message that is empty!", Toast.LENGTH_LONG).show()
             return;
         }

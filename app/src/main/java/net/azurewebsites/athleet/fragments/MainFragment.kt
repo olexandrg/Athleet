@@ -22,6 +22,7 @@ import net.azurewebsites.athleet.R
 import net.azurewebsites.athleet.UserAuth.LoginViewModel
 import net.azurewebsites.athleet.databinding.FragmentMainBinding
 import net.azurewebsites.athleet.getFirebaseTokenId
+import net.azurewebsites.athleet.models.UserItem
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
@@ -31,7 +32,7 @@ open class MainFragment : Fragment() {
     private val api = Api.createSafe()
     private val viewModel by viewModels<LoginViewModel>()
     private lateinit var binding: FragmentMainBinding
-
+    private lateinit var user:UserItem
     companion object
     {
         const val TAG = "MainFragment"
@@ -119,18 +120,19 @@ open class MainFragment : Fragment() {
                     binding.authButton.setOnClickListener {
                         getInstance().signOut(requireContext())
                     }
-                    binding.welcomeText.text = "You are now signed in. Welcome back ${FirebaseAuth.getInstance().currentUser?.displayName}!"
+
                     FirebaseAuth.getInstance().currentUser?.getIdToken(false)?.addOnCompleteListener { response ->
                         if(response.isSuccessful) {
                             val userName = FirebaseAuth.getInstance().currentUser!!.displayName
-                            val callCheckExisting = api.checkExistingUser(getFirebaseTokenId())
+                            val callCheckExisting = api.retrieveExistingUser(getFirebaseTokenId())
                             val token = "Bearer " + response.result?.token.toString()
-                            callCheckExisting.enqueue(object : Callback<ResponseBody> {
-                                override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                            callCheckExisting.enqueue(object : Callback<List<UserItem>> {
+                                override fun onResponse(call: Call<List<UserItem>>, response: Response<List<UserItem>>) {
                                     when(response.code())
                                     {
                                         404->
                                         {
+                                            binding.welcomeText.text = "You are now signed in. Welcome ${FirebaseAuth.getInstance().currentUser?.displayName}!"
                                             val fbUsername = FirebaseAuth.getInstance().currentUser?.displayName!!
                                             val addcall = api.addNewUser(getFirebaseTokenId(),fbUsername, "Welcome back, "+fbUsername+"!" )
                                             addcall.enqueue(object : Callback<ResponseBody> {
@@ -146,11 +148,16 @@ open class MainFragment : Fragment() {
                                         }
                                         200->
                                         {
+                                            user = response.body()!![0];
+
+                                            binding.welcomeText.text = "Welcome back, " + user.userName;
+                                            binding.userHeadline.text = user.userHeadline;
+
                                             binding.btnDashboard.isVisible = true;
                                         }
                                     }
                                 }
-                                override fun onFailure(call: Call<ResponseBody>, t: Throwable) { TODO("Not yet implemented") }
+                                override fun onFailure(call: Call<List<UserItem>>, t: Throwable) { TODO("Not yet implemented") }
                             })
                         }}}
                         else -> {
