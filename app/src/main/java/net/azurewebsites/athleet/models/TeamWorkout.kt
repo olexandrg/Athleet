@@ -1,7 +1,7 @@
 package net.azurewebsites.athleet.models
 
 data class TeamWorkout(
-    var WorkoutName: String,
+    var Name: String,
     var Description: String,
     var TeamName: String
 )

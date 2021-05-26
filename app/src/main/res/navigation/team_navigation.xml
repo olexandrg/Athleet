@@ -14,7 +14,8 @@
             app:destination="@id/teamAdminFragment" />
         <action
             android:id="@+id/action_teamDashboardFragment_to_teamWorkoutFragment"
-            app:destination="@id/teamWorkoutFragment" />
+            app:destination="@id/teamWorkoutFragment"
+            />
     </fragment>
     <fragment
         android:id="@+id/teamAdminFragment"
@@ -29,5 +30,12 @@
         <argument
             android:name="teamName"
             app:argType="string" />
+        <action
+            android:id="@+id/action_teamWorkoutFragment_to_addWorkoutActivity"
+            app:destination="@id/addWorkoutActivity" />
     </fragment>
+    <activity
+        android:id="@+id/addWorkoutActivity"
+        android:name="net.azurewebsites.athleet.Dashboard.AddWorkoutActivity"
+        android:label="AddWorkoutActivity" />
 </navigation>

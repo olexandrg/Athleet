@@ -12,18 +12,26 @@ import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_dashboard.*
 import net.azurewebsites.athleet.ApiLib.Api
 import net.azurewebsites.athleet.Dashboard.AddWorkoutActivity
+import net.azurewebsites.athleet.Dashboard.WORKOUT_DESCRIPTION
 import net.azurewebsites.athleet.Dashboard.WORKOUT_NAME
 import net.azurewebsites.athleet.R
 import net.azurewebsites.athleet.Teams.TeamWorkoutListViewModel
 import net.azurewebsites.athleet.Teams.TeamWorkoutListViewModelFactory
+import net.azurewebsites.athleet.getFirebaseTokenId
+import net.azurewebsites.athleet.models.TeamWorkout
 import net.azurewebsites.athleet.models.Workout
 import net.azurewebsites.athleet.workouts.WorkoutDetailActivity
 import net.azurewebsites.athleet.workouts.WorkoutListAdapter
+import okhttp3.ResponseBody
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 class TeamWorkoutFragment() : Fragment() {
@@ -40,7 +48,10 @@ class TeamWorkoutFragment() : Fragment() {
         super.onCreate(savedInstanceState)
         linearLayoutManager = LinearLayoutManager(activity)
         workoutListAdapter = WorkoutListAdapter { workout -> adapterOnClick(workout) }
-
+        var args = TeamWorkoutFragmentArgs.fromBundle(requireArguments())
+        Log.i("TEST", args.teamName)
+        teamName = args.teamName
+        getWorkouts(teamName)
 
     }
 
@@ -56,16 +67,13 @@ class TeamWorkoutFragment() : Fragment() {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        var args = TeamWorkoutFragmentArgs.fromBundle(requireArguments())
-        Log.i("TEST", args.teamName)
-        teamName = args.teamName
-        getWorkouts(teamName)
+
 
         linearLayoutManager = LinearLayoutManager(context)
         val workoutAdapter = WorkoutListAdapter { workout -> adapterOnClick(workout) }
         workoutListViewModel.workoutsLiveData.observe(this.viewLifecycleOwner , { it.let { if(workoutListViewModel.workoutsLiveData.value!!.size != 0) workoutAdapter.submitList(it as MutableList<Workout>) } })
         val rootView = inflater.inflate(R.layout.fragment_team_workout, container, false)
-        fab = requireActivity().fab
+        fab = rootView.findViewById(R.id.btn_addTeamWorkout)
         fab.setOnClickListener { fabOnClick() }
         val recyclerView = rootView.findViewById<RecyclerView>(R.id.recyclerView_TeamWorkout) as RecyclerView
         recyclerView.adapter = workoutAdapter
@@ -89,35 +97,37 @@ class TeamWorkoutFragment() : Fragment() {
     }
 
     /* Adds Workout to WorkoutList when FAB is clicked. */
-    private fun fabOnClick() {
+private fun fabOnClick() {
         val intent = Intent(this.requireActivity(), AddWorkoutActivity::class.java)
         startActivityForResult(intent, 1)
+
     }
 
-//    @RequiresApi(Build.VERSION_CODES.O)
-//    override fun onActivityResult(requestCode: Int, resultCode: Int, intentData: Intent?) {
-//        super.onActivityResult(requestCode, resultCode, intentData)
-//        //Inserts Workout into viewModel. */
-//        if (requestCode == 1 && resultCode == Activity.RESULT_OK) {
-//            intentData?.let { data ->
-//                val WorkoutName = data.getStringExtra(WORKOUT_NAME)
-//                val WorkoutDescription = data.getStringExtra(WORKOUT_DESCRIPTION)
-//                val call = api.addNewWorkout(token, WorkoutName!!, WorkoutDescription!!)
-//                call.enqueue(object : Callback<ResponseBody> {
-//                    override fun onResponse(
-//                        call: Call<ResponseBody>,
-//                        response: Response<ResponseBody>
-//                    ) {
-//                        if(response.isSuccessful) {
-//                            Log.i("API Call Insert Workout", "Insert workout sucessful. New WorkoutName: $WorkoutName")
-//                        }
-//                    }
-//
-//                    override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-//                        TODO("Not yet implemented")
-//                    }
-//                })
-//            }
-//        }
-//    }
+    @RequiresApi(Build.VERSION_CODES.O)
+    override fun onActivityResult(requestCode: Int, resultCode: Int, intentData: Intent?) {
+        super.onActivityResult(requestCode, resultCode, intentData)
+        //Inserts Workout into viewModel. */
+        if (requestCode == 1 && resultCode == Activity.RESULT_OK) {
+            intentData?.let { data ->
+                val workoutName = data.getStringExtra(WORKOUT_NAME).toString()
+                val workoutDescription = data.getStringExtra(WORKOUT_DESCRIPTION).toString()
+                val teamWorkout = TeamWorkout(workoutName, workoutDescription, teamName)
+                val call = api.createTeamWorkout(getFirebaseTokenId(), teamWorkout)
+                call.enqueue(object : Callback<ResponseBody> {
+                    override fun onResponse(
+                        call: Call<ResponseBody>,
+                        response: Response<ResponseBody>
+                    ) {
+                        if(response.isSuccessful) {
+                            Log.i("TEST", "create team workout ${response.code().toString()}")
+                        }
+                    }
+
+                    override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                        Log.i("TEST", "FAIL.WorkoutName")
+                    }
+                })
+            }
+        }
+    }
 }
