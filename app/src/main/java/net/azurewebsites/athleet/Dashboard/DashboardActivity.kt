@@ -52,6 +52,7 @@ class DashboardActivity : AppCompatActivity() {
         var adapter = ViewPagerAdapter(this.supportFragmentManager)
         adapter.addFragment(WorkoutsListFragment(), "Workouts")
         adapter.addFragment(TeamsListFragment(), "Teams")
+        adapter.addFragment(TeamsListFragment(), "Chat")
         viewPager.adapter = adapter;
         tabLayout.setupWithViewPager(viewPager)
         tabLayout.getTabAt(0)!!.setIcon(R.drawable.weightlifting_icon)
