@@ -28,4 +28,13 @@ class Feature_112_Tests {
 
         assertEquals("GET /api/Chat/user", 200, teamMessages.code())
     }
+
+    @Test
+    fun CreateUserConvTest() {
+        val api = apiFactory()
+
+        val teamMessages = api.CreateUserConv(tokenFactory(), "alexoit32").execute()
+
+        assertEquals("POST /api/Chat/user", 200, teamMessages.code())
+    }
 }

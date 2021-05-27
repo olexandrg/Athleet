@@ -171,6 +171,12 @@ interface Api {
         @Query("convID") conversationID: Int
     ): Call<List<Conversation>>
 
+    @POST("Chat/user")
+    fun CreateUserConv(
+        @Header("Authorization") token: String,
+        @Query("OtherUser") otherUser: String
+    ): Call<Int>
+
 //  #####################################################################
 //  ############## FACTORY METHOD FOR INSTANTIATING API #################
 //  #########################  NO TOUCH  ################################
