@@ -79,7 +79,7 @@ class UserChatListFragment : Fragment() {
                 it.let { teamsAdapter.submitList(it as MutableList<UserConvs>) }
             }
         }
-        val rootView = inflater!!.inflate(R.layout.fragment_teams_list, container, false)
+        val rootView = inflater!!.inflate(R.layout.fragment_chat_list, container, false)
         val recyclerView = rootView.findViewById<RecyclerView>(R.id.recyclerView_Teams) as RecyclerView
 
         fab = requireActivity().findViewById(R.id.fab)
