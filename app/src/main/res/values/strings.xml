@@ -52,4 +52,6 @@
     <string name="send_message">Send</string>
     <string name="send_message_button">Send</string>
     <string name="blocked_users_textview_header">Blocked Users:</string>
+    <string name="user_name_edit_text">Username to message</string>
+    <string name="add_chat">Add Chat</string>
 </resources>

@@ -33,6 +33,7 @@
         </activity>
         <activity android:name=".Dashboard.DashboardActivity" />
         <activity android:name=".Dashboard.AddWorkoutActivity" />
+        <activity android:name=".Dashboard.AddChatActivity" />
     </application>
 
 </manifest>

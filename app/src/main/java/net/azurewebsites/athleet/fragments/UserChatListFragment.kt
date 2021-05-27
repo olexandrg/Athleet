@@ -15,9 +15,11 @@ import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.android.synthetic.main.chat_into_notification.view.*
 import kotlinx.android.synthetic.main.fragment_chat_list.*
 import kotlinx.android.synthetic.main.fragment_workouts_list.*
 import net.azurewebsites.athleet.ApiLib.Api
+import net.azurewebsites.athleet.Dashboard.AddChatActivity
 import net.azurewebsites.athleet.Dashboard.AddTeamActivity
 import net.azurewebsites.athleet.Dashboard.TEAM_DESCRIPTION
 import net.azurewebsites.athleet.Dashboard.TEAM_NAME
@@ -107,8 +109,33 @@ class UserChatListFragment : Fragment() {
     }
 
     private fun fabOnClick() {
-        //TODO: fix to chat create activity of some kind
-        val intent = Intent(this.requireActivity(), AddTeamActivity::class.java) // THIS WILL BECOME CreateWorkoutActivity()
+        val intent = Intent(this.requireActivity(), AddChatActivity::class.java) // THIS WILL BECOME CreateWorkoutActivity()
         startActivityForResult(intent, 1)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    override fun onActivityResult(requestCode: Int, resultCode: Int, intentData: Intent?) {
+        super.onActivityResult(requestCode, resultCode, intentData)
+
+        //Inserts Team into viewModel. */
+        if (requestCode == 1 && resultCode == Activity.RESULT_OK) {
+            val teamName = intentData?.getStringExtra(TEAM_NAME).toString()
+
+            val callCreateTeam = api.CreateUserConv(getFirebaseTokenId(), teamName)
+            callCreateTeam.enqueue(object : Callback<Int> {
+                override fun onResponse(
+                    call: Call<Int>,
+                    response: Response<Int>
+                ) {
+                    if (response.isSuccessful) {
+                        Toast.makeText(activity, "Created Conversation", Toast.LENGTH_LONG).show()
+                    }
+                }
+
+                override fun onFailure(call: Call<Int>, t: Throwable) {
+                    TODO("Not yet implemented")
+                }
+            })
+        }
     }
 }
