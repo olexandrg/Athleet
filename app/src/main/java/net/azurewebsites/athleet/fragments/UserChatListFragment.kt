@@ -101,8 +101,8 @@ class UserChatListFragment : Fragment() {
     private fun adapterOnClick(team: UserConvs) {
         //TODO: fix to Chatactivity of some kind
         val intent = Intent(requireContext(), TeamDetailActivity()::class.java)
-        intent.putExtra(TEAM_NAME, team.UserName)
-        intent.putExtra(TEAM_DESCRIPTION, team.ConversationID)
+        intent.putExtra(TEAM_NAME, team.userName)
+        intent.putExtra(TEAM_DESCRIPTION, team.conversationID)
         startActivityForResult(intent, 2)
     }
 

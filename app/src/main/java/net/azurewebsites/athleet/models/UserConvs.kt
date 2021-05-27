@@ -1,6 +1,6 @@
 package net.azurewebsites.athleet.models
 
 data class UserConvs (
-    var ConversationID: Int,
-    var UserName: String
+    var conversationID: Int,
+    var userName: String
 )

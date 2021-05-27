@@ -31,7 +31,7 @@ class ChatListAdapter(private val onClick: (UserConvs) -> Unit) :
         /* Bind workout name and image. */
         fun bind(team: UserConvs) {
             currentTeam = team
-            teamNameTextView.text = team.UserName
+            teamNameTextView.text = team.userName
         }
     }
 
@@ -55,6 +55,6 @@ object ChatDiffCallback : DiffUtil.ItemCallback<UserConvs>() {
     }
 
     override fun areContentsTheSame(oldItem: UserConvs, newItem: UserConvs): Boolean {
-        return oldItem.UserName == newItem.UserName
+        return oldItem.userName == newItem.userName
     }
 }
