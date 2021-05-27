@@ -15,6 +15,7 @@ import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.android.synthetic.main.fragment_chat_list.*
 import kotlinx.android.synthetic.main.fragment_workouts_list.*
 import net.azurewebsites.athleet.ApiLib.Api
 import net.azurewebsites.athleet.Dashboard.AddTeamActivity
@@ -45,8 +46,8 @@ class UserChatListFragment : Fragment() {
 
         getTeams()
 
-        recyclerView_Workout?.layoutManager = linearLayoutManager
-        recyclerView_Workout?.adapter = teamsAdapter
+        recyclerView_Chats?.layoutManager = linearLayoutManager
+        recyclerView_Chats?.adapter = teamsAdapter
         teamsAdapter.submitList(ChatList(resources))
     }
 
@@ -80,7 +81,7 @@ class UserChatListFragment : Fragment() {
             }
         }
         val rootView = inflater!!.inflate(R.layout.fragment_chat_list, container, false)
-        val recyclerView = rootView.findViewById<RecyclerView>(R.id.recyclerView_Teams) as RecyclerView
+        val recyclerView = rootView.findViewById<RecyclerView>(R.id.recyclerView_Chats) as RecyclerView
 
         fab = requireActivity().findViewById(R.id.fab)
         fab.setOnClickListener { fabOnClick() }
