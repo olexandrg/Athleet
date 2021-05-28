@@ -153,7 +153,7 @@ interface Api {
     ): Call<List<Conversation>>
 
     //post team message
-    @POST("Chat/team")
+    @POST("Chat")
     fun saveMessage(
         @Header("Authorization") token: String,
         @Query("conversationID") conversationID: Int,

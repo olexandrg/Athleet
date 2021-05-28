@@ -25,10 +25,12 @@ import net.azurewebsites.athleet.Dashboard.TEAM_DESCRIPTION
 import net.azurewebsites.athleet.Dashboard.TEAM_NAME
 import net.azurewebsites.athleet.R
 import net.azurewebsites.athleet.Teams.*
+import net.azurewebsites.athleet.UserMessagingActivity
 import net.azurewebsites.athleet.getFirebaseTokenId
 import net.azurewebsites.athleet.models.Conversation
 import net.azurewebsites.athleet.models.Team
 import net.azurewebsites.athleet.models.UserConvs
+import net.azurewebsites.athleet.models.UserItem
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
@@ -39,6 +41,7 @@ class UserChatListFragment : Fragment() {
     private val teamsListViewModel by viewModels<ChatListViewModel> { ChatListViewModelFactory(requireContext()) }
     private lateinit var linearLayoutManager: LinearLayoutManager
     private lateinit var fab: View
+    private lateinit var currentUser:UserItem
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,6 +54,7 @@ class UserChatListFragment : Fragment() {
         recyclerView_Chats?.layoutManager = linearLayoutManager
         recyclerView_Chats?.adapter = teamsAdapter
         teamsAdapter.submitList(ChatList(resources))
+        getUser()
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -102,10 +106,22 @@ class UserChatListFragment : Fragment() {
 
     private fun adapterOnClick(team: UserConvs) {
         //TODO: fix to Chatactivity of some kind
-        val intent = Intent(requireContext(), TeamDetailActivity()::class.java)
-        intent.putExtra(TEAM_NAME, team.userName)
+        val intent = Intent(requireContext(), UserMessagingActivity()::class.java)
         intent.putExtra(TEAM_DESCRIPTION, team.conversationID)
+        intent.putExtra("userName", currentUser.userName)
         startActivityForResult(intent, 2)
+    }
+
+    private fun getUser() {
+        val callGetUser = api.retrieveExistingUser(getFirebaseTokenId())
+        callGetUser.enqueue(object: Callback<List<UserItem>> {
+            override fun onResponse(call: Call<List<UserItem>>, response: Response<List<UserItem>>) {
+                if(response.isSuccessful) { currentUser = response.body()!![0] }
+            }
+            override fun onFailure(call: Call<List<UserItem>>, t: Throwable) {
+                TODO("Not yet implemented")
+            }
+        })
     }
 
     private fun fabOnClick() {

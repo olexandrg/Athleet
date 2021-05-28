@@ -13,6 +13,7 @@
         android:theme="@style/Theme.Athleet"
         android:networkSecurityConfig="@xml/network_security_local_config">
         <activity android:name=".MessagingActivity"></activity>
+        <activity android:name=".UserMessagingActivity"></activity>
         <!-- android:theme="@style/Theme.AppCompat.DarkTheme"> -->
         <activity android:name=".InviteTeamUser" />
         <activity android:name=".TeamMemberListView" />
