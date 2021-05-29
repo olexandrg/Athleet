@@ -15,7 +15,7 @@ class Feature_113_Tests {
     fun saveTeamMessageTest() {
         val api = apiFactory()
 
-        val saveMessage = api.saveTeamMessage(tokenFactory(), 21, "Unit test, test message").execute()
+        val saveMessage = api.saveMessage(tokenFactory(), 21, "Unit test, test message").execute()
 
         assertEquals("POST /api/Chat/team", 201, saveMessage.code())
     }

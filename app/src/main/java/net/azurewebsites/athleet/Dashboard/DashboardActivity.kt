@@ -17,6 +17,7 @@ import net.azurewebsites.athleet.ApiLib.Api
 import net.azurewebsites.athleet.R
 import net.azurewebsites.athleet.dataSource
 import net.azurewebsites.athleet.fragments.TeamsListFragment
+import net.azurewebsites.athleet.fragments.UserChatListFragment
 import net.azurewebsites.athleet.fragments.WorkoutsListFragment
 import net.azurewebsites.athleet.getFirebaseTokenId
 import net.azurewebsites.athleet.user.UserProfilePageActivity
@@ -52,10 +53,12 @@ class DashboardActivity : AppCompatActivity() {
         var adapter = ViewPagerAdapter(this.supportFragmentManager)
         adapter.addFragment(WorkoutsListFragment(), "Workouts")
         adapter.addFragment(TeamsListFragment(), "Teams")
+        adapter.addFragment(UserChatListFragment(), "Chat")
         viewPager.adapter = adapter;
         tabLayout.setupWithViewPager(viewPager)
         tabLayout.getTabAt(0)!!.setIcon(R.drawable.weightlifting_icon)
         tabLayout.getTabAt(1)!!.setIcon(R.drawable.teams_tab_icon)
+        tabLayout.getTabAt(2)!!.setIcon(R.drawable.messaging)
     }
 
     private fun goToUserProfilePage() {

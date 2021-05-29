@@ -5,6 +5,7 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import net.azurewebsites.athleet.Teams.ChatList
 import net.azurewebsites.athleet.Teams.TeamMembersList
 import net.azurewebsites.athleet.Teams.TeamsList
 import net.azurewebsites.athleet.exercise.Exercise
@@ -20,7 +21,9 @@ class DataSource(resources: Resources) {
     private var initialWorkoutList = WorkoutList(resources)
     private val WorkoutsLiveData = MutableLiveData(initialWorkoutList)
     private val initialTeamsList = TeamsList(resources)
+    private val initialChatList = ChatList(resources)
     private val TeamsLiveData = MutableLiveData(initialTeamsList)
+    private val ChatLiveData = MutableLiveData(initialChatList)
     var currentWorkout: Workout? = null
     private var ExercisesLiveData:MutableLiveData<List<Exercise>> = MutableLiveData(listOf(Exercise(null,null,null,null,null,null)))
 
@@ -30,6 +33,9 @@ class DataSource(resources: Resources) {
 
     fun getTeamsList(): LiveData<List<Team>> { return TeamsLiveData }
     fun addTeams(list: List<Team>) { TeamsLiveData.postValue(list) }
+
+    fun getChatList(): LiveData<List<UserConvs>> { return ChatLiveData }
+    fun addChats(list: List<UserConvs>) { ChatLiveData.postValue(list) }
 
     fun setBlockList(usernames: MutableList<String>){blockedUsersList = usernames; BlockedUsersLiveData.postValue(blockedUsersList)}
 

@@ -153,12 +153,29 @@ interface Api {
     ): Call<List<Conversation>>
 
     //post team message
-    @POST("Chat/team")
-    fun saveTeamMessage(
+    @POST("Chat")
+    fun saveMessage(
         @Header("Authorization") token: String,
         @Query("conversationID") conversationID: Int,
         @Query("content") content: String
     ): Call<ResponseBody>
+
+    @GET("Chat/user/list")
+    fun getUserConvList(
+        @Header("Authorization") token: String
+    ): Call<List<UserConvs>>
+
+    @GET("Chat/user")
+    fun getUserMessages(
+        @Header("Authorization") token: String,
+        @Query("convID") conversationID: Int
+    ): Call<List<Conversation>>
+
+    @POST("Chat/user")
+    fun CreateUserConv(
+        @Header("Authorization") token: String,
+        @Query("OtherUser") otherUser: String
+    ): Call<Int>
 
 //  #####################################################################
 //  ############## FACTORY METHOD FOR INSTANTIATING API #################
