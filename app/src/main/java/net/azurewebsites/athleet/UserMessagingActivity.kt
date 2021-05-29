@@ -98,7 +98,7 @@ class UserMessagingActivity : AppCompatActivity() {
                         type = MessageType.CHAT_MINE.index
                     else
                         type = MessageType.CHAT_PARTNER.index
-                    val newMessage = Message(message.userName, message.messageContent, teamName, message.messageDate, type)
+                    val newMessage = Message(message.userName, message.messageContent, convID.toString(), message.messageDate, type)
                     addItemToRecyclerView(newMessage)
                 }
             }
@@ -120,7 +120,7 @@ class UserMessagingActivity : AppCompatActivity() {
         val currentTime = SimpleDateFormat("HH:mm")
         val currentTimeString: String = currentTime.format(Date())
 
-        val message = Message(userName, text, teamName, currentTimeString, MessageType.CHAT_MINE.index)
+        val message = Message(userName, text, convID.toString(), currentTimeString, MessageType.CHAT_MINE.index)
         addItemToRecyclerView(message)
         if (TextUtils.isEmpty(text)) {
             Toast.makeText(this, "Cannot send text message that is empty!", Toast.LENGTH_LONG).show()
@@ -136,7 +136,7 @@ class UserMessagingActivity : AppCompatActivity() {
         })
     }
 
-    private var onConnectEvent = Emitter.Listener { mSocket.emit("add user", FirebaseAuth.getInstance().currentUser!!.displayName!!, convID) }
+    private var onConnectEvent = Emitter.Listener { mSocket.emit("add user", FirebaseAuth.getInstance().currentUser!!.displayName!!, convID.toString()) }
     private var onNewMessageEvent = Emitter.Listener {}
     private var onUserJoinedEvent = Emitter.Listener {
         val gson = Gson()
