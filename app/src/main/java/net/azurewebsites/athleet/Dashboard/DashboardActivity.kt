@@ -58,6 +58,7 @@ class DashboardActivity : AppCompatActivity() {
         tabLayout.setupWithViewPager(viewPager)
         tabLayout.getTabAt(0)!!.setIcon(R.drawable.weightlifting_icon)
         tabLayout.getTabAt(1)!!.setIcon(R.drawable.teams_tab_icon)
+        tabLayout.getTabAt(2)!!.setIcon(R.drawable.messaging)
     }
 
     private fun goToUserProfilePage() {
