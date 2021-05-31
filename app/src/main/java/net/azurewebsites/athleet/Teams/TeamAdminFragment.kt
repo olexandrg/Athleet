@@ -155,7 +155,7 @@ class TeamAdminFragment : Fragment() {
             }
 
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                Toast.makeText(activity, "Faled warning user!.", Toast.LENGTH_LONG).show()
+                Toast.makeText(activity, "Failed warning user!.", Toast.LENGTH_LONG).show()
             }
         })
     }
@@ -169,11 +169,11 @@ class TeamAdminFragment : Fragment() {
                 call: Call<ResponseBody>,
                 response: Response<ResponseBody>
             ) {
-                Toast.makeText(activity, "Warned user!.", Toast.LENGTH_LONG).show()
+                Toast.makeText(activity, "Deleted message!.", Toast.LENGTH_LONG).show()
             }
 
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                Toast.makeText(activity, "Faled warning user!.", Toast.LENGTH_LONG).show()
+                Toast.makeText(activity, "Failed deleting message!.", Toast.LENGTH_LONG).show()
             }
         })
     }
