@@ -111,10 +111,10 @@ class TeamAdminFragment : Fragment() {
             {
                 // the message needs to be moderated
                 // send a warning to the user
-                WarnUser(message)
+                warnUser(message)
 
                 // delete the message from the message list
-
+                deleteMessage(message)
             }
         }
     }
@@ -143,9 +143,27 @@ class TeamAdminFragment : Fragment() {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun WarnUser(message : Conversation)
+    private fun warnUser(message : Conversation)
     {
         val apiCall = Api.createSafe().warnUser(getFirebaseTokenId(), message.userName!!, "You are warned for the message " + message.messageContent + " on the date of " + message.messageDate.toString() + ".")
+        apiCall.enqueue(object: Callback<ResponseBody> {
+            override fun onResponse(
+                call: Call<ResponseBody>,
+                response: Response<ResponseBody>
+            ) {
+                Toast.makeText(activity, "Warned user!.", Toast.LENGTH_LONG).show()
+            }
+
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                Toast.makeText(activity, "Faled warning user!.", Toast.LENGTH_LONG).show()
+            }
+        })
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun deleteMessage(message : Conversation)
+    {
+        val apiCall = Api.createSafe().deleteMessage(getFirebaseTokenId(), message.userName!!, "You are warned for the message " + message.messageContent + " on the date of " + message.messageDate.toString() + ".")
         apiCall.enqueue(object: Callback<ResponseBody> {
             override fun onResponse(
                 call: Call<ResponseBody>,

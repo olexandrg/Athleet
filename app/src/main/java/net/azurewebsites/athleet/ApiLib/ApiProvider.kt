@@ -194,6 +194,14 @@ interface Api {
         @Header("Authorization") token: String
     ): Call<List<Team>>
 
+    // Delete a message which was warned about
+    @DELETE("Chat/delete")
+    fun deleteMessage(
+        @Header("Authorization") token: String,
+        @Query("userName") userName: String,
+        @Query("message") messageToBeDeleted: String
+    ): Call<ResponseBody>
+
     // Sending a warning message to the user
     @POST("Team/warn")
     fun warnUser(
