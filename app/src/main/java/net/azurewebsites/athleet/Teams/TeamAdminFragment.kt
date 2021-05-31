@@ -30,6 +30,8 @@ import retrofit2.Response
 class TeamAdminFragment : Fragment() {
     // username, associated isAdmin flag
     private var teamList = ArrayList<Pair<String, Boolean>>()
+    private var moderationChecklist = ArrayList<String>()
+
     private lateinit var messages: List<Conversation>
 
     private lateinit var userName: String
@@ -43,6 +45,9 @@ class TeamAdminFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate<FragmentTeamAdminBinding>(inflater,
             R.layout.fragment_team_admin, container, false )
+
+        // fill the check list with bad strings
+        fillModeratedCheckList()
 
         val currentUserUserName = FirebaseAuth.getInstance().currentUser!!.displayName!!
         userName = currentUserUserName
@@ -77,6 +82,10 @@ class TeamAdminFragment : Fragment() {
         return binding.root
     }
 
+    private fun fillModeratedCheckList() {
+        moderationChecklist.add("shit")
+    }
+
     private fun leaveTeam() {
         val intent = Intent()
         Log.e("thing", requireActivity().intent?.getStringExtra(TEAM_NAME).toString())
@@ -93,8 +102,21 @@ class TeamAdminFragment : Fragment() {
         activity?.finish()
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun moderateChat() {
+        for (message in messages)
+        {
+            // check if message content is bad
+            if (moderationChecklist.contains(message.messageContent))
+            {
+                // the message needs to be moderated
+                // send a warning to the user
+                WarnUser(message)
 
+                // delete the message from the message list
+
+            }
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -118,6 +140,24 @@ class TeamAdminFragment : Fragment() {
         {
             Toast.makeText(activity, "Only admins can moderate the chat!", Toast.LENGTH_LONG).show()
         }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun WarnUser(message : Conversation)
+    {
+        val apiCall = Api.createSafe().warnUser(getFirebaseTokenId(), message.userName!!, "You are warned for the message " + message.messageContent + " on the date of " + message.messageDate.toString() + ".")
+        apiCall.enqueue(object: Callback<ResponseBody> {
+            override fun onResponse(
+                call: Call<ResponseBody>,
+                response: Response<ResponseBody>
+            ) {
+                Toast.makeText(activity, "Warned user!.", Toast.LENGTH_LONG).show()
+            }
+
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                Toast.makeText(activity, "Faled warning user!.", Toast.LENGTH_LONG).show()
+            }
+        })
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
