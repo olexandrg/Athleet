@@ -214,7 +214,7 @@ interface Api {
     @GET("Warning")
     fun getWarnings(
         @Header("Authorization") token: String
-    ) : Call<Warning>
+    ) : Call<ResponseBody>
 
     // factory method
     companion object {

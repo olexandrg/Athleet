@@ -70,9 +70,16 @@ class TeamDashboardFragment : Fragment() {
         recyclerView.layoutManager = linearLayoutManager
         getTeamInfo()
         getUser()
+        checkForWarning()
         setHasOptionsMenu(true)
         return binding
     }
+
+    private fun checkForWarning()
+    {
+        Toast.makeText(activity, "You have been warned for chat mis-use!.", Toast.LENGTH_LONG).show()
+    }
+
 
     private fun fabOnClick() {
         val intent = Intent(this.requireActivity(), InviteTeamUser::class.java)
