@@ -77,7 +77,9 @@ class TeamDashboardFragment : Fragment() {
 
     private fun checkForWarning()
     {
-        Toast.makeText(activity, "You have been warned for chat mis-use!.", Toast.LENGTH_LONG).show()
+
+
+        Toast.makeText(activity, "You have been warned for chat misuse!.", Toast.LENGTH_LONG).show()
     }
 
 
