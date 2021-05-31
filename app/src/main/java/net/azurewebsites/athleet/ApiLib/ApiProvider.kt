@@ -8,6 +8,7 @@ import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
+import java.util.*
 
 
 interface Api {
@@ -206,8 +207,7 @@ interface Api {
     @POST("Team/warn")
     fun warnUser(
         @Header("Authorization") token: String,
-        @Query("userName") userName: String,
-        @Query("warnMessage") warnMessage: String
+        @Query("Date") date: Date
     ) : Call<ResponseBody>
 
     // Getting the warning logs for the user

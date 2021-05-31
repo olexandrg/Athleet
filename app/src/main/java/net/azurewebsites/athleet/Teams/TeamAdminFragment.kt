@@ -26,6 +26,9 @@ import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class TeamAdminFragment : Fragment() {
     // username, associated isAdmin flag
@@ -111,7 +114,7 @@ class TeamAdminFragment : Fragment() {
             {
                 // the message needs to be moderated
                 // send a warning to the user
-                warnUser(message)
+                warnUser()
 
                 // delete the message from the message list
                 deleteMessage(message)
@@ -143,9 +146,9 @@ class TeamAdminFragment : Fragment() {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun warnUser(message : Conversation)
+    private fun warnUser()
     {
-        val apiCall = Api.createSafe().warnUser(getFirebaseTokenId(), message.userName!!, "You are warned for the message " + message.messageContent + " on the date of " + message.messageDate.toString() + ".")
+        val apiCall = Api.createSafe().warnUser(getFirebaseTokenId(), Date())
         apiCall.enqueue(object: Callback<ResponseBody> {
             override fun onResponse(
                 call: Call<ResponseBody>,
