@@ -119,12 +119,10 @@ private fun fabOnClick() {
                         response: Response<ResponseBody>
                     ) {
                         if(response.isSuccessful) {
-                            Log.i("TEST", "create team workout ${response.code().toString()}")
                         }
                     }
 
                     override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                        Log.i("TEST", "FAIL.WorkoutName")
                     }
                 })
             }
