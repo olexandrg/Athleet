@@ -199,8 +199,7 @@ interface Api {
     @DELETE("Chat/delete")
     fun deleteMessage(
         @Header("Authorization") token: String,
-        @Query("userName") userName: String,
-        @Query("message") messageToBeDeleted: String
+        @Query("messageID") messageID: Int
     ): Call<ResponseBody>
 
     // Sending a warning message to the user
