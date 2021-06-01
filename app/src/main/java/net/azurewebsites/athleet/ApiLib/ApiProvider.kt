@@ -211,7 +211,7 @@ interface Api {
     ) : Call<ResponseBody>
 
     // Getting the warning logs for the user
-    @GET("Warning")
+    @GET("Team/warning")
     fun getWarnings(
         @Header("Authorization") token: String
     ) : Call<Warning>
