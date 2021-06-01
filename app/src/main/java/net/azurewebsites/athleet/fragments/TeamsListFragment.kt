@@ -101,7 +101,6 @@ class TeamsListFragment : Fragment() {
         intent.putExtra(TEAM_NAME, team.teamName)
         intent.putExtra(TEAM_DESCRIPTION, team.teamDescription)
         intent.putExtra("teamId", team.teamId)
-        Log.i("TEST", team.teamId.toString())
         startActivityForResult(intent, 2)
     }
 
