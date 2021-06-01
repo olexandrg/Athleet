@@ -3,8 +3,9 @@ package net.azurewebsites.athleet.Dashboard
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
+import android.widget.Button
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -12,6 +13,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import kotlinx.android.synthetic.main.activity_dashboard.*
 import net.azurewebsites.athleet.ApiLib.Api
 import net.azurewebsites.athleet.R
@@ -23,15 +26,18 @@ import net.azurewebsites.athleet.getFirebaseTokenId
 import net.azurewebsites.athleet.user.UserProfilePageActivity
 import net.azurewebsites.athleet.workouts.WorkoutsListViewModel
 import net.azurewebsites.athleet.workouts.WorkoutsListViewModelFactory
-import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.util.*
+
+
 @RequiresApi(Build.VERSION_CODES.O)
 class DashboardActivity : AppCompatActivity() {
     private val newWorkoutActivityRequestCode = 1
-    val workoutListViewModel by viewModels<WorkoutsListViewModel> { WorkoutsListViewModelFactory(this) }
+    val workoutListViewModel by viewModels<WorkoutsListViewModel> { WorkoutsListViewModelFactory(
+        this
+    ) }
     val api = Api.createSafe()
     private lateinit var linearLayoutManager: LinearLayoutManager
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,13 +46,38 @@ class DashboardActivity : AppCompatActivity() {
         setUpTabs()
         findViewById<ImageView>(R.id.imageView_userProfilePicture).setOnClickListener { goToUserProfilePage() }
         linearLayoutManager = LinearLayoutManager(this)
-        api.retrieveBlockedUsers(getFirebaseTokenId()).enqueue(object:
+        api.retrieveBlockedUsers(getFirebaseTokenId()).enqueue(object :
             Callback<List<String>> {
             override fun onResponse(call: Call<List<String>>, response: Response<List<String>>) {
-                if(response.isSuccessful) { dataSource.setBlockList(response.body()!!.toMutableList()); }
+                if (response.isSuccessful) {
+                    dataSource.setBlockList(
+                        response.body()!!.toMutableList()
+                    ); }
             }
-            override fun onFailure(call: Call<List<String>>, t: Throwable) { TODO("Not yet implemented") }
+
+            override fun onFailure(call: Call<List<String>>, t: Throwable) {
+                TODO("Not yet implemented")
+            }
         })
+
+        tabLayout.addOnTabSelectedListener(object : OnTabSelectedListener {
+            val fab = findViewById<Button>(R.id.fab)
+            override fun onTabSelected(tab: TabLayout.Tab) {
+                val position = tab.position
+                when (position) {
+                    0 -> fab.text = "Add Workout"
+                    1 -> fab.text = "Add Team"
+                    2 -> fab.text = "New Chat"
+                    else -> {
+                        print("Wrong index for tabs")
+                    }
+                }
+            }
+            override fun onTabUnselected(tab: TabLayout.Tab) {}
+            override fun onTabReselected(tab: TabLayout.Tab) {}
+        })
+
+
     }
     private fun setUpTabs()
     {
@@ -67,11 +98,16 @@ class DashboardActivity : AppCompatActivity() {
     }
 }
 
-class ViewPagerAdapter(supportFragmentManager: FragmentManager):FragmentPagerAdapter(supportFragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
+class ViewPagerAdapter(supportFragmentManager: FragmentManager):FragmentPagerAdapter(
+    supportFragmentManager,
+    BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT
+) {
     private var mFragmentList = ArrayList<Fragment>();
     private var mFragmentTitleList = ArrayList<String>();
     override fun getCount(): Int { return mFragmentList.size }
     override fun getItem(position: Int): Fragment { return  mFragmentList[position] }
-    fun addFragment(fragment:Fragment,title:String){ mFragmentList.add(fragment); mFragmentTitleList.add(title); }
+    fun addFragment(fragment: Fragment, title: String){ mFragmentList.add(fragment); mFragmentTitleList.add(
+        title
+    ); }
 }
 
