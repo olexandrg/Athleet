@@ -141,6 +141,31 @@ interface Api {
         @Query("teamName") teamName: String
     ): Call<ResponseBody>
 
+    // Get team's workouts
+    @GET("Team/workouts")
+    suspend fun getTeamWorkouts(
+        @Header("Authorization") token: String,
+        @Query("TeamID") teamID: Int
+    ):List<Workout>
+
+    @POST("Team/workout")
+    fun createTeamWorkout(
+        @Header("Authorization") token: String,
+        @Body teamWorkout: TeamWorkout
+    ):Call<ResponseBody>
+
+    @DELETE("Team/workout")
+    fun deleteTeamWorkout(
+        @Header("Authorization") token: String,
+        @Body deleteTeamWorkout: DeleteTeamWorkout
+    ):Call<ResponseBody>
+
+    @GET("Team/id")
+    suspend fun getTeamId(
+        @Header("Authorization") token: String,
+        @Query("teamName") teamName: String
+    ):Int
+
 //  ############################################
 //  ############### CHAT STUFF #################
 //  ############################################
