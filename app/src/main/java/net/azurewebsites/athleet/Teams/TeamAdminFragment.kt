@@ -35,8 +35,6 @@ class TeamAdminFragment : Fragment() {
     private var teamList = ArrayList<Pair<String, Boolean>>()
     private var moderationChecklist = ArrayList<String>()
 
-    private lateinit var messages: List<Conversation>
-
     private lateinit var userName: String
     private lateinit var binding:FragmentTeamAdminBinding
 
@@ -78,8 +76,7 @@ class TeamAdminFragment : Fragment() {
         }
 
         binding.buttonModerate.setOnClickListener {
-            getChat()
-            moderateChat()
+            getAndModerateChat()
         }
 
         return binding.root
@@ -106,24 +103,7 @@ class TeamAdminFragment : Fragment() {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun moderateChat() {
-        for (message in messages)
-        {
-            // check if message content is bad
-            if (moderationChecklist.contains(message.messageContent))
-            {
-                // the message needs to be moderated
-                // send a warning to the user
-                warnUser()
-
-                // delete the message from the message list
-                deleteMessage(message)
-            }
-        }
-    }
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun getChat() {
+    private fun getAndModerateChat() {
         if (isAdmin(userName))
         {
             val teamName = requireActivity().intent?.getStringExtra(TEAM_NAME).toString()
@@ -131,7 +111,21 @@ class TeamAdminFragment : Fragment() {
             apiCall.enqueue(object: Callback<List<Conversation>> {
                 override fun onResponse(call: Call<List<Conversation>>, response: Response<List<Conversation>>) {
                     Toast.makeText(activity, "Gathering chat history...", Toast.LENGTH_LONG).show()
-                    messages = response.body()!!
+                    val messages: List<Conversation> = response.body()!!
+
+                    for (message in messages)
+                    {
+                        // check if message content is bad
+                        if (moderationChecklist.contains(message.messageContent))
+                        {
+                            // the message needs to be moderated
+                            // send a warning to the user
+                            warnUser()
+
+                            // delete the message from the message list
+                            deleteMessage(message)
+                        }
+                    }
                 }
 
                 override fun onFailure(call: Call<List<Conversation>>, t: Throwable) {

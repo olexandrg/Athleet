@@ -86,11 +86,14 @@ class TeamDashboardFragment : Fragment() {
         val apiCall = api.getWarnings(getFirebaseTokenId())
         apiCall.enqueue(object: Callback<Warning> {
             override fun onResponse(call: Call<Warning>, response: Response<Warning>) {
-                var expiredDate = response.body()!!.warningDate.time.seconds.inSeconds + 24 * 3600
-
-                if (Date().time.seconds.inSeconds <= expiredDate)
+                if (response.body()?.warningDate != null)
                 {
-                    Toast.makeText(activity, "You have been warned for chat misuse!.", Toast.LENGTH_LONG).show()
+                    var expiredDate = response.body()!!.warningDate.time.seconds.inSeconds + 24 * 3600
+
+                    if (Date().time.seconds.inSeconds <= expiredDate)
+                    {
+                        Toast.makeText(activity, "You have been warned for chat misuse!.", Toast.LENGTH_LONG).show()
+                    }
                 }
             }
 
