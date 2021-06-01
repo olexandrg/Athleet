@@ -166,7 +166,7 @@ class TeamAdminFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.O)
     private fun deleteMessage(message : Conversation)
     {
-        val apiCall = Api.createSafe().deleteMessage(getFirebaseTokenId(), message.userName!!, "You are warned for the message " + message.messageContent + " on the date of " + message.messageDate.toString() + ".")
+        val apiCall = Api.createSafe().deleteMessage(getFirebaseTokenId(), message.messageID)
         apiCall.enqueue(object: Callback<ResponseBody> {
             override fun onResponse(
                 call: Call<ResponseBody>,
