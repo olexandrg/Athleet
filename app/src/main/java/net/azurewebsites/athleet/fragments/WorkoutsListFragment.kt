@@ -48,9 +48,6 @@ class WorkoutsListFragment() : Fragment() {
         getWorkouts()
     }
 
-    //************************************************//
-    // this call needs to change to get team workouts //
-    //************************************************//
     @RequiresApi(Build.VERSION_CODES.O)
     private fun getWorkouts() {
         token = getFirebaseTokenId()
