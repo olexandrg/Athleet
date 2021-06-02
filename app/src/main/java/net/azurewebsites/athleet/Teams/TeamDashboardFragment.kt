@@ -84,11 +84,11 @@ class TeamDashboardFragment : Fragment() {
     private fun checkForWarning()
     {
         val apiCall = api.getWarnings(getFirebaseTokenId())
-        apiCall.enqueue(object: Callback<Warning> {
-            override fun onResponse(call: Call<Warning>, response: Response<Warning>) {
-                if (response.body()?.warningDate != null)
+        apiCall.enqueue(object: Callback<Date> {
+            override fun onResponse(call: Call<Date>, response: Response<Date>) {
+                if (response.body() != null)
                 {
-                    var expiredDate = response.body()!!.warningDate.time.seconds.inSeconds + 24 * 3600
+                    var expiredDate = response.body()!!.time.seconds.inSeconds + 24 * 3600
 
                     if (Date().time.seconds.inSeconds <= expiredDate)
                     {
@@ -97,9 +97,10 @@ class TeamDashboardFragment : Fragment() {
                 }
             }
 
-            override fun onFailure(call: Call<Warning>, t: Throwable) {
-                Toast.makeText(activity, "Failed to get warnings!", Toast.LENGTH_LONG).show()
+            override fun onFailure(call: Call<Date>, t: Throwable) {
+                Toast.makeText(activity, "Failed getting the user's warnings.", Toast.LENGTH_LONG).show()
             }
+
 
         })
     }

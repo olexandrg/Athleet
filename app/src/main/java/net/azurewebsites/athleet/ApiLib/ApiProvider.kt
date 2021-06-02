@@ -213,7 +213,7 @@ interface Api {
     @GET("Team/warning")
     fun getWarnings(
         @Header("Authorization") token: String
-    ) : Call<Warning>
+    ) : Call<Date>
 
     // factory method
     companion object {
