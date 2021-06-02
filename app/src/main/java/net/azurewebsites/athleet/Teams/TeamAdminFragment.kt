@@ -142,7 +142,7 @@ class TeamAdminFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.O)
     private fun warnUser()
     {
-        val apiCall = Api.createSafe().warnUser(getFirebaseTokenId(), Date())
+        val apiCall = Api.createSafe().warnUser(getFirebaseTokenId())
         apiCall.enqueue(object: Callback<ResponseBody> {
             override fun onResponse(
                 call: Call<ResponseBody>,

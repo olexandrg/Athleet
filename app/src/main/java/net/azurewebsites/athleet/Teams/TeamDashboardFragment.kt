@@ -84,24 +84,18 @@ class TeamDashboardFragment : Fragment() {
     private fun checkForWarning()
     {
         val apiCall = api.getWarnings(getFirebaseTokenId())
-        apiCall.enqueue(object: Callback<Date> {
-            override fun onResponse(call: Call<Date>, response: Response<Date>) {
-                if (response.body() != null)
+        apiCall.enqueue(object: Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                // 204, return warning
+                if (response.code() == 204)
                 {
-                    var expiredDate = response.body()!!.time.seconds.inSeconds + 24 * 3600
-
-                    if (Date().time.seconds.inSeconds <= expiredDate)
-                    {
-                        Toast.makeText(activity, "You have been warned for chat misuse!.", Toast.LENGTH_LONG).show()
-                    }
+                    Toast.makeText(activity, "You have been warned for improper message use!", Toast.LENGTH_LONG).show()
                 }
             }
 
-            override fun onFailure(call: Call<Date>, t: Throwable) {
-                Toast.makeText(activity, "Failed getting the user's warnings.", Toast.LENGTH_LONG).show()
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                TODO("Not yet implemented")
             }
-
-
         })
     }
 

@@ -205,15 +205,14 @@ interface Api {
     // Sending a warning message to the user
     @POST("Team/warn")
     fun warnUser(
-        @Header("Authorization") token: String,
-        @Query("Date") date: Date
+        @Header("Authorization") token: String
     ) : Call<ResponseBody>
 
     // Getting the warning logs for the user
     @GET("Team/warning")
     fun getWarnings(
         @Header("Authorization") token: String
-    ) : Call<Date>
+    ) : Call<ResponseBody>
 
     // factory method
     companion object {
@@ -229,7 +228,7 @@ interface Api {
                     // make OkHttpClient instance
                     .client(OkHttpClient().newBuilder()
                     // add raw response interceptor
-                          .addInterceptor(interceptor)
+                        .addInterceptor(interceptor)
                         .build())
                     // add the JSON dependency so we can handle json APIs
                     .addConverterFactory(GsonConverterFactory.create())
