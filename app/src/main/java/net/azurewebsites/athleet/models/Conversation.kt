@@ -7,5 +7,5 @@ data class Conversation(
     val conversationID: Int,
     var messageDate: String,
     var messageContent: String,
-    val userName: String
+    val userName: String?
     )

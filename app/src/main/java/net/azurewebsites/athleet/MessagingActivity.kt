@@ -87,18 +87,23 @@ class MessagingActivity : AppCompatActivity() {
         apiCall.enqueue(object: Callback<List<Conversation>> {
             override fun onResponse(call: Call<List<Conversation>>, response: Response<List<Conversation>>) {
                 val messages: List<Conversation> = response.body()!!
-                if (messages.count() == 0)
-                    return
+
                 for (message in messages)
                 {
-                    var type: Int
-                    if (message.userName == userName)
-                        type = MessageType.CHAT_MINE.index
-                    else
-                        type = MessageType.CHAT_PARTNER.index
-                    val newMessage = Message(message.userName, message.messageContent, teamName, message.messageDate, type)
-                    addItemToRecyclerView(newMessage)
+                    // check for initial message from back-end side
+                    if (message.messageContent != "@42" && !message.userName.isNullOrEmpty())
+                    {
+                        var type: Int
+                        if (message.userName == userName)
+                            type = MessageType.CHAT_MINE.index
+                        else
+                            type = MessageType.CHAT_PARTNER.index
+
+                        val newMessage = Message(message.userName.toString(), message.messageContent, teamName, message.messageDate, type)
+                        addItemToRecyclerView(newMessage)
+                    }
                 }
+
                 convID = messages[0].conversationID
             }
 

@@ -8,6 +8,7 @@ import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
+import java.util.*
 
 
 interface Api {
@@ -236,6 +237,25 @@ interface Api {
         @Header("Authorization") token: String
     ): Call<List<Team>>
 
+    // Delete a message which was warned about
+    @DELETE("Chat/delete")
+    fun deleteMessage(
+        @Header("Authorization") token: String,
+        @Query("messageID") messageID: Int
+    ): Call<ResponseBody>
+
+    // Sending a warning message to the user
+    @POST("Team/warn")
+    fun warnUser(
+        @Header("Authorization") token: String
+    ) : Call<ResponseBody>
+
+    // Getting the warning logs for the user
+    @GET("Team/warning")
+    fun getWarnings(
+        @Header("Authorization") token: String
+    ) : Call<ResponseBody>
+
     // factory method
     companion object {
         fun createSafe(baseUrl: String = "https://testapi.athleetapi.club/api/"): Api {
@@ -250,7 +270,7 @@ interface Api {
                     // make OkHttpClient instance
                     .client(OkHttpClient().newBuilder()
                     // add raw response interceptor
-                          .addInterceptor(interceptor)
+                        .addInterceptor(interceptor)
                         .build())
                     // add the JSON dependency so we can handle json APIs
                     .addConverterFactory(GsonConverterFactory.create())

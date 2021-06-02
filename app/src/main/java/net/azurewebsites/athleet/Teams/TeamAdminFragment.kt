@@ -16,17 +16,25 @@ import kotlinx.android.synthetic.main.fragment_team_admin.*
 import net.azurewebsites.athleet.ApiLib.Api
 import net.azurewebsites.athleet.Dashboard.TEAM_NAME
 import net.azurewebsites.athleet.R
+import net.azurewebsites.athleet.chat.Message
+import net.azurewebsites.athleet.chat.MessageType
 import net.azurewebsites.athleet.databinding.FragmentTeamAdminBinding
 import net.azurewebsites.athleet.getFirebaseTokenId
+import net.azurewebsites.athleet.models.Conversation
 import net.azurewebsites.athleet.models.TeamInfo
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class TeamAdminFragment : Fragment() {
-    // username, isAdmin
+    // username, associated isAdmin flag
     private var teamList = ArrayList<Pair<String, Boolean>>()
+    private var moderationChecklist = ArrayList<String>()
+
     private lateinit var userName: String
     private lateinit var binding:FragmentTeamAdminBinding
 
@@ -38,6 +46,9 @@ class TeamAdminFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate<FragmentTeamAdminBinding>(inflater,
             R.layout.fragment_team_admin, container, false )
+
+        // fill the check list with bad strings
+        fillModeratedCheckList()
 
         val currentUserUserName = FirebaseAuth.getInstance().currentUser!!.displayName!!
         userName = currentUserUserName
@@ -64,11 +75,19 @@ class TeamAdminFragment : Fragment() {
             // Need to redirect to Users Dashboard after this.
         }
 
+        binding.buttonModerate.setOnClickListener {
+            getAndModerateChat()
+        }
+
         return binding.root
     }
 
+    private fun fillModeratedCheckList() {
+        moderationChecklist.add("shit")
+    }
+
     private fun leaveTeam() {
-        var intent = Intent()
+        val intent = Intent()
         Log.e("thing", requireActivity().intent?.getStringExtra(TEAM_NAME).toString())
         intent.putExtra(TEAM_NAME, requireActivity().intent?.getStringExtra(TEAM_NAME).toString())
         activity?.setResult(59, intent)
@@ -76,11 +95,84 @@ class TeamAdminFragment : Fragment() {
     }
 
     private fun deleteTeam() {
-        var intent = Intent()
+        val intent = Intent()
         intent.putExtra(TEAM_NAME, requireActivity().intent?.getStringExtra(TEAM_NAME).toString())
         Toast.makeText(activity, "Successfully Deleted Team (admin)", Toast.LENGTH_LONG).show()
         activity?.setResult(58, intent)
         activity?.finish()
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun getAndModerateChat() {
+        if (isAdmin(userName))
+        {
+            val teamName = requireActivity().intent?.getStringExtra(TEAM_NAME).toString()
+            val apiCall = Api.createSafe().getTeamConversation(getFirebaseTokenId(), teamName)
+            apiCall.enqueue(object: Callback<List<Conversation>> {
+                override fun onResponse(call: Call<List<Conversation>>, response: Response<List<Conversation>>) {
+                    Toast.makeText(activity, "Gathering chat history...", Toast.LENGTH_LONG).show()
+                    val messages: List<Conversation> = response.body()!!
+
+                    for (message in messages)
+                    {
+                        // check if message content is bad
+                        if (moderationChecklist.contains(message.messageContent))
+                        {
+                            // the message needs to be moderated
+                            // send a warning to the user
+                            warnUser()
+
+                            // delete the message from the message list
+                            deleteMessage(message)
+                        }
+                    }
+                }
+
+                override fun onFailure(call: Call<List<Conversation>>, t: Throwable) {
+                    Toast.makeText(activity, "Failed to load messages", Toast.LENGTH_LONG).show()
+                }
+            })
+        }
+        else
+        {
+            Toast.makeText(activity, "Only admins can moderate the chat!", Toast.LENGTH_LONG).show()
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun warnUser()
+    {
+        val apiCall = Api.createSafe().warnUser(getFirebaseTokenId())
+        apiCall.enqueue(object: Callback<ResponseBody> {
+            override fun onResponse(
+                call: Call<ResponseBody>,
+                response: Response<ResponseBody>
+            ) {
+                Toast.makeText(activity, "Warned user!.", Toast.LENGTH_LONG).show()
+            }
+
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                Toast.makeText(activity, "Failed warning user!.", Toast.LENGTH_LONG).show()
+            }
+        })
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun deleteMessage(message : Conversation)
+    {
+        val apiCall = Api.createSafe().deleteMessage(getFirebaseTokenId(), message.messageID)
+        apiCall.enqueue(object: Callback<ResponseBody> {
+            override fun onResponse(
+                call: Call<ResponseBody>,
+                response: Response<ResponseBody>
+            ) {
+                Toast.makeText(activity, "Deleted message!.", Toast.LENGTH_LONG).show()
+            }
+
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                Toast.makeText(activity, "Failed deleting message!.", Toast.LENGTH_LONG).show()
+            }
+        })
     }
 
     @RequiresApi(Build.VERSION_CODES.O)

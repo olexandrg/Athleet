@@ -22,15 +22,18 @@ import net.azurewebsites.athleet.InviteTeamUser
 import net.azurewebsites.athleet.MessagingActivity
 import net.azurewebsites.athleet.R
 import net.azurewebsites.athleet.getFirebaseTokenId
-import net.azurewebsites.athleet.models.DataSource
-import net.azurewebsites.athleet.models.TeamInfo
-import net.azurewebsites.athleet.models.TeamUser
-import net.azurewebsites.athleet.models.UserItem
+import net.azurewebsites.athleet.models.*
 import net.azurewebsites.athleet.user.OtherUserProfilePageActivity
 import net.azurewebsites.athleet.user.UserProfilePageActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.text.DateFormat
+import java.time.LocalDate
+import java.util.*
+import kotlin.time.ExperimentalTime
+import kotlin.time.hours
+import kotlin.time.seconds
 
 @RequiresApi(Build.VERSION_CODES.O)
 class TeamDashboardFragment : Fragment() {
@@ -45,8 +48,6 @@ class TeamDashboardFragment : Fragment() {
     private lateinit var currentUser:UserItem
 
     private lateinit var teamChatButton: Button
-
-
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
@@ -77,9 +78,31 @@ class TeamDashboardFragment : Fragment() {
         recyclerView.layoutManager = linearLayoutManager
         getTeamInfo()
         getUser()
+        checkForWarning()
         setHasOptionsMenu(true)
         return binding
     }
+
+    @ExperimentalTime
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun checkForWarning()
+    {
+        val apiCall = api.getWarnings(getFirebaseTokenId())
+        apiCall.enqueue(object: Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                // 204, return warning
+                if (response.code() == 204)
+                {
+                    Toast.makeText(activity, "You have been warned for improper message use!", Toast.LENGTH_LONG).show()
+                }
+            }
+
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                TODO("Not yet implemented")
+            }
+        })
+    }
+
 
     private fun fabOnClick() {
         val intent = Intent(this.requireActivity(), InviteTeamUser::class.java)
@@ -137,6 +160,7 @@ class TeamDashboardFragment : Fragment() {
             }
         })
     }
+
     @RequiresApi(Build.VERSION_CODES.O)
     fun getTeamInfo()
     {

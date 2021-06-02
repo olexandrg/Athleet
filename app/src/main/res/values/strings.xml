@@ -54,4 +54,5 @@
     <string name="blocked_users_textview_header">Blocked Users:</string>
     <string name="user_name_edit_text">Username to message</string>
     <string name="add_chat">Add Chat</string>
+    <string name="moderate_team">Moderate Team</string>
 </resources>
