@@ -167,7 +167,11 @@ class TeamDashboardFragment : Fragment() {
         if(!teamName.isBlank()){
             val apiCall = api.teamInfo(getFirebaseTokenId(),  teamName)
             apiCall.enqueue(object: Callback<TeamInfo>{
-                override fun onResponse(call: Call<TeamInfo>, response: Response<TeamInfo>) { if (response.isSuccessful) { teamMemberListAdapter.submitList(response.body()!!.users); teamInfo = response.body()!! ; }}
+                override fun onResponse(call: Call<TeamInfo>, response: Response<TeamInfo>) {
+                    if (response.isSuccessful) {
+                        teamMemberListAdapter.submitList(response.body()!!.users);
+                        teamInfo = response.body()!! ; }
+                }
                 override fun onFailure(call: Call<TeamInfo>, t: Throwable) { Toast.makeText(requireContext(), "Failed getting the team users", Toast.LENGTH_LONG).show() }
             })
         }

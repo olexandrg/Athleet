@@ -10,15 +10,6 @@
         android:layout_height="match_parent">
 
 
-        <TextView
-            android:id="@+id/teamName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.047"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/teamDescription"
@@ -28,7 +19,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.046"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/teamName"
+            app:layout_constraintTop_toBottomOf="@+id/textView_teamName"
             app:layout_constraintVertical_bias="0.025" />
 
         <TextView
@@ -52,20 +43,6 @@
             app:layout_constraintTop_toBottomOf="@+id/listOfTeammates"
             tools:listitem="@layout/team_member_list_item" />
 
-        <TextView
-            android:id="@+id/textView4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/andada"
-            android:text="@string/team_dash"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.045"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/teamMemberListView"
-            app:layout_constraintVertical_bias="0.094" />
-
-
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/fab"
             android:layout_width="wrap_content"
@@ -84,6 +61,7 @@
             android:id="@+id/textView_teamName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="24sp"
             app:layout_constraintBottom_toTopOf="@+id/listOfTeammates"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/teamDescription"
