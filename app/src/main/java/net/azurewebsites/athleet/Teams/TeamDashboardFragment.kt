@@ -25,6 +25,7 @@ import net.azurewebsites.athleet.getFirebaseTokenId
 import net.azurewebsites.athleet.models.*
 import net.azurewebsites.athleet.user.OtherUserProfilePageActivity
 import net.azurewebsites.athleet.user.UserProfilePageActivity
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -83,7 +84,6 @@ class TeamDashboardFragment : Fragment() {
         return binding
     }
 
-    @ExperimentalTime
     @RequiresApi(Build.VERSION_CODES.O)
     private fun checkForWarning()
     {
@@ -167,7 +167,11 @@ class TeamDashboardFragment : Fragment() {
         if(!teamName.isBlank()){
             val apiCall = api.teamInfo(getFirebaseTokenId(),  teamName)
             apiCall.enqueue(object: Callback<TeamInfo>{
-                override fun onResponse(call: Call<TeamInfo>, response: Response<TeamInfo>) { if (response.isSuccessful) { teamMemberListAdapter.submitList(response.body()!!.users); teamInfo = response.body()!! ; }}
+                override fun onResponse(call: Call<TeamInfo>, response: Response<TeamInfo>) {
+                    if (response.isSuccessful) {
+                        teamMemberListAdapter.submitList(response.body()!!.users);
+                        teamInfo = response.body()!! ; }
+                }
                 override fun onFailure(call: Call<TeamInfo>, t: Throwable) { Toast.makeText(requireContext(), "Failed getting the team users", Toast.LENGTH_LONG).show() }
             })
         }

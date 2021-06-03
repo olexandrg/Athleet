@@ -98,7 +98,7 @@ class UserMessagingActivity : AppCompatActivity() {
                         type = MessageType.CHAT_MINE.index
                     else
                         type = MessageType.CHAT_PARTNER.index
-                    val newMessage = Message(message.userName, message.messageContent, convID.toString(), message.messageDate, type)
+                    val newMessage = Message(message.userName!!, message.messageContent, convID.toString(), message.messageDate, type)
                     addItemToRecyclerView(newMessage)
                 }
             }
